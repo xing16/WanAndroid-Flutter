@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'system_category_page.dart';
+import 'system_square_page.dart';
 
 class SystemPage extends StatefulWidget {
   @override
@@ -7,110 +9,62 @@ class SystemPage extends StatefulWidget {
   }
 }
 
-class SystemPageState extends State<SystemPage> {
+class SystemPageState extends State<SystemPage>
+    with SingleTickerProviderStateMixin {
   double screenWidth = 0;
+  TabController mController;
+  List<String> list = new List<String>();
+
+  @override
+  void initState() {
+    super.initState();
+    list..add("体系")..add("广场");
+    mController = TabController(
+      length: list.length,
+      vsync: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 120,
-            child: getSystemListView(),
-          ),
-          Column(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  width: screenWidth - 120,
-                  child: getGridView(),
-                  color: Colors.green,
+    return Scaffold(
+      appBar: TabBar(
+        controller: mController,
+        // 选中颜色
+        labelColor: Colors.white,
+        // 选中样式
+        labelStyle: TextStyle(fontSize: 20),
+        // 未选中颜色
+        unselectedLabelColor: Colors.white70,
+        // 未选中样式
+        unselectedLabelStyle: TextStyle(fontSize: 16),
+        // 是否可滑动
+        isScrollable: true,
+        // 指示器宽度
+        indicatorSize: TabBarIndicatorSize.label,
+        indicatorColor: Colors.white,
+        // tab 标签
+        tabs: list.map((title) {
+          return Tab(
+            child: Container(
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.red,
                 ),
               ),
-            ],
-          ),
+            ),
+          );
+        }).toList(),
+      ),
+      body: TabBarView(
+        controller: mController,
+        children: <Widget>[
+          SystemCategoryPage(),
+          SystemSquarePage(),
         ],
       ),
-    );
-  }
-
-  /// 创建 ListView
-  getSystemListView() {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return Stack(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 22),
-              height: 50,
-              child: Text(
-                "性能优化",
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              top: 13,
-              child: Container(
-                height: 24,
-                width: 6,
-                color: Colors.red,
-                child: null,
-              ),
-            ),
-          ],
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.only(
-            left: 12,
-          ),
-          color: Colors.black12,
-          height: 0.5,
-        );
-      },
-      itemCount: 60,
-    );
-  }
-
-  ///
-  getGridView() {
-    return GridView.custom(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 3,
-      ),
-      childrenDelegate: SliverChildBuilderDelegate(
-        (context, position) {
-          return getGridItem();
-        },
-      ),
-    );
-  }
-
-  getGridItem() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(
-        left: 10,
-      ),
-      child: Text(
-        "casdcasd",
-        style: TextStyle(
-          fontSize: 16,
-        ),
-      ),
-      color: Colors.red,
     );
   }
 }
