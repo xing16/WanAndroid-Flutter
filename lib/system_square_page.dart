@@ -30,35 +30,48 @@ class SystemSquarePageState extends State<SystemSquarePage> {
   getSystemSquareItem(int index) {
     return Container(
       alignment: Alignment.centerLeft,
-      height: 60,
-      padding: EdgeInsets.only(
-        left: 10,
-      ),
+      padding: EdgeInsets.all(12),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "1111",
+            "我承认我自卑 我真的很怕黑,每到黑夜来临的时候我总很狼,我彻夜在买醉 但我不曾后悔只是想让自己清楚为什么掉眼泪",
             style: TextStyle(
               fontSize: 16,
             ),
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                child: Text("222"),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 20,
+          Container(
+            margin: EdgeInsets.only(
+              top: 10,
+            ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    "222",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
-                child: Text("222"),
-              ),
-            ],
+                Container(
+                  margin: EdgeInsets.only(
+                    left: 20,
+                  ),
+                  child: Text(
+                    "222",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-      color: Colors.red,
+      color: Colors.green,
     );
   }
 }

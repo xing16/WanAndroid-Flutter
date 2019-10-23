@@ -9,15 +9,48 @@ class SystemCategoryPage extends StatefulWidget {
 
 class SystemCategoryPageState extends State<SystemCategoryPage> {
   double screenWidth = 0;
+  double leftMenuWidth = 100;
+  double leftMenuRightMargin = 8;
 
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+//    return Container(
+//      decoration: ShapeDecoration(
+//        color: Colors.white,
+//        shape: RoundedRectangleBorder(
+//          borderRadius: BorderRadius.only(
+//            topRight: Radius.circular(10),
+//            bottomRight: Radius.circular(10),
+//          ),
+//        ),
+//      ),
+//      child: getSystemListView(),
+//      margin: EdgeInsets.only(
+//        top: 10,
+//      ),
+//    );
+
     return Container(
+      color: Color(0xfff0f0f0),
       child: Row(
         children: <Widget>[
           Container(
-            width: 120,
+            margin: EdgeInsets.only(
+              top: 8,
+              bottom: 8,
+              right: leftMenuRightMargin,
+            ),
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(5),
+                  bottomRight: Radius.circular(5),
+                ),
+              ),
+            ),
+            width: leftMenuWidth,
             child: getSystemListView(),
           ),
           Column(
@@ -25,9 +58,8 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  width: screenWidth - 120,
+                  width: screenWidth - leftMenuWidth - leftMenuRightMargin * 2,
                   child: getGridView(),
-                  color: Colors.green,
                 ),
               ),
             ],
@@ -45,7 +77,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 22),
+              padding: EdgeInsets.only(left: 16),
               height: 50,
               child: Text(
                 "性能优化",
@@ -58,11 +90,13 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
             Positioned(
               left: 0,
               top: 13,
-              child: Container(
-                height: 24,
-                width: 6,
-                color: Colors.red,
-                child: null,
+              child: Offstage(
+                offstage: index != 0,
+                child: Container(
+                  height: 24,
+                  width: 6,
+                  child: null,
+                ),
               ),
             ),
           ],
@@ -105,12 +139,11 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
         left: 10,
       ),
       child: Text(
-        "casdcasd",
+        "内存优化",
         style: TextStyle(
           fontSize: 16,
         ),
       ),
-      color: Colors.red,
     );
   }
 }

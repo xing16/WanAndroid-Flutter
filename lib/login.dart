@@ -19,7 +19,7 @@ class LoginPageState extends State<LoginPage> {
         leading: IconButton(
           icon: Icon(
             Icons.close,
-            color: Colors.black54,
+            color: Colors.black87,
             size: 30,
           ),
           onPressed: () {
@@ -116,6 +116,7 @@ class LoginPageState extends State<LoginPage> {
                 child: Text(
                   "注册账号?",
                   style: TextStyle(
+                    color: Colors.black87,
                     decoration: TextDecoration.underline,
                     fontSize: 16,
                   ),

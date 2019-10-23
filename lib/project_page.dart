@@ -33,15 +33,18 @@ class ProjectPageState extends State<ProjectPage>
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         backgroundColor: Colors.red,
         title: Row(
           children: <Widget>[
             Expanded(
               child: TabBar(
+                labelPadding: EdgeInsets.all(14),
+                indicatorPadding: EdgeInsets.all(0),
                 // 选中颜色
                 labelColor: Colors.white,
                 // 选中样式
-                labelStyle: TextStyle(fontSize: 20),
+                labelStyle: TextStyle(fontSize: 18),
                 // 未选中颜色
                 unselectedLabelColor: Colors.white70,
                 // 未选中样式
@@ -52,13 +55,14 @@ class ProjectPageState extends State<ProjectPage>
                 // 指示器宽度
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorColor: Colors.white,
-
+                // 相当于 indicator 高度
+                indicatorWeight: 3,
                 // tab 标签
                 tabs: list.map((title) {
                   return Tab(
                     child: Container(
+                      padding: EdgeInsets.all(0),
                       child: Text(title),
-                      color: Colors.red,
                     ),
                   );
                 }).toList(),
@@ -79,52 +83,6 @@ class ProjectPageState extends State<ProjectPage>
       ),
     );
   }
-
-//  @override
-//  Widget build(BuildContext context) {
-//    screenWidth = MediaQuery.of(context).size.width;
-//    return Scaffold(
-//      appBar: AppBar(
-//        backgroundColor: Colors.red,
-//        title: TabBar(
-//          // 选中颜色
-//          labelColor: Colors.white,
-//          // 选中样式
-//          labelStyle: TextStyle(fontSize: 20),
-//          // 未选中颜色
-//          unselectedLabelColor: Colors.white70,
-//          // 未选中样式
-//          unselectedLabelStyle: TextStyle(fontSize: 16),
-//          // 是否可滑动
-//          isScrollable: true,
-//          controller: mController,
-//          // 指示器宽度
-//          indicatorSize: TabBarIndicatorSize.label,
-//          indicatorColor: Colors.white,
-//
-//          // tab 标签
-//          tabs: list.map((title) {
-//            return Tab(
-//              child: Container(
-//                child: Text(title),
-//                color: Colors.red,
-//              ),
-//            );
-//          }).toList(),
-//        ),
-//      ),
-//      body: TabBarView(
-//        controller: mController,
-//        children: <Widget>[
-//          getProjectListView(),
-//          getProjectListView(),
-//          getProjectListView(),
-//          getProjectListView(),
-//          getProjectListView(),
-//        ],
-//      ),
-//    );
-//  }
 
   /// 创建 ListView
   getProjectListView() {
@@ -185,24 +143,6 @@ class ProjectPageState extends State<ProjectPage>
                     ],
                   ),
                 ),
-//                Positioned(
-//                  child: Row(
-//                    children: <Widget>[
-////                    Text("casdcsd12dcasdcasdddacasdcasdcasdcsacasdc"),
-//                      Expanded(
-//                        flex: 2,
-//                        child: Text(
-//                          "我是title我是title我是title我是title我是title我是title我是title",
-//                          maxLines: 2,
-//                          style: TextStyle(
-//                            fontSize: 16,
-//                            color: Colors.black87,
-//                          ),
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
                 Positioned(
                   bottom: 0,
                   child: Row(
