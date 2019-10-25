@@ -12,24 +12,39 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return getHomeHeader();
-          }
-          return getHomePageItem(index - 1);
-        },
-        separatorBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(
-              left: 12,
-              right: 12,
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          ListView.separated(
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return getHomeHeader();
+                }
+                return getHomePageItem(index - 1);
+              },
+              separatorBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(
+                    left: 12,
+                    right: 12,
+                  ),
+                  color: Colors.black12,
+                  height: 0.5,
+                );
+              },
+              itemCount: 60),
+          Offstage(
+            offstage: true,
+            child: Container(
+              height: 80,
+              child: AppBar(
+                backgroundColor: Colors.green,
+              ),
             ),
-            color: Colors.black12,
-            height: 0.5,
-          );
-        },
-        itemCount: 60);
+          ),
+        ],
+      ),
+    );
   }
 
   /// 首页普通 item

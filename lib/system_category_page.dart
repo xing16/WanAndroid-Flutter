@@ -15,24 +15,8 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-//    return Container(
-//      decoration: ShapeDecoration(
-//        color: Colors.white,
-//        shape: RoundedRectangleBorder(
-//          borderRadius: BorderRadius.only(
-//            topRight: Radius.circular(10),
-//            bottomRight: Radius.circular(10),
-//          ),
-//        ),
-//      ),
-//      child: getSystemListView(),
-//      margin: EdgeInsets.only(
-//        top: 10,
-//      ),
-//    );
-
     return Container(
-      color: Color(0xfff0f0f0),
+      color: Color(0xfff5f5f5),
       child: Row(
         children: <Widget>[
           Container(
