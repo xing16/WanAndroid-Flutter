@@ -137,6 +137,9 @@ class ProjectPageState extends State<ProjectPage>
                           child: Text(
                             "最新70城房价公布！北京、广州现大变化 领涨的竟是它！新建商品住宅销售价格环比涨幅微升，二手住宅销售价格涨幅基本持平。",
                             maxLines: 2,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),

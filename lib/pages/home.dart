@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:banner/banner.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -55,6 +56,7 @@ class HomePageState extends State<HomePage> {
           onItemClick(index); //处理点击事件
         },
         child: Container(
+          color: Colours.appWhite,
           padding: EdgeInsets.all(12),
           alignment: Alignment.centerLeft,
           child: Column(
@@ -96,7 +98,7 @@ class HomePageState extends State<HomePage> {
                       child: Text(
                         "xing16",
                         style: TextStyle(
-                          color: Colors.black54,
+                          color: Colours.appBlackDark,
                         ),
                       ),
                       margin: EdgeInsets.only(left: 20),
@@ -105,7 +107,7 @@ class HomePageState extends State<HomePage> {
                       child: Text(
                         "2019-09-11",
                         style: TextStyle(
-                          color: Colors.black54,
+                          color: Colours.appBlackDark,
                         ),
                       ),
                       margin: EdgeInsets.only(left: 20),

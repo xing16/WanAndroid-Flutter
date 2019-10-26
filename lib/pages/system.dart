@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'system_category_page.dart';
-import 'system_square_page.dart';
+import 'system_category.dart';
+import 'system_square.dart';
 
 class SystemPage extends StatefulWidget {
   @override

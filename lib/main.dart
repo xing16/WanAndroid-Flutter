@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/home_page.dart';
-import 'package:wanandroid_flutter/login.dart';
-import 'package:wanandroid_flutter/mine_page.dart';
-import 'package:wanandroid_flutter/project_page.dart';
-import 'package:wanandroid_flutter/system_page.dart';
+import 'package:wanandroid_flutter/pages/home.dart';
+import 'package:wanandroid_flutter/pages/login.dart';
+import 'package:wanandroid_flutter/pages/mine.dart';
+import 'package:wanandroid_flutter/pages/project.dart';
+import 'package:wanandroid_flutter/pages/splash.dart';
+import 'package:wanandroid_flutter/pages/system.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,10 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+      theme: ThemeData.light().copyWith(
+        primaryColor: Colors.cyan,
+//        accentColor: Colors.cyan,
+//        primaryColorDark: Colors.cyan,
       ),
-      home: MainPage(title: 'Flutter Demo Home Page'),
+      home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
       },
