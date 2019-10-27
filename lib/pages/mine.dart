@@ -92,7 +92,6 @@ class MinePageState extends State<MinePage> {
                                 print("ddd");
                               },
                               margin: EdgeInsets.only(top: 20),
-                              hasDivider: true,
                             ),
                             createMineItem(
                               Icons.settings,
@@ -101,7 +100,6 @@ class MinePageState extends State<MinePage> {
                                 print("ddd");
                               },
                               margin: EdgeInsets.only(top: 20),
-                              hasDivider: true,
                             ),
                             createMineItem(
                               Icons.account_box,
@@ -109,6 +107,7 @@ class MinePageState extends State<MinePage> {
                               () {
                                 print("ddd");
                               },
+                              hasDivider: false,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -144,7 +143,7 @@ class MinePageState extends State<MinePage> {
   }
 
   createMineItem(IconData icon, String text, GestureTapCallback callback,
-      {EdgeInsetsGeometry margin, bool hasDivider}) {
+      {EdgeInsetsGeometry margin, bool hasDivider = true}) {
     return GestureDetector(
       onTap: callback,
       child: Container(

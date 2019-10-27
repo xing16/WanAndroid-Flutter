@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:banner/banner.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/article.dart';
+import 'package:wanandroid_flutter/models/banner.dart';
+import 'package:wanandroid_flutter/models/home_response.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,29 +16,41 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  List<Article> dataList = new List();
+
+  List<HomeBanner> banners = new List();
+
+  @override
+  void initState() {
+    super.initState();
+//    _loadHomeArticles();
+    _loadBanner();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
           ListView.separated(
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return getHomeHeader();
-                }
-                return getHomePageItem(index - 1);
-              },
-              separatorBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(
-                    left: 12,
-                    right: 12,
-                  ),
-                  color: Colors.black12,
-                  height: 0.5,
-                );
-              },
-              itemCount: 60),
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return getHomeHeader();
+              }
+              return getHomePageItem(index - 1);
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                ),
+                color: Colors.black12,
+                height: 0.5,
+              );
+            },
+            itemCount: dataList.length,
+          ),
           Offstage(
             offstage: true,
             child: Container(
@@ -63,7 +80,7 @@ class HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "我是 title",
+                dataList[index].title,
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -74,38 +91,45 @@ class HomePageState extends State<HomePage> {
                 ),
                 child: Row(
                   children: <Widget>[
-                    Container(
-                      child: Text(
-                        "置顶",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
+                    Visibility(
+                      visible: dataList[index].fresh,
+                      child: Container(
+                        child: Text(
+                          "最新",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(2),
+                        margin: EdgeInsets.only(
+                          right: 20,
                         ),
-                        border: Border.all(
-                          color: Colors.red,
-                          width: 1,
-                          style: BorderStyle.solid,
+                        padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(2),
+                          ),
+                          border: Border.all(
+                            color: Colors.red,
+                            width: 1,
+                            style: BorderStyle.solid,
+                          ),
                         ),
                       ),
                     ),
                     Container(
                       child: Text(
-                        "xing16",
+                        dataList[index].author.isEmpty
+                            ? dataList[index].shareUser
+                            : dataList[index].author,
                         style: TextStyle(
                           color: Colours.appBlackDark,
                         ),
                       ),
-                      margin: EdgeInsets.only(left: 20),
                     ),
                     Container(
                       child: Text(
-                        "2019-09-11",
+                        dataList[index].niceDate,
                         style: TextStyle(
                           color: Colours.appBlackDark,
                         ),
@@ -140,6 +164,23 @@ class HomePageState extends State<HomePage> {
         print(index);
       },
     );
+  }
+
+  _loadHomeArticles() {
+    HttpClient.getInstance().get(Api.HOME_ARTICLE, (data) {
+      HomeArticleResponse response = HomeArticleResponse.fromJson(data);
+      setState(() {
+        dataList = response.datas;
+      });
+    });
+  }
+
+  _loadBanner() {
+    HttpClient.getInstance().get(Api.BANNER, (data) {
+      setState(() {
+        banners = data;
+      });
+    });
   }
 
   /// item 点击事件
