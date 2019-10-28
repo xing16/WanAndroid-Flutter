@@ -6,6 +6,7 @@ import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/banner.dart';
 import 'package:wanandroid_flutter/models/home_response.dart';
+import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,8 +24,8 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-//    _loadHomeArticles();
-    _loadBanner();
+    _loadHomeArticles();
+//    _loadBanner();
   }
 
   @override
@@ -37,7 +38,7 @@ class HomePageState extends State<HomePage> {
               if (index == 0) {
                 return getHomeHeader();
               }
-              return getHomePageItem(index - 1);
+              return getHomePageItem(context, index - 1);
             },
             separatorBuilder: (context, index) {
               return Container(
@@ -66,11 +67,11 @@ class HomePageState extends State<HomePage> {
   }
 
   /// 首页普通 item
-  getHomePageItem(int index) {
+  getHomePageItem(BuildContext context, int index) {
     return GestureDetector(
         // item 点击事件
         onTap: () {
-          onItemClick(index); //处理点击事件
+          _onItemClick(context, index); //处理点击事件
         },
         child: Container(
           color: Colours.appWhite,
@@ -184,7 +185,14 @@ class HomePageState extends State<HomePage> {
   }
 
   /// item 点击事件
-  onItemClick(int position) {
-    Navigator.pushNamed(context, "login");
+  _onItemClick(BuildContext context, int position) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => WebViewPage(
+          url: dataList[position].link,
+        ),
+      ),
+    );
   }
 }

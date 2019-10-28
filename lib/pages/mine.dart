@@ -23,121 +23,124 @@ class MinePageState extends State<MinePage> {
         title: Text("我的"),
         centerTitle: true,
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverPadding(
-            padding: EdgeInsets.only(
-              right: 0.1,
-            ),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                <Widget>[
-                  Container(
-                    color: Colours.appBackground,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          color: Colors.white,
-                          child: Stack(
-                            children: <Widget>[
-                              // 贝塞尔背景
-                              ClipPath(
-                                clipper: BezierClipper(),
-                                child: Container(
-                                  color: Colors.cyan,
-                                  height: 180,
-                                  width: screenWidth,
+      body: Container(
+        color: Colours.appBackground,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverPadding(
+              padding: EdgeInsets.only(
+                right: 0.1,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  <Widget>[
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            color: Colors.white,
+                            child: Stack(
+                              children: <Widget>[
+                                // 贝塞尔背景
+                                ClipPath(
+                                  clipper: BezierClipper(),
+                                  child: Container(
+                                    color: Colors.cyan,
+                                    height: 180,
+                                    width: screenWidth,
+                                  ),
                                 ),
-                              ),
-                              // 头像，名字
-                              Positioned(
-                                left: 32,
-                                top: 40,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    ClipOval(
-                                      child: FadeInImage.assetNetwork(
-                                          placeholder:
-                                              "images/android_logo.jpg",
-                                          image:
-                                              "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35",
-                                          width: 80,
-                                          height: 80,
-                                          fit: BoxFit.cover),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        top: 16,
+                                // 头像，名字
+                                Positioned(
+                                  left: 32,
+                                  top: 40,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      ClipOval(
+                                        child: FadeInImage.assetNetwork(
+                                            placeholder:
+                                                "images/android_logo.jpg",
+                                            image:
+                                                "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35",
+                                            width: 80,
+                                            height: 80,
+                                            fit: BoxFit.cover),
                                       ),
-                                      child: Text(
-                                        "星火燎原",
-                                        style: TextStyle(
-                                          fontSize: 18,
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          top: 16,
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                        child: Text(
+                                          "星火燎原",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              createMineItem(
+                                Icons.favorite,
+                                "收藏",
+                                () {
+                                  print("ddd");
+                                },
+                                margin: EdgeInsets.only(top: 20),
+                              ),
+                              createMineItem(
+                                Icons.settings,
+                                "主题颜色",
+                                () {
+                                  print("ddd");
+                                },
+                                margin: EdgeInsets.only(top: 20),
+                              ),
+                              createMineItem(
+                                Icons.account_box,
+                                "关于",
+                                () {
+                                  print("ddd");
+                                },
+                                hasDivider: false,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                  left: 20,
+                                ),
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                  top: 40,
+                                ),
+                                child: Text(
+                                  "退出登录",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                height: 50,
+                                color: Colors.white,
+                                width: screenWidth,
                               ),
                             ],
-                          ),
-                        ),
-                        Column(
-                          children: <Widget>[
-                            createMineItem(
-                              Icons.favorite,
-                              "收藏",
-                              () {
-                                print("ddd");
-                              },
-                              margin: EdgeInsets.only(top: 20),
-                            ),
-                            createMineItem(
-                              Icons.settings,
-                              "主题颜色",
-                              () {
-                                print("ddd");
-                              },
-                              margin: EdgeInsets.only(top: 20),
-                            ),
-                            createMineItem(
-                              Icons.account_box,
-                              "关于",
-                              () {
-                                print("ddd");
-                              },
-                              hasDivider: false,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                top: 40,
-                              ),
-                              child: Text(
-                                "退出登录",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              height: 50,
-                              color: Colors.white,
-                              width: screenWidth,
-                            ),
-                          ],
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
