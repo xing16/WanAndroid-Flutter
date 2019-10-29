@@ -5,4 +5,6 @@ class Colours {
   static const Color appBlackDark = Color(0xff999999);
   static const Color appBackground = Color(0xfff5f5f5);
   static const Color appWhite = Color(0xffffffff);
+
+  static const Color appThemeColor = Color(0xffff0000);
 }
