@@ -18,13 +18,11 @@ class MinePageState extends State<MinePage> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyan,
         elevation: 0,
         title: Text("我的"),
         centerTitle: true,
       ),
       body: Container(
-        color: Colours.appBackground,
         child: CustomScrollView(
           slivers: <Widget>[
             SliverPadding(
@@ -38,14 +36,13 @@ class MinePageState extends State<MinePage> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            color: Colors.white,
                             child: Stack(
                               children: <Widget>[
                                 // 贝塞尔背景
                                 ClipPath(
                                   clipper: BezierClipper(),
                                   child: Container(
-                                    color: Colors.cyan,
+                                    color: Colours.appThemeColor,
                                     height: 180,
                                     width: screenWidth,
                                   ),
@@ -102,6 +99,7 @@ class MinePageState extends State<MinePage> {
                                   print("ddd");
                                 },
                                 margin: EdgeInsets.only(top: 20),
+                                hasDivider: true,
                               ),
                               createMineItem(
                                 Icons.account_box,
@@ -109,7 +107,6 @@ class MinePageState extends State<MinePage> {
                                 () {
                                   print("ddd");
                                 },
-                                hasDivider: false,
                               ),
                               Container(
                                 padding: EdgeInsets.only(
@@ -127,7 +124,6 @@ class MinePageState extends State<MinePage> {
                                   ),
                                 ),
                                 height: 50,
-                                color: Colors.white,
                                 width: screenWidth,
                               ),
                             ],
@@ -146,58 +142,61 @@ class MinePageState extends State<MinePage> {
   }
 
   createMineItem(IconData icon, String text, GestureTapCallback callback,
-      {EdgeInsetsGeometry margin, bool hasDivider = true}) {
+      {EdgeInsetsGeometry margin, bool hasDivider = false}) {
     return GestureDetector(
       onTap: callback,
       child: Container(
-          alignment: Alignment.centerLeft,
-          color: Colors.white,
-          margin: margin,
-          padding: EdgeInsets.only(
-            left: 15,
-          ),
-          child: Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: 50,
+        alignment: Alignment.centerLeft,
+        margin: margin,
+        padding: EdgeInsets.only(
+          left: 15,
+        ),
+        child: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Container(
+                  height: 50,
+                ),
+                Positioned(
+                  child: Icon(
+                    Icons.chevron_right,
+                    color: Colors.black45,
+                    size: 30,
                   ),
-                  Positioned(
-                    child: Icon(
-                      Icons.chevron_right,
-                      color: Colors.black45,
-                      size: 30,
+                  top: 12,
+                  right: 0,
+                ),
+                Positioned(
+                  child: Icon(
+                    icon,
+                    color: Colours.appThemeColor,
+                    size: 22,
+                  ),
+                  top: 16,
+                ),
+                Positioned(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 16,
                     ),
-                    top: 12,
-                    right: 0,
                   ),
-                  Positioned(
-                    child: Icon(
-                      icon,
-                      color: Colors.cyan,
-                      size: 22,
-                    ),
-                    top: 16,
-                  ),
-                  Positioned(
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    left: 36,
-                    top: 14,
-                  ),
-                ],
-              ),
-              Divider(
-                indent: 20,
+                  left: 36,
+                  top: 14,
+                ),
+              ],
+            ),
+            Visibility(
+              visible: hasDivider,
+              child: Divider(
+                indent: 30,
                 height: 1,
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

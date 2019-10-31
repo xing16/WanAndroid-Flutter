@@ -41,12 +41,9 @@ class HomePageState extends State<HomePage> {
               return getHomePageItem(context, index - 1);
             },
             separatorBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(
-                  left: 12,
-                  right: 12,
-                ),
-                color: Colors.black12,
+              return Divider(
+                indent: 12,
+                endIndent: 12,
                 height: 0.5,
               );
             },
@@ -57,7 +54,8 @@ class HomePageState extends State<HomePage> {
             child: Container(
               height: 80,
               child: AppBar(
-                backgroundColor: Colors.green,
+                title: Text("WanAndroid"),
+                centerTitle: true,
               ),
             ),
           ),
@@ -69,80 +67,77 @@ class HomePageState extends State<HomePage> {
   /// 首页普通 item
   getHomePageItem(BuildContext context, int index) {
     return GestureDetector(
-        // item 点击事件
-        onTap: () {
-          _onItemClick(context, index); //处理点击事件
-        },
-        child: Container(
-          color: Colours.appWhite,
-          padding: EdgeInsets.all(12),
-          alignment: Alignment.centerLeft,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                dataList[index].title,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+      // item 点击事件
+      onTap: () {
+        _onItemClick(context, index); //处理点击事件
+      },
+      child: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.all(12),
+        alignment: Alignment.centerLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              dataList[index].title,
+              style: TextStyle(
+                fontSize: 16,
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Visibility(
-                      visible: dataList[index].fresh,
-                      child: Container(
-                        child: Text(
-                          "最新",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
-                        margin: EdgeInsets.only(
-                          right: 20,
-                        ),
-                        padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(2),
-                          ),
-                          border: Border.all(
-                            color: Colors.red,
-                            width: 1,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        dataList[index].author.isEmpty
-                            ? dataList[index].shareUser
-                            : dataList[index].author,
-                        style: TextStyle(
-                          color: Colours.appBlackDark,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        dataList[index].niceDate,
-                        style: TextStyle(
-                          color: Colours.appBlackDark,
-                        ),
-                      ),
-                      margin: EdgeInsets.only(left: 20),
-                    ),
-                  ],
-                ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 10,
               ),
-            ],
-          ),
-        ));
+              child: Row(
+                children: <Widget>[
+                  Visibility(
+                    visible: dataList[index].fresh,
+                    child: Container(
+                      child: Text(
+                        "最新",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      ),
+                      margin: EdgeInsets.only(
+                        right: 20,
+                      ),
+                      padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(2),
+                        ),
+                        border: Border.all(
+                          color: Colors.red,
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      dataList[index].author.isEmpty
+                          ? dataList[index].shareUser
+                          : dataList[index].author,
+                      style: TextStyle(),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      dataList[index].niceDate,
+                      style: TextStyle(),
+                    ),
+                    margin: EdgeInsets.only(left: 20),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   /// 首页 header

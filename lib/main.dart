@@ -1,12 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wanandroid_flutter/pages/home.dart';
 import 'package:wanandroid_flutter/pages/login.dart';
 import 'package:wanandroid_flutter/pages/mine.dart';
 import 'package:wanandroid_flutter/pages/project.dart';
-import 'package:wanandroid_flutter/pages/splash.dart';
 import 'package:wanandroid_flutter/pages/system.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+  // 设置状态栏和 appbar 颜色一致
+  if (Platform.isAndroid) {
+    var systemUiOverlayStyle =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -14,15 +25,46 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData.light().copyWith(
-        primaryColor: Colors.cyan,
-//        accentColor: Colors.cyan,
-//        primaryColorDark: Colors.cyan,
-      ),
+      theme: getTheme(isDarkMode: true),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
       },
+    );
+  }
+
+  getTheme({bool isDarkMode = false}) {
+    return ThemeData(
+//      primarySwatch: MaterialColor()Colours.appThemeColor,
+      // 页面背景颜色
+      scaffoldBackgroundColor:
+          isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+      backgroundColor:
+          isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+      // tab 指示器颜色
+      indicatorColor: Colours.appThemeColor,
+
+      // 底部菜单背景颜色
+      bottomAppBarColor:
+          isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+//      primaryColor: Colours.appThemeColor,
+//      primaryColorDark: Colours.appBackground,
+      brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      // appBar 背景颜色
+      appBarTheme: AppBarTheme(
+        color: Colours.appThemeColor,
+        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      ),
+      textTheme: TextTheme(
+        body1: isDarkMode
+            ? TextStyle(color: Colours.darkAppText)
+            : TextStyle(color: Colours.appText),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor:
+            isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+      ),
+      dividerColor: isDarkMode ? Colours.darkAppDivider : Colours.appDivider,
     );
   }
 }
@@ -55,12 +97,15 @@ class MainPageState extends State<MainPage> {
     return Scaffold(
       body: pages[mCurrentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme: IconThemeData(color: Colors.red),
-        unselectedIconTheme: IconThemeData(color: Colors.black54),
+        selectedIconTheme: IconThemeData(
+          color: Colours.appThemeColor,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: Colors.black54,
+        ),
         selectedFontSize: 14,
         unselectedFontSize: 14,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.red,
+        selectedItemColor: Colours.appThemeColor,
         unselectedItemColor: Colors.black26,
         showUnselectedLabels: true,
         currentIndex: mCurrentIndex,

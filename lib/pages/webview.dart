@@ -31,6 +31,7 @@ class WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("详情"),
         titleSpacing: 1,
@@ -72,16 +73,15 @@ class WebViewPageState extends State<WebViewPage> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 260,
+          height: 290,
           padding: EdgeInsets.all(15),
           alignment: Alignment.center,
-          color: Colours.appBackground,
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              childAspectRatio: 0.8,
+              childAspectRatio: 0.7,
             ),
             itemBuilder: (BuildContext context, int index) {
               return createBottomSheetItem(
@@ -102,12 +102,12 @@ class WebViewPageState extends State<WebViewPage> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(
+              top: 10,
               bottom: 10,
             ),
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               icon,
@@ -119,7 +119,7 @@ class WebViewPageState extends State<WebViewPage> {
             title,
             maxLines: 1,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ],

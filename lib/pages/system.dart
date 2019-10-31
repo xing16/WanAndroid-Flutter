@@ -40,7 +40,6 @@ class SystemPageState extends State<SystemPage>
             ),
           ),
         ],
-        backgroundColor: Colors.red,
         title: TabBar(
           indicatorWeight: 3,
           labelPadding: EdgeInsets.all(14),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
 
 class ProjectPage extends StatefulWidget {
   @override
@@ -34,7 +35,6 @@ class ProjectPageState extends State<ProjectPage>
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        backgroundColor: Colors.red,
         title: Row(
           children: <Widget>[
             Expanded(
@@ -91,12 +91,9 @@ class ProjectPageState extends State<ProjectPage>
         return getProjectListItem(index);
       },
       separatorBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.only(
-            left: 12,
-            right: 12,
-          ),
-          color: Colors.black12,
+        return Divider(
+          indent: 12,
+          endIndent: 12,
           height: 0.5,
         );
       },
@@ -120,7 +117,6 @@ class ProjectPageState extends State<ProjectPage>
           ),
           Container(
             height: 66,
-            color: Colors.green,
             width: screenWidth - 124,
             margin: EdgeInsets.only(
               left: 10,
@@ -153,9 +149,6 @@ class ProjectPageState extends State<ProjectPage>
                       Container(
                         child: Text(
                           "author",
-                          style: TextStyle(
-                            color: Colors.black54,
-                          ),
                         ),
                       ),
                       Container(
@@ -164,9 +157,6 @@ class ProjectPageState extends State<ProjectPage>
                         ),
                         child: Text(
                           "2222",
-                          style: TextStyle(
-                            color: Colors.black54,
-                          ),
                         ),
                       ),
                     ],

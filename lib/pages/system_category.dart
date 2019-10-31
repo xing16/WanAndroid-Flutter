@@ -16,7 +16,6 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      color: Color(0xfff5f5f5),
       child: Row(
         children: <Widget>[
           Container(
@@ -26,7 +25,6 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
               right: leftMenuRightMargin,
             ),
             decoration: ShapeDecoration(
-              color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(5),
@@ -87,11 +85,8 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
         );
       },
       separatorBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.only(
-            left: 12,
-          ),
-          color: Colors.black12,
+        return Divider(
+          indent: 12,
           height: 0.5,
         );
       },
