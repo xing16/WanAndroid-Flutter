@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: getTheme(isDarkMode: true),
+      theme: getTheme(isDarkMode: false),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
@@ -43,12 +43,13 @@ class MyApp extends StatelessWidget {
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
       // tab 指示器颜色
       indicatorColor: Colours.appThemeColor,
+      accentColor: isDarkMode ? Colours.darkApp : Colours.app,
 
       // 底部菜单背景颜色
       bottomAppBarColor:
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
-//      primaryColor: Colours.appThemeColor,
-//      primaryColorDark: Colours.appBackground,
+      primaryColor: Colours.appThemeColor,
+      primaryColorDark: Colours.appBackground,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       // appBar 背景颜色
       appBarTheme: AppBarTheme(
@@ -101,29 +102,34 @@ class MainPageState extends State<MainPage> {
           color: Colours.appThemeColor,
         ),
         unselectedIconTheme: IconThemeData(
-          color: Colors.black54,
-        ),
+//          color: Colors.black54,
+            ),
         selectedFontSize: 14,
+        elevation: 20,
         unselectedFontSize: 14,
         selectedItemColor: Colours.appThemeColor,
-        unselectedItemColor: Colors.black26,
+        unselectedItemColor: Color(0xff555555),
         showUnselectedLabels: true,
         currentIndex: mCurrentIndex,
         onTap: onNavigationItemSelected,
         items: [
           createNavigationBarItem(
+            context,
             "首页",
             Icon(Icons.home),
           ),
           createNavigationBarItem(
+            context,
             "项目",
             Icon(Icons.store),
           ),
           createNavigationBarItem(
+            context,
             "体系",
             Icon(Icons.apps),
           ),
           createNavigationBarItem(
+            context,
             "我的",
             Icon(Icons.person),
           ),
@@ -132,10 +138,11 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  createNavigationBarItem(String content, Icon icon) {
+  createNavigationBarItem(BuildContext context, String content, Icon icon) {
     return BottomNavigationBarItem(
       title: new Text(content),
       icon: icon,
+      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/pages/settings.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 import '../widgets/bezier_clipper.dart';
@@ -36,6 +37,7 @@ class MinePageState extends State<MinePage> {
                       child: Column(
                         children: <Widget>[
                           Container(
+                            color: Theme.of(context).accentColor,
                             child: Stack(
                               children: <Widget>[
                                 // 贝塞尔背景
@@ -85,6 +87,7 @@ class MinePageState extends State<MinePage> {
                           Column(
                             children: <Widget>[
                               createMineItem(
+                                context,
                                 Icons.favorite,
                                 "收藏",
                                 () {
@@ -93,7 +96,8 @@ class MinePageState extends State<MinePage> {
                                 margin: EdgeInsets.only(top: 20),
                               ),
                               createMineItem(
-                                Icons.settings,
+                                context,
+                                Icons.format_color_fill,
                                 "主题颜色",
                                 () {
                                   print("ddd");
@@ -102,6 +106,23 @@ class MinePageState extends State<MinePage> {
                                 hasDivider: true,
                               ),
                               createMineItem(
+                                context,
+                                Icons.settings,
+                                "设置",
+                                () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return SettingsPage();
+                                      },
+                                    ),
+                                  );
+                                },
+                                hasDivider: true,
+                              ),
+                              createMineItem(
+                                context,
                                 Icons.account_box,
                                 "关于",
                                 () {
@@ -109,6 +130,7 @@ class MinePageState extends State<MinePage> {
                                 },
                               ),
                               Container(
+                                color: Theme.of(context).accentColor,
                                 padding: EdgeInsets.only(
                                   left: 20,
                                 ),
@@ -123,7 +145,7 @@ class MinePageState extends State<MinePage> {
                                     color: Colors.red,
                                   ),
                                 ),
-                                height: 50,
+                                height: 52,
                                 width: screenWidth,
                               ),
                             ],
@@ -141,11 +163,13 @@ class MinePageState extends State<MinePage> {
     );
   }
 
-  createMineItem(IconData icon, String text, GestureTapCallback callback,
+  createMineItem(BuildContext context, IconData icon, String text,
+      GestureTapCallback callback,
       {EdgeInsetsGeometry margin, bool hasDivider = false}) {
     return GestureDetector(
       onTap: callback,
       child: Container(
+        color: Theme.of(context).accentColor,
         alignment: Alignment.centerLeft,
         margin: margin,
         padding: EdgeInsets.only(
@@ -156,7 +180,7 @@ class MinePageState extends State<MinePage> {
             Stack(
               children: <Widget>[
                 Container(
-                  height: 50,
+                  height: 52,
                 ),
                 Positioned(
                   child: Icon(

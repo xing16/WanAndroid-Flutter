@@ -25,10 +25,11 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
               right: leftMenuRightMargin,
             ),
             decoration: ShapeDecoration(
+              color: Theme.of(context).accentColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(5),
-                  bottomRight: Radius.circular(5),
+                  topRight: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
                 ),
               ),
             ),
@@ -59,7 +60,9 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 16),
+              padding: EdgeInsets.only(
+                left: 16,
+              ),
               height: 50,
               child: Text(
                 "性能优化",
