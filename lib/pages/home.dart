@@ -20,10 +20,24 @@ class HomePageState extends State<HomePage> {
   List<Article> dataList = new List();
 
   List<HomeBanner> banners = new List();
+  ScrollController mController = new ScrollController();
+  double appBarOpacity = 0;
 
   @override
   void initState() {
     super.initState();
+    mController.addListener(() {
+      double opacity = mController.offset / 150;
+      print("opacity = $opacity");
+      if (opacity < 0.0) {
+        opacity = 0.0;
+      } else if (opacity > 1.0) {
+        opacity = 1.0;
+      }
+      setState(() {
+        appBarOpacity = opacity;
+      });
+    });
     _loadHomeArticles();
 //    _loadBanner();
   }
@@ -31,36 +45,104 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          ListView.separated(
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return getHomeHeader();
-              }
-              return getHomePageItem(context, index - 1);
-            },
-            separatorBuilder: (context, index) {
-              return Divider(
-                indent: 12,
-                endIndent: 12,
-                height: 0.5,
-              );
-            },
-            itemCount: dataList.length,
-          ),
-          Offstage(
-            offstage: true,
-            child: Container(
-              height: 80,
-              child: AppBar(
-                title: Text("WanAndroid"),
-                centerTitle: true,
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return getHomeHeader();
+                  }
+                  return getHomePageItem(context, index - 1);
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    indent: 12,
+                    endIndent: 12,
+                    height: 0.5,
+                  );
+                },
+                controller: mController,
+                itemCount: dataList.length,
               ),
             ),
-          ),
-        ],
+            Opacity(
+              opacity: appBarOpacity,
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: 30,
+                ),
+                height: 80,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colours.appThemeColor,
+                      Color(0xfffa5650),
+                    ],
+                  ),
+                ),
+                child: Stack(
+                  alignment: Alignment.centerRight,
+                  children: <Widget>[
+                    Container(),
+                    Positioned(
+                      right: 10,
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "玩 Android",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+//      body: Stack(
+//        children: <Widget>[
+//          ListView.separated(
+//            itemBuilder: (context, index) {
+//              if (index == 0) {
+//                return getHomeHeader();
+//              }
+//              return getHomePageItem(context, index - 1);
+//            },
+//            separatorBuilder: (context, index) {
+//              return Divider(
+//                indent: 12,
+//                endIndent: 12,
+//                height: 0.5,
+//              );
+//            },
+//            itemCount: dataList.length,
+//          ),
+//          Offstage(
+//            offstage: true,
+//            child: Container(
+//              height: 80,
+//              child: AppBar(
+//                title: Text("WanAndroid"),
+//                centerTitle: true,
+//              ),
+//            ),
+//          ),
+//        ],
+//      ),
     );
   }
 

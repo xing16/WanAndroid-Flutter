@@ -21,7 +21,7 @@ class SearchPageState extends State<SearchPage> {
         context,
         Colours.appThemeColor,
         Color(0xfffa5650),
-        title: "关于",
+        title: "搜索",
       ),
       body: Column(
         children: <Widget>[
