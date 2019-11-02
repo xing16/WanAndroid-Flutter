@@ -144,7 +144,6 @@ class HomePageState extends State<HomePage> {
 
   /// 首页 header
   getHomeHeader() {
-    print("casdcasdc");
     return new BannerView(
       data: ['a', 'b', 'c'],
       height: 180,

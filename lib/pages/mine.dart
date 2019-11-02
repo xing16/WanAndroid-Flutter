@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/pages/favorite.dart';
+import 'package:wanandroid_flutter/pages/meizi.dart';
 import 'package:wanandroid_flutter/pages/settings.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
@@ -101,7 +103,14 @@ class MinePageState extends State<MinePage> {
                                 Icons.favorite,
                                 "收藏",
                                 () {
-                                  print("ddd");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return FavoritePage();
+                                      },
+                                    ),
+                                  );
                                 },
                                 margin: EdgeInsets.only(top: 20),
                               ),
@@ -114,17 +123,25 @@ class MinePageState extends State<MinePage> {
                                 },
                                 margin: EdgeInsets.only(top: 20),
                                 hasDivider: true,
+                                right: Container(
+                                  height: 15,
+                                  width: 15,
+                                  margin: EdgeInsets.only(
+                                    right: 10,
+                                  ),
+                                  color: Colours.appThemeColor,
+                                ),
                               ),
                               ItemCreator.createItem(
                                 context,
-                                Icons.beach_access,
+                                Icons.local_florist,
                                 "干货妹子",
                                 () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) {
-                                        return SettingsPage();
+                                        return MeiziPage();
                                       },
                                     ),
                                   );

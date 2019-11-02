@@ -6,6 +6,11 @@ class ItemCreator {
   static createItem(BuildContext context, IconData icon, String text,
       GestureTapCallback callback,
       {EdgeInsetsGeometry margin,
+      Widget right = const Icon(
+        Icons.chevron_right,
+        color: Colors.black45,
+        size: 30,
+      ),
       bool hasDivider = false,
       bool showMore = true}) {
     return GestureDetector(
@@ -25,16 +30,15 @@ class ItemCreator {
                   height: 52,
                 ),
                 Positioned(
-                  child: Visibility(
-                    visible: showMore,
-                    child: Icon(
-                      Icons.chevron_right,
-                      color: Colors.black45,
-                      size: 30,
+                  height: 52,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Visibility(
+                      visible: showMore,
+                      child: right,
                     ),
                   ),
-                  top: 12,
-                  right: 0,
+                  right: 5,
                 ),
                 Positioned(
                   child: Icon(

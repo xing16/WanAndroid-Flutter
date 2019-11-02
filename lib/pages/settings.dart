@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/pages/about.dart';
+import 'package:wanandroid_flutter/pages/login.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/item_creator.dart';
@@ -26,116 +28,90 @@ class SettingsPageState extends State<SettingsPage> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(
-              left: 15,
-              right: 0,
-            ),
+          ItemCreator.createItem(
+            context,
+            Icons.brightness_6,
+            "夜间模式",
+            () {},
             margin: EdgeInsets.only(
-              top: 30,
+              top: 20,
             ),
-            color: Theme.of(context).accentColor,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: 52,
-                ),
-                Positioned(
-                  child: Switch(
-                      activeColor: Colours.appThemeColor,
-                      inactiveTrackColor: Theme.of(context).accentColor,
-                      value: isDarkMode,
-                      onChanged: (value) {
-                        setState(() {
-                          isDarkMode = !isDarkMode;
-                        });
-                      }),
-                  right: 0,
-                ),
-                Positioned(
-                  child: Icon(
-                    Icons.brightness_6,
-                    color: Colours.appThemeColor,
-                    size: 22,
-                  ),
-                  top: 16,
-                ),
-                Positioned(
-                  child: Text(
-                    "夜间模式",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  left: 36,
-                  top: 14,
-                ),
-              ],
-            ),
+            right: Switch(
+                activeColor: Colours.appThemeColor,
+                inactiveTrackColor: Theme.of(context).accentColor,
+                value: isDarkMode,
+                onChanged: (value) {
+                  setState(() {
+                    isDarkMode = !isDarkMode;
+                  });
+                }),
+            hasDivider: false,
           ),
           ItemCreator.createItem(
             context,
             Icons.delete_forever,
             "清除缓存",
-            () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return SettingsPage();
-                  },
-                ),
-              );
-            },
+            () {},
             margin: EdgeInsets.only(
               top: 20,
             ),
+            showMore: false,
             hasDivider: true,
           ),
           ItemCreator.createItem(
             context,
             Icons.language,
             "语言设置",
-            () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return SettingsPage();
-                  },
-                ),
-              );
-            },
+            () {},
             hasDivider: true,
-            showMore: false,
+            right: Text(
+              "中文",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           ItemCreator.createItem(
             context,
             Icons.account_box,
             "关于",
             () {
-              print("ddd");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return AboutPage();
+                  },
+                ),
+              );
             },
           ),
           Container(
-            color: Theme.of(context).accentColor,
-            padding: EdgeInsets.only(
-              left: 20,
-            ),
-            alignment: Alignment.center,
             margin: EdgeInsets.only(
               top: 40,
               bottom: 40,
             ),
-            child: Text(
-              "退出登录",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.red,
+            child: MaterialButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return LoginPage();
+                    },
+                  ),
+                );
+              },
+              textColor: Colors.red,
+              child: Text(
+                "退出登录",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.red,
+                ),
               ),
+              minWidth: screenWidth,
+              height: 52,
+              color: Theme.of(context).accentColor,
             ),
-            height: 52,
-            width: screenWidth,
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/pages/search.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 import 'system_category.dart';
@@ -39,7 +40,14 @@ class SystemPageState extends State<SystemPage>
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  print("dd");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return SearchPage();
+                      },
+                    ),
+                  );
                 },
               ),
             ],

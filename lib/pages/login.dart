@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/pages/register.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,8 +15,8 @@ class LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
+        backgroundColor: Theme.of(context).backgroundColor,
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
@@ -29,7 +31,6 @@ class LoginPageState extends State<LoginPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
           padding: EdgeInsets.only(
             top: 100,
             left: 20,
@@ -39,6 +40,7 @@ class LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Image(
                 width: 160,
+                color: Theme.of(context).backgroundColor,
                 image: AssetImage("images/android_logo.jpg"),
               ),
               Container(
@@ -93,14 +95,13 @@ class LoginPageState extends State<LoginPage> {
                             Radius.circular(5),
                           ),
                         ),
-                        disabledColor: Colors.brown,
                         height: 46,
-                        color: Colors.red,
+                        color: Colours.appThemeColor,
                         child: Text(
                           "登录",
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+//                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -113,14 +114,38 @@ class LoginPageState extends State<LoginPage> {
                   top: 10,
                 ),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "注册账号?",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    decoration: TextDecoration.underline,
-                    fontSize: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return RegisterPage();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "注册账号?",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
+//                child: MaterialButton(
+//                  color: Theme.of(context).backgroundColor,
+//                  onPressed: () {},
+//                  child: Text(
+//                    "注册账号?",
+//                    style: TextStyle(
+//                      color: Colors.black87,
+//                      decoration: TextDecoration.underline,
+//                      fontSize: 16,
+//                    ),
+//                  ),
+//                ),
               ),
             ],
           ),
