@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/pages/settings.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
-
-import '../widgets/bezier_clipper.dart';
+import 'package:wanandroid_flutter/widgets/item_creator.dart';
 
 class MinePage extends StatefulWidget {
   @override
@@ -70,7 +70,7 @@ class MinePageState extends State<MinePage> {
                                       ClipOval(
                                         child: FadeInImage.assetNetwork(
                                             placeholder:
-                                                "images/android_logo.jpg",
+                                                "images/avatar_def.png",
                                             image:
                                                 "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35",
                                             width: 80,
@@ -96,7 +96,7 @@ class MinePageState extends State<MinePage> {
                           ),
                           Column(
                             children: <Widget>[
-                              createMineItem(
+                              ItemCreator.createItem(
                                 context,
                                 Icons.favorite,
                                 "收藏",
@@ -105,9 +105,9 @@ class MinePageState extends State<MinePage> {
                                 },
                                 margin: EdgeInsets.only(top: 20),
                               ),
-                              createMineItem(
+                              ItemCreator.createItem(
                                 context,
-                                Icons.format_color_fill,
+                                Icons.color_lens,
                                 "主题颜色",
                                 () {
                                   print("ddd");
@@ -115,7 +115,23 @@ class MinePageState extends State<MinePage> {
                                 margin: EdgeInsets.only(top: 20),
                                 hasDivider: true,
                               ),
-                              createMineItem(
+                              ItemCreator.createItem(
+                                context,
+                                Icons.beach_access,
+                                "干货妹子",
+                                () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return SettingsPage();
+                                      },
+                                    ),
+                                  );
+                                },
+                                hasDivider: true,
+                              ),
+                              ItemCreator.createItem(
                                 context,
                                 Icons.settings,
                                 "设置",
@@ -129,34 +145,7 @@ class MinePageState extends State<MinePage> {
                                     ),
                                   );
                                 },
-                                hasDivider: true,
-                              ),
-                              createMineItem(
-                                context,
-                                Icons.account_box,
-                                "关于",
-                                () {
-                                  print("ddd");
-                                },
-                              ),
-                              Container(
-                                color: Theme.of(context).accentColor,
-                                padding: EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                alignment: Alignment.center,
-                                margin: EdgeInsets.only(
-                                  top: 40,
-                                ),
-                                child: Text(
-                                  "退出登录",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                height: 52,
-                                width: screenWidth,
+                                hasDivider: false,
                               ),
                             ],
                           )
@@ -165,67 +154,6 @@ class MinePageState extends State<MinePage> {
                     ),
                   ],
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  createMineItem(BuildContext context, IconData icon, String text,
-      GestureTapCallback callback,
-      {EdgeInsetsGeometry margin, bool hasDivider = false}) {
-    return GestureDetector(
-      onTap: callback,
-      child: Container(
-        color: Theme.of(context).accentColor,
-        alignment: Alignment.centerLeft,
-        margin: margin,
-        padding: EdgeInsets.only(
-          left: 15,
-        ),
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  height: 52,
-                ),
-                Positioned(
-                  child: Icon(
-                    Icons.chevron_right,
-                    color: Colors.black45,
-                    size: 30,
-                  ),
-                  top: 12,
-                  right: 0,
-                ),
-                Positioned(
-                  child: Icon(
-                    icon,
-                    color: Colours.appThemeColor,
-                    size: 22,
-                  ),
-                  top: 16,
-                ),
-                Positioned(
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  left: 36,
-                  top: 14,
-                ),
-              ],
-            ),
-            Visibility(
-              visible: hasDivider,
-              child: Divider(
-                indent: 30,
-                height: 1,
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -32,9 +33,11 @@ class WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("详情"),
-        titleSpacing: 1,
+      appBar: GradientAppBar.create(
+        context,
+        Colours.appThemeColor,
+        Color(0xfffa5650),
+        title: "详情",
         actions: <Widget>[
           GestureDetector(
             onTap: () {

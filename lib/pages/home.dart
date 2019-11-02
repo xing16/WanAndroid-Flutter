@@ -121,7 +121,9 @@ class HomePageState extends State<HomePage> {
                       dataList[index].author.isEmpty
                           ? dataList[index].shareUser
                           : dataList[index].author,
-                      style: TextStyle(),
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                   Container(
@@ -145,7 +147,7 @@ class HomePageState extends State<HomePage> {
     print("casdcasdc");
     return new BannerView(
       data: ['a', 'b', 'c'],
-      height: 200,
+      height: 180,
       buildShowView: (index, data) {
         return Container(
           child: FadeInImage.assetNetwork(

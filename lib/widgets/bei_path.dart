@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 
 class PathPainter extends CustomPainter {
   Paint mPaint = new Paint()

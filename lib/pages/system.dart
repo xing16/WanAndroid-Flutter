@@ -34,7 +34,15 @@ class SystemPageState extends State<SystemPage>
       appBar: PreferredSize(
         child: Container(
           child: AppBar(
-            titleSpacing: 0,
+            titleSpacing: 5,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  print("dd");
+                },
+              ),
+            ],
             title: Row(
               children: <Widget>[
                 Expanded(

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: getTheme(isDarkMode: false),
+      theme: getTheme(isDarkMode: true),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
@@ -61,6 +61,9 @@ class MyApp extends StatelessWidget {
         body1: isDarkMode
             ? TextStyle(color: Colours.darkAppText)
             : TextStyle(color: Colours.appText),
+        subtitle: isDarkMode
+            ? TextStyle(color: Colors.amber)
+            : TextStyle(color: Colors.cyan),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor:
