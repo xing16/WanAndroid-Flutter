@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
+
 import 'system_category.dart';
 import 'system_square.dart';
 
@@ -29,45 +31,62 @@ class SystemPageState extends State<SystemPage>
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          Container(
-            padding: EdgeInsets.only(
-              right: 10,
+      appBar: PreferredSize(
+        child: Container(
+          child: AppBar(
+            titleSpacing: 0,
+            title: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TabBar(
+                    labelPadding: EdgeInsets.all(14),
+                    indicatorPadding: EdgeInsets.all(0),
+                    // 选中颜色
+                    labelColor: Colors.white,
+                    // 选中样式
+                    labelStyle: TextStyle(fontSize: 18),
+                    // 未选中颜色
+                    unselectedLabelColor: Colors.white70,
+                    // 未选中样式
+                    unselectedLabelStyle: TextStyle(fontSize: 16),
+                    // 是否可滑动
+                    isScrollable: true,
+                    controller: mController,
+                    // 指示器宽度
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorColor: Colors.white,
+                    // 相当于 indicator 高度
+                    indicatorWeight: 3,
+                    // tab 标签
+                    tabs: list.map((title) {
+                      return Tab(
+                        child: Container(
+                          padding: EdgeInsets.all(0),
+                          child: Text(title),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
             ),
-            child: Icon(
-              Icons.search,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colours.appThemeColor,
+                Color(0xfffa5650),
+              ],
             ),
           ),
-        ],
-        title: TabBar(
-          indicatorWeight: 3,
-          labelPadding: EdgeInsets.all(14),
-          controller: mController,
-          // 选中颜色
-          labelColor: Colors.white,
-          // 选中样式
-          labelStyle: TextStyle(fontSize: 18),
-          // 未选中颜色
-          unselectedLabelColor: Colors.white70,
-          // 未选中样式
-          unselectedLabelStyle: TextStyle(fontSize: 16),
-          // 是否可滑动
-          isScrollable: true,
-          // 指示器宽度
-          indicatorSize: TabBarIndicatorSize.label,
-          indicatorColor: Colors.white,
-          // tab 标签
-          tabs: list.map((title) {
-            return Tab(
-              child: Container(
-                child: Text(
-                  title,
-                  style: TextStyle(),
-                ),
-              ),
-            );
-          }).toList(),
+        ),
+        preferredSize: Size(
+          MediaQuery.of(context).size.width,
+          55,
         ),
       ),
       body: TabBarView(

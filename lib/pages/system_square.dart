@@ -71,7 +71,6 @@ class SystemSquarePageState extends State<SystemSquarePage> {
           ),
         ],
       ),
-      color: Colors.green,
     );
   }
 }

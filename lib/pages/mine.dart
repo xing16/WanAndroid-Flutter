@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/pages/settings.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
 import '../widgets/bezier_clipper.dart';
 
@@ -18,9 +19,11 @@ class MinePageState extends State<MinePage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text("我的"),
+      appBar: GradientAppBar.create(
+        context,
+        Colours.appThemeColor,
+        Color(0xfffa5650),
+        title: "我的",
         centerTitle: true,
       ),
       body: Container(
@@ -44,9 +47,16 @@ class MinePageState extends State<MinePage> {
                                 ClipPath(
                                   clipper: BezierClipper(),
                                   child: Container(
-                                    color: Colours.appThemeColor,
                                     height: 180,
                                     width: screenWidth,
+                                    decoration: new BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Colours.appThemeColor,
+                                          Color(0xfffa5650),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 // 头像，名字

@@ -50,11 +50,12 @@ class MyApp extends StatelessWidget {
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
       primaryColor: Colours.appThemeColor,
       primaryColorDark: Colours.appBackground,
-      brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      brightness: isDarkMode ? Brightness.light : Brightness.dark,
       // appBar 背景颜色
       appBarTheme: AppBarTheme(
-        color: Colours.appThemeColor,
-        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+//        color: Colours.appThemeColor,
+        // 状态栏字体颜色
+        brightness: isDarkMode ? Brightness.light : Brightness.dark,
       ),
       textTheme: TextTheme(
         body1: isDarkMode
