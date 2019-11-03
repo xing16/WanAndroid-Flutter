@@ -6,6 +6,7 @@ import 'package:wanandroid_flutter/pages/home.dart';
 import 'package:wanandroid_flutter/pages/login.dart';
 import 'package:wanandroid_flutter/pages/mine.dart';
 import 'package:wanandroid_flutter/pages/project.dart';
+import 'package:wanandroid_flutter/pages/splash.dart';
 import 'package:wanandroid_flutter/pages/system.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
@@ -26,9 +27,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: getTheme(isDarkMode: false),
-      home: MainPage(),
+      home: SplashPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
+        "main": (BuildContext context) => MainPage(),
       },
     );
   }

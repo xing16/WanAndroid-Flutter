@@ -51,15 +51,26 @@ class HttpClient {
   void _request(String url, String method, Function callback,
       {Map<String, String> params, Function errorCallback}) async {
     Response response;
-    if (GET == method) {
-      response = await dio.get(url);
-    } else if (POST == method) {
-      response = await dio.post(url, data: params);
+    try {
+      if (GET == method) {
+        response = await dio.get(url);
+      } else if (POST == method) {
+        response = await dio.post(url, data: params);
+      }
+      if (response.statusCode != 200) {
+        _handleErrorCallback(errorCallback, "网络连接异常");
+        return;
+      }
+    } on DioError catch (e) {
+      // 请求错误
+      Response errorResponse;
+      if (e.response != null) {
+        errorResponse = e.response;
+      } else {
+        errorResponse = new Response(statusCode: 666);
+      }
     }
-    if (response.statusCode != 200) {
-      _handleErrorCallback(errorCallback, "网络连接异常");
-      return;
-    }
+
     var jsonString = json.encode(response.data);
     print("jsonString = $jsonString");
     // map中的泛型为 dynamic
@@ -75,7 +86,7 @@ class HttpClient {
         return;
       }
       if (callback != null) {
-        callback(dataMap['data']);
+        callback(response.data);
       }
     } else {
       _handleErrorCallback(errorCallback, "数据解析失败");

@@ -1,6 +1,6 @@
 import 'article.dart';
 
-class HomeArticleResponse {
+class HomeArticle {
   bool over;
   int pageCount;
   int total;
@@ -9,7 +9,7 @@ class HomeArticleResponse {
   int size;
   List<Article> datas;
 
-  HomeArticleResponse(
+  HomeArticle(
       {this.over,
       this.pageCount,
       this.total,
@@ -18,7 +18,7 @@ class HomeArticleResponse {
       this.size,
       this.datas});
 
-  HomeArticleResponse.fromJson(Map<String, dynamic> json) {
+  HomeArticle.fromJson(Map<String, dynamic> json) {
     over = json['over'];
     pageCount = json['pageCount'];
     total = json['total'];
