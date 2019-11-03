@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/pages/favorite.dart';
 import 'package:wanandroid_flutter/pages/meizi.dart';
+import 'package:wanandroid_flutter/pages/my_points.dart';
 import 'package:wanandroid_flutter/pages/settings.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
@@ -16,6 +17,31 @@ class MinePage extends StatefulWidget {
 
 class MinePageState extends State<MinePage> {
   double screenWidth = 0;
+  List<Color> themeColors = new List();
+  int selectedIndex = 0;
+  Color resultColor = Colours.appThemeColor;
+
+  @override
+  void initState() {
+    super.initState();
+    themeColors
+      ..add(Color(0xffe24f44)) //
+      ..add(Color(0xfffc5e38)) //
+      ..add(Color(0xfffd742d)) //
+      ..add(Color(0xfff6b816)) //
+      ..add(Color(0xffcae053)) //
+      ..add(Color(0xff81c842)) //
+      ..add(Color(0xff5cc095)) //
+      ..add(Color(0xff569ce4)) //
+      ..add(Color(0xff5978e9)) //
+      ..add(Color(0xff7668f6)) //
+      ..add(Color(0xffa674e6)) //
+      ..add(Color(0xffd477e6)) //
+      ..add(Color(0xffec7ec5)) //
+      ..add(Color(0xffed698b)) //
+      ..add(Color(0xfff19fb4)) //
+      ..add(Color(0xff323638));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +119,30 @@ class MinePageState extends State<MinePage> {
                                     ],
                                   ),
                                 ),
+                                Positioned(
+                                  right: 3,
+                                  bottom: 15,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      gotoMyPoints(context);
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "我的积分",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Colors.black45,
+                                          size: 30,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -119,7 +169,7 @@ class MinePageState extends State<MinePage> {
                                 Icons.color_lens,
                                 "主题颜色",
                                 () {
-                                  print("ddd");
+                                  showThemeChooserDialog(context);
                                 },
                                 margin: EdgeInsets.only(top: 20),
                                 hasDivider: true,
@@ -129,7 +179,7 @@ class MinePageState extends State<MinePage> {
                                   margin: EdgeInsets.only(
                                     right: 10,
                                   ),
-                                  color: Colours.appThemeColor,
+                                  color: resultColor,
                                 ),
                               ),
                               ItemCreator.createItem(
@@ -175,6 +225,112 @@ class MinePageState extends State<MinePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void showThemeChooserDialog(BuildContext context) {
+    var result = showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "主题颜色选择",
+            style: TextStyle(
+//              color: Theme.of(context).textTheme.body1,
+                ),
+          ),
+//          titleTextStyle: Theme.of(context).primaryTextTheme,
+          backgroundColor: Theme.of(context).backgroundColor,
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 250,
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    childAspectRatio: 1.2,
+                  ),
+                  itemCount: themeColors.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: themeColors[index],
+                          shape: BoxShape.circle,
+                        ),
+                        width: 30,
+                        height: 30,
+                        child: Visibility(
+                          visible: selectedIndex == index,
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+          actions: <Widget>[
+            Container(
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "取消",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 20),
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(themeColors[selectedIndex]);
+                },
+                child: Text(
+                  "确定",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+    result.then((color) {
+      print("color = $color");
+      setState(() {
+        resultColor = color;
+      });
+    });
+  }
+
+  void gotoMyPoints(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: ((BuildContext context) {
+          return MyPointsPage();
+        }),
       ),
     );
   }

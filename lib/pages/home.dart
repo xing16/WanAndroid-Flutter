@@ -113,36 +113,6 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-//      body: Stack(
-//        children: <Widget>[
-//          ListView.separated(
-//            itemBuilder: (context, index) {
-//              if (index == 0) {
-//                return getHomeHeader();
-//              }
-//              return getHomePageItem(context, index - 1);
-//            },
-//            separatorBuilder: (context, index) {
-//              return Divider(
-//                indent: 12,
-//                endIndent: 12,
-//                height: 0.5,
-//              );
-//            },
-//            itemCount: dataList.length,
-//          ),
-//          Offstage(
-//            offstage: true,
-//            child: Container(
-//              height: 80,
-//              child: AppBar(
-//                title: Text("WanAndroid"),
-//                centerTitle: true,
-//              ),
-//            ),
-//          ),
-//        ],
-//      ),
     );
   }
 
