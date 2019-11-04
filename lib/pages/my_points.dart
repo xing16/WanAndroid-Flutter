@@ -34,6 +34,10 @@ class MyPointsPageState extends State<MyPointsPage> {
         title: "我的积分(406)",
       ),
       body: ListView.separated(
+//        physics: BouncingScrollPhysics(),
+//        physics: AlwaysScrollableScrollPhysics(),
+//        physics: FixedExtentScrollPhysics(),
+        physics: PageScrollPhysics(),
         itemBuilder: (context, index) {
           if (index == 0) {
             return getHeader();

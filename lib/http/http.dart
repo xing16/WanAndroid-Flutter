@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/response.dart';
 
 class HttpClient {
   static const String GET = "GET";
@@ -70,7 +71,6 @@ class HttpClient {
         errorResponse = new Response(statusCode: 666);
       }
     }
-
     var jsonString = json.encode(response.data);
     print("jsonString = $jsonString");
     // map中的泛型为 dynamic
@@ -78,15 +78,21 @@ class HttpClient {
     print("datamap = $dataMap");
     if (dataMap != null) {
       int errorCode = dataMap['errorCode'];
-      String errorMsg;
-      errorMsg = dataMap['errorMsg'];
+      String errorMsg = dataMap['errorMsg'];
+      var dataRes = dataMap["data"];
+      bool isMap = dataRes is Map;
+      print("isMap = $isMap");
+      bool isList = dataRes is List;
+      print("isList = $isList");
+      print("errorCode = $errorCode");
       print("errormsg = $errorMsg");
+      print("data = $dataRes");
       if (errorCode != 0) {
         _handleErrorCallback(errorCallback, errorMsg);
         return;
       }
       if (callback != null) {
-        callback(response.data);
+        callback(dataRes);
       }
     } else {
       _handleErrorCallback(errorCallback, "数据解析失败");
