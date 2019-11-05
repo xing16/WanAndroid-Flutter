@@ -1,7 +1,7 @@
-class WanAndResponse {
+class WanAndResponse<T> {
   int errorCode;
   String errorMsg;
-  var data;
+  T data;
 
   WanAndResponse(this.errorCode, this.errorMsg, this.data);
 

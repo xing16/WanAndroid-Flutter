@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:wanandroid_flutter/http/api.dart';
-import 'package:wanandroid_flutter/http/response.dart';
 
 class HttpClient {
   static const String GET = "GET";
@@ -79,20 +78,12 @@ class HttpClient {
     if (dataMap != null) {
       int errorCode = dataMap['errorCode'];
       String errorMsg = dataMap['errorMsg'];
-      var dataRes = dataMap["data"];
-      bool isMap = dataRes is Map;
-      print("isMap = $isMap");
-      bool isList = dataRes is List;
-      print("isList = $isList");
-      print("errorCode = $errorCode");
-      print("errormsg = $errorMsg");
-      print("data = $dataRes");
       if (errorCode != 0) {
         _handleErrorCallback(errorCallback, errorMsg);
         return;
       }
       if (callback != null) {
-        callback(dataRes);
+        callback(dataMap["data"]);
       }
     } else {
       _handleErrorCallback(errorCallback, "数据解析失败");

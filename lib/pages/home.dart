@@ -1,14 +1,10 @@
-import 'dart:convert';
-
+import 'package:banner/banner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:banner/banner.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/models/article.dart';
-import 'package:wanandroid_flutter/models/banner.dart';
+import 'package:wanandroid_flutter/models/home_banner.dart' as HomeBanner;
 import 'package:wanandroid_flutter/models/home_article.dart';
-import 'package:wanandroid_flutter/models/home_article_response.dart';
 import 'package:wanandroid_flutter/pages/search.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -21,8 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  List<Article> dataList = new List();
-  var banners = new List();
+  List<Article> articles = new List();
+  List<HomeBanner.HomeBanner> banners = new List();
   ScrollController mController = new ScrollController();
   double appBarOpacity = 0;
 
@@ -41,8 +37,8 @@ class HomePageState extends State<HomePage> {
         appBarOpacity = opacity;
       });
     });
+    loadBanner();
     loadHomeArticles();
-//    loadBanner();
   }
 
   @override
@@ -69,7 +65,7 @@ class HomePageState extends State<HomePage> {
                   );
                 },
                 controller: mController,
-                itemCount: dataList.length,
+                itemCount: articles.length,
               ),
             ),
             Opacity(
@@ -143,7 +139,7 @@ class HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              dataList[index].title,
+              articles[index].title,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -155,7 +151,7 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: dataList[index].fresh,
+                    visible: articles[index].fresh,
                     child: Container(
                       child: Text(
                         "最新",
@@ -182,9 +178,9 @@ class HomePageState extends State<HomePage> {
                   ),
                   Container(
                     child: Text(
-                      dataList[index].author.isEmpty
-                          ? dataList[index].shareUser
-                          : dataList[index].author,
+                      articles[index].author.isEmpty
+                          ? articles[index].shareUser
+                          : articles[index].author,
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -192,7 +188,7 @@ class HomePageState extends State<HomePage> {
                   ),
                   Container(
                     child: Text(
-                      dataList[index].niceDate,
+                      articles[index].niceDate,
                       style: TextStyle(),
                     ),
                     margin: EdgeInsets.only(left: 20),
@@ -229,20 +225,27 @@ class HomePageState extends State<HomePage> {
 
   loadHomeArticles() {
     HttpClient.getInstance().get(Api.HOME_ARTICLE, (data) {
-      Map<String, dynamic> map = data;
-      print("======== ${map['datas']}");
-      String jsonstring = json.encode(map["datas"]);
-      List<Article> list = new List<Article>.from(map['datas']);
+      HomeArticle homeArticle = HomeArticle.fromJson(data);
+      List<Article> articles = homeArticle.datas;
+      print("articles = $articles");
       setState(() {
-//        dataList = json.encode(map["datas"]);
+        this.articles = articles;
       });
     });
   }
 
   loadBanner() {
     HttpClient.getInstance().get(Api.BANNER, (data) {
+      print("data ===== bnner === $data");
+      print(data is List);
+      List<HomeBanner.HomeBanner> list = new List();
+      if (data is List) {
+        data.forEach((map) {
+          list.add(HomeBanner.HomeBanner.fromJson(map));
+        });
+      }
       setState(() {
-        banners = data;
+        banners = list;
       });
     });
   }
@@ -253,7 +256,7 @@ class HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => WebViewPage(
-          url: dataList[position].link,
+          url: articles[position].link,
         ),
       ),
     );
