@@ -1,10 +1,10 @@
-import 'package:banner/banner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/models/home_banner.dart' as HomeBanner;
 import 'package:wanandroid_flutter/models/home_article.dart';
+import 'package:wanandroid_flutter/models/home_banner.dart';
 import 'package:wanandroid_flutter/pages/search.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   List<Article> articles = new List();
-  List<HomeBanner.HomeBanner> banners = new List();
+  List<HomeBanner> banners = new List();
   ScrollController mController = new ScrollController();
   double appBarOpacity = 0;
 
@@ -71,7 +71,7 @@ class HomePageState extends State<HomePage> {
             Opacity(
               opacity: appBarOpacity,
               child: Container(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: 30,
                 ),
                 height: 80,
@@ -106,7 +106,7 @@ class HomePageState extends State<HomePage> {
                       ),
                     ),
                     Center(
-                      child: Text(
+                      child: const Text(
                         "玩 Android",
                         style: TextStyle(
                           color: Colors.white,
@@ -204,22 +204,23 @@ class HomePageState extends State<HomePage> {
 
   /// 首页 header
   getHomeHeader() {
-    return new BannerView(
-      data: ['a', 'b', 'c'],
-      height: 180,
-      buildShowView: (index, data) {
-        return Container(
-          child: FadeInImage.assetNetwork(
-            placeholder: "",
-            image:
-                "https://upload-images.jianshu.io/upload_images/12650374-f114b55f0ae20ec4.png?imageMogr2/auto-orient/strip|imageView2/2/w/700/format/webp",
+    return Container(
+      height: 200,
+      child: Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return new Image.network(
+            banners[index].url,
             fit: BoxFit.cover,
-          ),
-        );
-      },
-      onBannerClickListener: (index, data) {
-        print(index);
-      },
+          );
+        },
+        itemCount: banners.length,
+        pagination: new SwiperPagination(),
+        control: new SwiperControl(),
+        autoplay: true,
+        onTap: (int index) {
+          print(index);
+        },
+      ),
     );
   }
 
@@ -237,16 +238,11 @@ class HomePageState extends State<HomePage> {
   loadBanner() {
     HttpClient.getInstance().get(Api.BANNER, (data) {
       print("data ===== bnner === $data");
-      print(data is List);
-      List<HomeBanner.HomeBanner> list = new List();
       if (data is List) {
-        data.forEach((map) {
-          list.add(HomeBanner.HomeBanner.fromJson(map));
+        setState(() {
+          banners = data.map((map) => HomeBanner.fromJson(map)).toList();
         });
       }
-      setState(() {
-        banners = list;
-      });
     });
   }
 

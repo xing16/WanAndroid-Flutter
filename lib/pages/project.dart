@@ -128,7 +128,7 @@ class ProjectPageState extends State<ProjectPage>
       child: Row(
         children: <Widget>[
           FadeInImage.assetNetwork(
-            placeholder: "",
+            placeholder: "images/placeholder.png",
             width: 90,
             height: 66,
             image:
