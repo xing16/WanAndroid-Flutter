@@ -129,7 +129,7 @@ class HomePageState extends State<HomePage> {
     return GestureDetector(
       // item 点击事件
       onTap: () {
-        _onItemClick(context, index); //处理点击事件
+        onArticleItemClick(context, index); //处理点击事件
       },
       child: Container(
         color: Colors.transparent,
@@ -209,16 +209,18 @@ class HomePageState extends State<HomePage> {
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return new Image.network(
-            banners[index].url,
+            banners[index].imagePath,
             fit: BoxFit.cover,
           );
         },
         itemCount: banners.length,
-        pagination: new SwiperPagination(),
-        control: new SwiperControl(),
+        pagination: new SwiperPagination(
+          alignment: Alignment.bottomRight,
+          builder: SwiperPagination.dots,
+        ),
         autoplay: true,
         onTap: (int index) {
-          print(index);
+          onBannerItemClick(banners[index].url);
         },
       ),
     );
@@ -247,12 +249,23 @@ class HomePageState extends State<HomePage> {
   }
 
   /// item 点击事件
-  _onItemClick(BuildContext context, int position) {
+  void onArticleItemClick(BuildContext context, int position) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => WebViewPage(
           url: articles[position].link,
+        ),
+      ),
+    );
+  }
+
+  void onBannerItemClick(String url) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => WebViewPage(
+          url: url,
         ),
       ),
     );

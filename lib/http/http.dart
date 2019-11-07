@@ -78,12 +78,20 @@ class HttpClient {
     if (dataMap != null) {
       int errorCode = dataMap['errorCode'];
       String errorMsg = dataMap['errorMsg'];
-      if (errorCode != 0) {
-        _handleErrorCallback(errorCallback, errorMsg);
-        return;
+      bool error = dataMap['error'];
+      var results = dataMap['results'];
+      var data = dataMap['data'];
+      if (errorCode == 0) {
+        if (callback != null) {
+          callback(data);
+          return;
+        }
       }
-      if (callback != null) {
-        callback(dataMap["data"]);
+      if (!error) {
+        if (callback != null) {
+          callback(results);
+          return;
+        }
       }
     } else {
       _handleErrorCallback(errorCallback, "数据解析失败");

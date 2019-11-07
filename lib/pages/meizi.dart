@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/meizi.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
@@ -16,10 +19,14 @@ class MeiziPage extends StatefulWidget {
 class MeiziPageState extends State<MeiziPage> {
   double screenWidth = 0;
   ScrollController mScroller = new ScrollController();
+  List<Meizi> meizis = new List();
+  int pageSize = 20;
+  int curPage = 1;
 
   @override
   void initState() {
     super.initState();
+    loadMeizi(pageSize, curPage);
     mScroller.addListener(() {});
   }
 
@@ -50,18 +57,16 @@ class MeiziPageState extends State<MeiziPage> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                _onItemClick(index);
+                _onItemClick(meizis[index]);
               },
               child: Container(
-                color: Colors.green,
                 //随机生成高度
                 height: 150 + Random().nextInt(10) * 20.0,
                 width: 20,
                 child: FadeInImage(
                   fit: BoxFit.cover,
-                  placeholder: AssetImage("images/avatar_def.png"),
-                  image: NetworkImage(
-                      "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35"),
+                  placeholder: AssetImage("images/placeholder.png"),
+                  image: NetworkImage(meizis[index].url),
                 ),
               ),
             );
@@ -71,6 +76,18 @@ class MeiziPageState extends State<MeiziPage> {
     );
   }
 
+  void loadMeizi(int pageSize, int page) {
+    String url = Api.GANK_MEIZI + pageSize.toString() + "/" + page.toString();
+    HttpClient.getInstance().get(url, (data) {
+      print("meizi ------- $data");
+      if (data is List) {
+        setState(() {
+          meizis = data.map((map) => Meizi.fromJson(map)).toList();
+        });
+      }
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -78,7 +95,5 @@ class MeiziPageState extends State<MeiziPage> {
   }
 
   /// item 点击事件
-  void _onItemClick(int index) {
-    print(index);
-  }
+  void _onItemClick(Meizi meizi) {}
 }

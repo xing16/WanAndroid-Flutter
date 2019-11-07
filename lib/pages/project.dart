@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/project_tab.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -11,20 +14,15 @@ class ProjectPage extends StatefulWidget {
 class ProjectPageState extends State<ProjectPage>
     with SingleTickerProviderStateMixin {
   TabController mController;
-  List<String> list = new List<String>();
+  List<ProjectTab> tabList = new List();
   double screenWidth = 0;
 
   @override
   void initState() {
     super.initState();
-    list
-      ..add("Android")
-      ..add("RecyclerView")
-      ..add("组件化")
-      ..add("iOS")
-      ..add("iPhone");
+    loadTabs();
     mController = TabController(
-      length: list.length,
+      length: tabList.length,
       vsync: this,
     );
   }
@@ -60,11 +58,11 @@ class ProjectPageState extends State<ProjectPage>
                     // 相当于 indicator 高度
                     indicatorWeight: 3,
                     // tab 标签
-                    tabs: list.map((title) {
+                    tabs: tabList.map((tab) {
                       return Tab(
                         child: Container(
                           padding: EdgeInsets.all(0),
-                          child: Text(title),
+                          child: Text(tab.name),
                         ),
                       );
                     }).toList(),
@@ -93,15 +91,17 @@ class ProjectPageState extends State<ProjectPage>
       ),
       body: TabBarView(
         controller: mController,
-        children: <Widget>[
-          getProjectListView(),
-          getProjectListView(),
-          getProjectListView(),
-          getProjectListView(),
-          getProjectListView(),
-        ],
+        children: createTabPage(),
       ),
     );
+  }
+
+  createTabPage() {
+    List<Widget> widgets = new List();
+    for (var value in tabList) {
+      widgets.add(getProjectListView());
+    }
+    return widgets;
   }
 
   /// 创建 ListView
@@ -194,5 +194,19 @@ class ProjectPageState extends State<ProjectPage>
   void dispose() {
     super.dispose();
     mController.dispose();
+  }
+
+  void loadTabs() {
+    HttpClient.getInstance().get(Api.PROJECT_TABS, (data) {
+      if (data is List) {
+        setState(() {
+          tabList = data.map((map) => ProjectTab.fromJson(map)).toList();
+          mController = TabController(
+            length: tabList.length,
+            vsync: this,
+          );
+        });
+      }
+    });
   }
 }

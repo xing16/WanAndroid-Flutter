@@ -1,5 +1,6 @@
 class Api {
   static const String BASE_URL = "https://www.wanandroid.com/";
+  static const String GANK_URL = "http://gank.io/";
 
   static const String HOME_ARTICLE = BASE_URL + "article/list/0/json";
 
@@ -30,4 +31,9 @@ class Api {
 
   // 搜索热词
   static const String SEARCH_HOTKEY = BASE_URL + "hotkey/json";
+
+  // 项目分类
+  static const String PROJECT_TABS = BASE_URL + "project/tree/json";
+
+  static const String GANK_MEIZI = GANK_URL + "api/data/%E7%A6%8F%E5%88%A9/";
 }
