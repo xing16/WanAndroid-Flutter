@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/my_points.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
-import 'package:wanandroid_flutter/widgets/item_creator.dart';
 
 class MyPointsPage extends StatefulWidget {
   @override
@@ -12,14 +14,13 @@ class MyPointsPage extends StatefulWidget {
 
 class MyPointsPageState extends State<MyPointsPage> {
   double screenWidth = 0;
-  List<String> list = new List();
+  List<UserPoints> pointsList = new List();
+  int curPage = 0;
 
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 20; i++) {
-      list.add("data = $i");
-    }
+    loadPoints(curPage);
   }
 
   @override
@@ -34,9 +35,6 @@ class MyPointsPageState extends State<MyPointsPage> {
         title: "我的积分(406)",
       ),
       body: ListView.separated(
-//        physics: BouncingScrollPhysics(),
-//        physics: AlwaysScrollableScrollPhysics(),
-//        physics: FixedExtentScrollPhysics(),
         physics: PageScrollPhysics(),
         itemBuilder: (context, index) {
           if (index == 0) {
@@ -51,7 +49,7 @@ class MyPointsPageState extends State<MyPointsPage> {
             height: 0,
           );
         },
-        itemCount: list.length,
+        itemCount: pointsList.length,
       ),
     );
   }
@@ -79,34 +77,23 @@ class MyPointsPageState extends State<MyPointsPage> {
           fit: BoxFit.contain,
           image: AssetImage("images/trophy.png"),
         ),
-//        Container(
-//          alignment: Alignment.topCenter,
-//          margin: EdgeInsets.only(
-////            top: 20,
-////            top: -20,
-//              ),
-//          height: 170,
-//          decoration: BoxDecoration(
-//            image: DecorationImage("images/trophy.png",
-//              fit: BoxFit.fitHeight,
-//              image: AssetImage(),
-//            ),
-//          ),
-//        ),
         Positioned(
           bottom: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              getTopItem(160, "小红", 1, AssetImage("images/avatar.jpeg")),
+              getTopItem(160, pointsList[0].username, pointsList[0].coinCount,
+                  1, AssetImage("images/avatar.jpeg")),
               getTopItem(
                   170,
-                  "小黑",
+                  pointsList[1].username,
+                  pointsList[1].coinCount,
                   0,
                   NetworkImage(
                       "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35")),
-              getTopItem(150, "小红", 2, AssetImage("images/avatar.jpeg")),
+              getTopItem(150, pointsList[2].username, pointsList[2].coinCount,
+                  2, AssetImage("images/avatar.jpeg")),
             ],
           ),
         ),
@@ -120,7 +107,7 @@ class MyPointsPageState extends State<MyPointsPage> {
       margin: EdgeInsets.only(
         left: 15,
         right: 15,
-        bottom: index == list.length + 1 ? 20 : 0,
+        bottom: index == pointsList.length + 1 ? 20 : 0,
       ),
       padding: EdgeInsets.only(
         top: 20,
@@ -130,28 +117,56 @@ class MyPointsPageState extends State<MyPointsPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(
-            (index + 1).toString(),
-            style: TextStyle(
-              fontSize: 18,
+          Expanded(
+            flex: 1,
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                (index + 1).toString(),
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                maxLines: 1,
+              ),
             ),
           ),
-          Text(
-            index.toString(),
-            style: TextStyle(
-              fontSize: 18,
+          Expanded(
+            flex: 1,
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                pointsList[index].level?.toString() + "级",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                maxLines: 1,
+              ),
             ),
           ),
-          Text(
-            "tomcat",
-            style: TextStyle(
-              fontSize: 18,
+          Expanded(
+            flex: 3,
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                pointsList[index].username,
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                maxLines: 1,
+              ),
             ),
           ),
-          Text(
-            "209",
-            style: TextStyle(
-              fontSize: 18,
+          Expanded(
+            flex: 2,
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                pointsList[index].coinCount?.toString(),
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                maxLines: 1,
+              ),
             ),
           ),
         ],
@@ -159,8 +174,8 @@ class MyPointsPageState extends State<MyPointsPage> {
     );
   }
 
-  Widget getTopItem(
-      double height, String name, int index, ImageProvider avatar) {
+  Widget getTopItem(double height, String name, int coinCount, int index,
+      ImageProvider avatar) {
     return Container(
       height: height,
       width: (MediaQuery.of(context).size.width - 30) / 3,
@@ -189,7 +204,7 @@ class MyPointsPageState extends State<MyPointsPage> {
                 ),
               ),
               Text(
-                "1002",
+                coinCount.toString(),
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -220,5 +235,15 @@ class MyPointsPageState extends State<MyPointsPage> {
         ],
       ),
     );
+  }
+
+  void loadPoints(int page) {
+    HttpClient.getInstance().get(Api.POINTS_RANK + page.toString() + "/json",
+        (data) {
+      MyPoints myPoints = MyPoints.fromJson(data);
+      setState(() {
+        pointsList = myPoints?.datas;
+      });
+    });
   }
 }

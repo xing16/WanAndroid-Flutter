@@ -27,7 +27,7 @@ class Api {
   static const String USER_REGISTER = BASE_URL + "user/register";
 
   // 知识体系
-  static const String SYSTEM = BASE_URL + "tree/json";
+  static const String SYSTEM_CATEGORY = BASE_URL + "tree/json";
 
   // 搜索热词
   static const String SEARCH_HOTKEY = BASE_URL + "hotkey/json";
@@ -35,5 +35,11 @@ class Api {
   // 项目分类
   static const String PROJECT_TABS = BASE_URL + "project/tree/json";
 
+  // 广场
+  static const String SQUARE_ARTICLE = BASE_URL + "user_article/list/";
+
   static const String GANK_MEIZI = GANK_URL + "api/data/%E7%A6%8F%E5%88%A9/";
+
+  // 积分排行榜
+  static const String POINTS_RANK = BASE_URL + "coin/rank/";
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
 
 class SystemCategoryPage extends StatefulWidget {
   @override
@@ -11,6 +13,12 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
   double screenWidth = 0;
   double leftMenuWidth = 100;
   double leftMenuRightMargin = 8;
+
+  @override
+  void initState() {
+    super.initState();
+    loadSystemCategory();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,5 +135,9 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
         ),
       ),
     );
+  }
+
+  void loadSystemCategory() {
+    HttpClient.getInstance().get(Api.SYSTEM_CATEGORY, (data) {});
   }
 }

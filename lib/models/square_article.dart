@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wanandroid_flutter/models/home_article.dart';
+
+import 'home_article.dart';
 
 part 'square_article.g.dart';
 
@@ -8,7 +9,7 @@ class SquareArticle extends Object {
   @JsonKey(name: 'curPage')
   int curPage;
 
-  @JsonKey(name: 'datas')
+  @JsonKey(name: 'article')
   List<Article> datas;
 
   @JsonKey(name: 'offset')
