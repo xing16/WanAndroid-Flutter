@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/article.dart';
+import 'package:wanandroid_flutter/models/project_article.dart';
 import 'package:wanandroid_flutter/models/project_tab.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
@@ -12,15 +14,17 @@ class ProjectPage extends StatefulWidget {
 }
 
 class ProjectPageState extends State<ProjectPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TabController mController;
   List<ProjectTab> tabList = new List();
+  List<Article> articleList = new List();
   double screenWidth = 0;
+  int curPage = 0;
 
   @override
   void initState() {
     super.initState();
-    loadTabs();
+    loadTabs(curPage);
     mController = TabController(
       length: tabList.length,
       vsync: this,
@@ -98,17 +102,17 @@ class ProjectPageState extends State<ProjectPage>
 
   createTabPage() {
     List<Widget> widgets = new List();
-    for (var value in tabList) {
-      widgets.add(getProjectListView());
+    for (var projectTab in tabList) {
+      widgets.add(getProjectListView(projectTab.id));
     }
     return widgets;
   }
 
   /// 创建 ListView
-  getProjectListView() {
+  getProjectListView(int tabId) {
     return ListView.separated(
       itemBuilder: (context, index) {
-        return getProjectListItem(index);
+        return getProjectListItem(tabId, index);
       },
       separatorBuilder: (context, index) {
         return Divider(
@@ -122,7 +126,7 @@ class ProjectPageState extends State<ProjectPage>
   }
 
   /// ListView item
-  getProjectListItem(int position) {
+  getProjectListItem(int tabId, int position) {
     return Container(
       padding: EdgeInsets.all(12),
       child: Row(
@@ -131,8 +135,7 @@ class ProjectPageState extends State<ProjectPage>
             placeholder: "images/placeholder.png",
             width: 90,
             height: 66,
-            image:
-                "https://upload-images.jianshu.io/upload_images/12650374-f114b55f0ae20ec4.png?imageMogr2/auto-orient/strip|imageView2/2/w/700/format/webp",
+            image: articleList[position].envelopePic,
             fit: BoxFit.cover,
           ),
           Container(
@@ -151,7 +154,7 @@ class ProjectPageState extends State<ProjectPage>
                         flex: 1,
                         child: Container(
                           child: Text(
-                            "最新70城房价公布！北京、广州现大变化 领涨的竟是它！新建商品住宅销售价格环比涨幅微升，二手住宅销售价格涨幅基本持平。",
+                            articleList[position].title,
                             maxLines: 2,
                             style: TextStyle(
                               fontSize: 16,
@@ -168,16 +171,14 @@ class ProjectPageState extends State<ProjectPage>
                     children: <Widget>[
                       Container(
                         child: Text(
-                          "author",
+                          articleList[position].author,
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(
                           left: 20,
                         ),
-                        child: Text(
-                          "2222",
-                        ),
+                        child: Text(articleList[position].niceDate),
                       ),
                     ],
                   ),
@@ -196,17 +197,27 @@ class ProjectPageState extends State<ProjectPage>
     mController.dispose();
   }
 
-  void loadTabs() {
+  void loadTabs(int page) {
     HttpClient.getInstance().get(Api.PROJECT_TABS, (data) {
       if (data is List) {
         setState(() {
           tabList = data.map((map) => ProjectTab.fromJson(map)).toList();
+          loadProjectsList(tabList[0].id, page);
           mController = TabController(
             length: tabList.length,
             vsync: this,
           );
         });
       }
+    });
+  }
+
+  void loadProjectsList(int tabId, int page) {
+    HttpClient.getInstance().get(Api.PROJECT_LIST, (data) {
+      ProjectArticle projectArticle = ProjectArticle.fromJson(data);
+      setState(() {
+        articleList = projectArticle?.datas;
+      });
     });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/square_article.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';

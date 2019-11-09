@@ -102,6 +102,7 @@ class MyPointsPageState extends State<MyPointsPage> {
   }
 
   Widget getItem(BuildContext context, int index) {
+    print("index = $index");
     return Container(
       color: Theme.of(context).accentColor,
       margin: EdgeInsets.only(
@@ -115,12 +116,13 @@ class MyPointsPageState extends State<MyPointsPage> {
       ),
       alignment: Alignment.centerLeft,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Expanded(
             flex: 1,
             child: Container(
-              alignment: Alignment.center,
+              alignment: Alignment.centerRight,
               child: Text(
                 (index + 1).toString(),
                 style: TextStyle(
@@ -131,7 +133,7 @@ class MyPointsPageState extends State<MyPointsPage> {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               alignment: Alignment.center,
               child: Text(
@@ -144,8 +146,12 @@ class MyPointsPageState extends State<MyPointsPage> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Container(
+              padding: EdgeInsets.only(
+                left: 10,
+                right: 10,
+              ),
               alignment: Alignment.center,
               child: Text(
                 pointsList[index].username,
@@ -157,7 +163,7 @@ class MyPointsPageState extends State<MyPointsPage> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               alignment: Alignment.center,
               child: Text(

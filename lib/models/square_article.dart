@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'home_article.dart';
+import 'article.dart';
 
 part 'square_article.g.dart';
 

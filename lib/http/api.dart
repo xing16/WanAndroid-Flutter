@@ -34,6 +34,9 @@ class Api {
 
   // 项目分类
   static const String PROJECT_TABS = BASE_URL + "project/tree/json";
+  // 项目分类
+  static const String PROJECT_LIST =
+      BASE_URL + "project/list/:page/json?cid=294";
 
   // 广场
   static const String SQUARE_ARTICLE = BASE_URL + "user_article/list/";

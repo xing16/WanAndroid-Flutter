@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
 import 'package:wanandroid_flutter/pages/search.dart';
