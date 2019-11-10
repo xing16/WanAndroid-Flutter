@@ -77,8 +77,8 @@ class MeiziPageState extends State<MeiziPage> {
   }
 
   void loadMeizi(int pageSize, int page) {
-    String url = Api.GANK_MEIZI + pageSize.toString() + "/" + page.toString();
-    HttpClient.getInstance().get(url, (data) {
+    HttpClient.getInstance().get(Api.GANK_MEIZI,
+        data: {"pageSize": pageSize, "page": page}, callback: (data) {
       print("meizi ------- $data");
       if (data is List) {
         setState(() {

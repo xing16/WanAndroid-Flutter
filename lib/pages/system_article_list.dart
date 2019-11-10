@@ -4,41 +4,57 @@ import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/system_article.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
-class SystemSquarePage extends StatefulWidget {
+class SystemArticleListPage extends StatefulWidget {
+  final int cid;
+  final String title;
+
+  SystemArticleListPage(this.cid, this.title);
+
   @override
   State<StatefulWidget> createState() {
-    return SystemSquarePageState();
+    return SystemArticleListPageState();
   }
 }
 
-class SystemSquarePageState extends State<SystemSquarePage> {
-  int page = 0;
+class SystemArticleListPageState extends State<SystemArticleListPage> {
+  double screenWidth = 0;
   List<Article> articleList = new List();
+  int curPage = 0;
 
   @override
   void initState() {
     super.initState();
-    loadSystemSquare(page);
+    loadArticleList(curPage, widget.cid);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return getSystemSquareItem(index);
-      },
-      separatorBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.only(
-            left: 12,
-            right: 12,
-          ),
-          color: Colors.black12,
-          height: 0.5,
-        );
-      },
-      itemCount: articleList.length,
+    return Scaffold(
+      appBar: GradientAppBar.create(
+        context,
+        Colours.appThemeColor,
+        Color(0xfffa5650),
+        title: widget.title,
+      ),
+      body: ListView.separated(
+        itemBuilder: (context, index) {
+          return getSystemSquareItem(index);
+        },
+        separatorBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            color: Colors.black12,
+            height: 0.5,
+          );
+        },
+        itemCount: articleList.length,
+      ),
     );
   }
 
@@ -95,9 +111,9 @@ class SystemSquarePageState extends State<SystemSquarePage> {
     );
   }
 
-  void loadSystemSquare(int page) {
-    HttpClient.getInstance().get(Api.SQUARE_ARTICLE, data: {"page": page},
-        callback: (data) {
+  void loadArticleList(int page, int cid) {
+    HttpClient.getInstance().get(Api.SYSTEM_ARTICLE_LIST,
+        data: {"page": page, "cid": cid}, callback: (data) {
       SystemArticle squareArticle = SystemArticle.fromJson(data);
       var articles = squareArticle.datas;
       setState(() {

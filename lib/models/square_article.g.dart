@@ -1,15 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'square_article.dart';
+part of 'system_article.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SquareArticle _$SquareArticleFromJson(Map<String, dynamic> json) {
-  return SquareArticle(
+SystemArticle _$SystemArticleFromJson(Map<String, dynamic> json) {
+  return SystemArticle(
     json['curPage'] as int,
-    json['article'] as List,
+    (json['datas'] as List)
+        ?.map((e) =>
+            e == null ? null : Article.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     json['offset'] as int,
     json['over'] as bool,
     json['pageCount'] as int,
@@ -18,10 +21,10 @@ SquareArticle _$SquareArticleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SquareArticleToJson(SquareArticle instance) =>
+Map<String, dynamic> _$SystemArticleToJson(SystemArticle instance) =>
     <String, dynamic>{
       'curPage': instance.curPage,
-      'article': instance.datas,
+      'datas': instance.datas,
       'offset': instance.offset,
       'over': instance.over,
       'pageCount': instance.pageCount,

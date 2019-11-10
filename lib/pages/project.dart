@@ -121,7 +121,7 @@ class ProjectPageState extends State<ProjectPage>
           height: 0.5,
         );
       },
-      itemCount: 60,
+      itemCount: articleList.length,
     );
   }
 
@@ -194,26 +194,33 @@ class ProjectPageState extends State<ProjectPage>
   @override
   void dispose() {
     super.dispose();
-    mController.dispose();
+    if (mounted) {
+      mController.dispose();
+    }
   }
 
   void loadTabs(int page) {
-    HttpClient.getInstance().get(Api.PROJECT_TABS, (data) {
+    HttpClient.getInstance().get(Api.PROJECT_TABS, callback: (data) {
       if (data is List) {
-        setState(() {
-          tabList = data.map((map) => ProjectTab.fromJson(map)).toList();
-          loadProjectsList(tabList[0].id, page);
-          mController = TabController(
-            length: tabList.length,
-            vsync: this,
-          );
-        });
+        if (mounted) {
+          setState(() {
+            for (var value in data) {
+              ProjectTab tab = ProjectTab.fromJson(value);
+              tabList.add(tab);
+            }
+            mController = TabController(
+              length: tabList.length,
+              vsync: this,
+            );
+          });
+        }
       }
     });
   }
 
   void loadProjectsList(int tabId, int page) {
-    HttpClient.getInstance().get(Api.PROJECT_LIST, (data) {
+    HttpClient.getInstance().get(Api.PROJECT_LIST,
+        data: {"page": page, "cid": tabId}, callback: (data) {
       ProjectArticle projectArticle = ProjectArticle.fromJson(data);
       setState(() {
         articleList = projectArticle?.datas;

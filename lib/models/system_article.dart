@@ -1,15 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import 'article.dart';
+import 'package:wanandroid_flutter/models/article.dart';
 
 part 'square_article.g.dart';
 
 @JsonSerializable()
-class SquareArticle extends Object {
+class SystemArticle extends Object {
   @JsonKey(name: 'curPage')
   int curPage;
 
-  @JsonKey(name: 'article')
+  @JsonKey(name: 'datas')
   List<Article> datas;
 
   @JsonKey(name: 'offset')
@@ -27,7 +26,7 @@ class SquareArticle extends Object {
   @JsonKey(name: 'total')
   int total;
 
-  SquareArticle(
+  SystemArticle(
     this.curPage,
     this.datas,
     this.offset,
@@ -37,8 +36,13 @@ class SquareArticle extends Object {
     this.total,
   );
 
-  factory SquareArticle.fromJson(Map<String, dynamic> srcJson) =>
-      _$SquareArticleFromJson(srcJson);
+  factory SystemArticle.fromJson(Map<String, dynamic> srcJson) =>
+      _$SystemArticleFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$SquareArticleToJson(this);
+  Map<String, dynamic> toJson() => _$SystemArticleToJson(this);
+
+  @override
+  String toString() {
+    return 'SquareArticle{curPage: $curPage, datas: $datas, offset: $offset, over: $over, pageCount: $pageCount, size: $size, total: $total}';
+  }
 }

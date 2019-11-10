@@ -2,10 +2,10 @@ class Api {
   static const String BASE_URL = "https://www.wanandroid.com/";
   static const String GANK_URL = "http://gank.io/";
 
-  static const String HOME_ARTICLE = BASE_URL + "article/list/0/json";
+  static const String HOME_ARTICLE = "article/list/:page/json";
 
   // 首页 banner
-  static const String BANNER = BASE_URL + "banner/json";
+  static const String BANNER = "banner/json";
 
   // 收藏文章列表
   static const String FAVORITE_LIST = BASE_URL + "lg/collect/list/";
@@ -27,22 +27,26 @@ class Api {
   static const String USER_REGISTER = BASE_URL + "user/register";
 
   // 知识体系
-  static const String SYSTEM_CATEGORY = BASE_URL + "tree/json";
+  static const String SYSTEM_CATEGORY = "tree/json";
+
+  // 知识体系文章列表
+  static const String SYSTEM_ARTICLE_LIST = "article/list/:page/json?cid=:cid";
 
   // 搜索热词
   static const String SEARCH_HOTKEY = BASE_URL + "hotkey/json";
 
   // 项目分类
-  static const String PROJECT_TABS = BASE_URL + "project/tree/json";
+  static const String PROJECT_TABS = "project/tree/json";
+
   // 项目分类
-  static const String PROJECT_LIST =
-      BASE_URL + "project/list/:page/json?cid=294";
+  static const String PROJECT_LIST = "project/list/:page/json?cid=:cid";
 
   // 广场
-  static const String SQUARE_ARTICLE = BASE_URL + "user_article/list/";
+  static const String SQUARE_ARTICLE = "user_article/list/:page/json";
 
-  static const String GANK_MEIZI = GANK_URL + "api/data/%E7%A6%8F%E5%88%A9/";
+  static const String GANK_MEIZI =
+      GANK_URL + "api/data/%E7%A6%8F%E5%88%A9/:pageSize/:page";
 
   // 积分排行榜
-  static const String POINTS_RANK = BASE_URL + "coin/rank/";
+  static const String POINTS_RANK = "coin/rank/:page/json";
 }

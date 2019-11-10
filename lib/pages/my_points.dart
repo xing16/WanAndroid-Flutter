@@ -244,8 +244,8 @@ class MyPointsPageState extends State<MyPointsPage> {
   }
 
   void loadPoints(int page) {
-    HttpClient.getInstance().get(Api.POINTS_RANK + page.toString() + "/json",
-        (data) {
+    HttpClient.getInstance().get(Api.POINTS_RANK, data: {"page": page},
+        callback: (data) {
       MyPoints myPoints = MyPoints.fromJson(data);
       setState(() {
         pointsList = myPoints?.datas;

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/system_category.dart';
+import 'package:wanandroid_flutter/pages/system_article_list.dart';
+import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
 
 class SystemCategoryPage extends StatefulWidget {
   @override
@@ -13,6 +17,13 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
   double screenWidth = 0;
   double leftMenuWidth = 100;
   double leftMenuRightMargin = 8;
+
+  // 左侧 ListView 数据源
+  List<SystemCategory> systemCategoryList = new List();
+
+  // 右侧 GridView 数据源
+  List<SystemCategory> contentSystemList = new List();
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -42,6 +53,9 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
               ),
             ),
             width: leftMenuWidth,
+            padding: EdgeInsets.only(
+              right: 5,
+            ),
             child: getSystemListView(),
           ),
           Column(
@@ -60,39 +74,52 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
     );
   }
 
-  /// 创建 ListView
+  /// 创建左侧 ListView
   getSystemListView() {
     return ListView.separated(
       itemBuilder: (context, index) {
-        return Stack(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(
-                left: 16,
-              ),
-              height: 50,
-              child: Text(
-                "性能优化",
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 16,
+        return GestureDetector(
+          onTap: () {
+            print("ontap = $systemCategoryList");
+            setState(() {
+              selectedIndex = index;
+              contentSystemList = systemCategoryList[index].children;
+            });
+          },
+          behavior: HitTestBehavior.opaque,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(
+                  left: 16,
+                ),
+                height: 50,
+                child: Text(
+                  systemCategoryList[index].name,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: (index == selectedIndex)
+                        ? Colours.appThemeColor
+                        : Theme.of(context).textTheme.body1.color,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 0,
-              top: 13,
-              child: Offstage(
-                offstage: index != 0,
-                child: Container(
-                  height: 24,
-                  width: 6,
-                  child: null,
+              Positioned(
+                left: 0,
+                top: 13,
+                child: Visibility(
+                  visible: selectedIndex == index,
+                  child: Container(
+                    height: 24,
+                    width: 6,
+                    color: Colours.appThemeColor,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
       separatorBuilder: (context, index) {
@@ -101,11 +128,11 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
           height: 0.5,
         );
       },
-      itemCount: 60,
+      itemCount: systemCategoryList.length,
     );
   }
 
-  ///
+  /// 创建右侧网格布局
   getGridView() {
     return GridView.custom(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -115,29 +142,51 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
         childAspectRatio: 3,
       ),
       childrenDelegate: SliverChildBuilderDelegate(
-        (context, position) {
-          return getGridItem();
+        (BuildContext context, int index) {
+          return getGridItem(index);
         },
+        childCount: contentSystemList.length,
       ),
     );
   }
 
-  getGridItem() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(
-        left: 10,
-      ),
-      child: Text(
-        "内存优化",
-        style: TextStyle(
-          fontSize: 16,
+  getGridItem(int index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => SystemArticleListPage(
+                contentSystemList[index].id, contentSystemList[index].name),
+          ),
+        );
+      },
+      child: Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(
+          left: 10,
+        ),
+        child: Text(
+          contentSystemList[index].name,
+          style: TextStyle(
+            fontSize: 16,
+          ),
+          maxLines: 1,
         ),
       ),
     );
   }
 
   void loadSystemCategory() {
-    HttpClient.getInstance().get(Api.SYSTEM_CATEGORY, (data) {});
+    HttpClient.getInstance().get(Api.SYSTEM_CATEGORY, callback: (data) {
+      if (data is List) {
+        List<SystemCategory> list =
+            data.map((map) => SystemCategory.fromJson(map)).toList();
+        contentSystemList = list[selectedIndex].children;
+        setState(() {
+          systemCategoryList = list;
+        });
+      }
+    });
   }
 }

@@ -22,6 +22,7 @@ class HomePageState extends State<HomePage> {
   List<HomeBanner> banners = new List();
   ScrollController mController = new ScrollController();
   double appBarOpacity = 0;
+  int curPage = 0;
 
   @override
   void initState() {
@@ -39,7 +40,7 @@ class HomePageState extends State<HomePage> {
       });
     });
     loadBanner();
-    loadHomeArticles();
+    loadHomeArticles(curPage);
   }
 
   @override
@@ -128,12 +129,12 @@ class HomePageState extends State<HomePage> {
   /// 首页普通 item
   getHomePageItem(BuildContext context, int index) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       // item 点击事件
       onTap: () {
         onArticleItemClick(context, index); //处理点击事件
       },
       child: Container(
-        color: Colors.transparent,
         padding: EdgeInsets.all(12),
         alignment: Alignment.centerLeft,
         child: Column(
@@ -227,8 +228,9 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  loadHomeArticles() {
-    HttpClient.getInstance().get(Api.HOME_ARTICLE, (data) {
+  loadHomeArticles(int page) {
+    HttpClient.getInstance().get(Api.HOME_ARTICLE, data: {"page": page},
+        callback: (data) {
       HomeArticle homeArticle = HomeArticle.fromJson(data);
       List<Article> articles = homeArticle.datas;
       print("articles = $articles");
@@ -239,7 +241,7 @@ class HomePageState extends State<HomePage> {
   }
 
   loadBanner() {
-    HttpClient.getInstance().get(Api.BANNER, (data) {
+    HttpClient.getInstance().get(Api.BANNER, callback: (data) {
       print("data ===== bnner === $data");
       if (data is List) {
         setState(() {
