@@ -100,7 +100,7 @@ class ProjectPageState extends State<ProjectPage>
     );
   }
 
-  createTabPage() {
+  List<Widget> createTabPage() {
     List<Widget> widgets = new List();
     for (var projectTab in tabList) {
       widgets.add(getProjectListView(projectTab.id));
@@ -199,6 +199,7 @@ class ProjectPageState extends State<ProjectPage>
     }
   }
 
+  /// 请求 tabs
   void loadTabs(int page) {
     HttpClient.getInstance().get(Api.PROJECT_TABS, callback: (data) {
       if (data is List) {
@@ -218,6 +219,7 @@ class ProjectPageState extends State<ProjectPage>
     });
   }
 
+  /// 请求 tab 下的列表
   void loadProjectsList(int tabId, int page) {
     HttpClient.getInstance().get(Api.PROJECT_LIST,
         data: {"page": page, "cid": tabId}, callback: (data) {

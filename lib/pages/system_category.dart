@@ -3,7 +3,6 @@ import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/system_category.dart';
 import 'package:wanandroid_flutter/pages/system_article_list.dart';
-import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class SystemCategoryPage extends StatefulWidget {
@@ -184,7 +183,9 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
             data.map((map) => SystemCategory.fromJson(map)).toList();
         contentSystemList = list[selectedIndex].children;
         setState(() {
-          systemCategoryList = list;
+          if (mounted) {
+            systemCategoryList = list;
+          }
         });
       }
     });

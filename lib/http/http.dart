@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 
 class HttpClient {
@@ -65,20 +66,21 @@ class HttpClient {
       Map<String, dynamic> dataMap = json.decode(jsonString);
       if (dataMap != null) {
         int errorCode = dataMap['errorCode'];
+        print("errorcode = $errorCode");
         String errorMsg = dataMap['errorMsg'];
-        bool error = dataMap['error'];
+        bool error = dataMap['error'] ?? true;
         var results = dataMap['results'];
         var data = dataMap['data'];
-        if (errorCode == 0) {
-          if (callback != null) {
-            callback(data);
-            return;
-          }
+        // 请求失败
+        if (errorCode != 0 && error) {
+          _handleErrorCallback(errorCallback, errorMsg);
+          return;
         }
-        if (!error) {
-          if (callback != null) {
+        if (callback != null) {
+          if (data != null) {
+            callback(data);
+          } else if (results != null) {
             callback(results);
-            return;
           }
         }
       } else {
@@ -86,20 +88,17 @@ class HttpClient {
       }
     } on DioError catch (e) {
       // 请求错误
-      Response errorResponse;
-      if (e.response != null) {
-        errorResponse = e.response;
-      } else {
-        errorResponse = new Response(statusCode: 666);
-      }
+      var message = e.message;
+      _handleErrorCallback(errorCallback, message);
     }
   }
 
   void _handleErrorCallback(Function errorCallback, String errorMsg) {
-//    Fluttertoast.showToast(
-//        msg: errorMsg,
-//        toastLength: Toast.LENGTH_SHORT,
-//        gravity: ToastGravity.CENTER);
+    print("_handleErrorCallback = $errorMsg");
+    Fluttertoast.showToast(
+        msg: errorMsg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM);
     if (errorCallback != null) {
       errorCallback(errorMsg);
     }

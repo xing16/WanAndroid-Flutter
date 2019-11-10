@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/my_points.dart';
+import 'package:wanandroid_flutter/models/own_points.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/circle_degree_ring.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
 class MyPointsPage extends StatefulWidget {
@@ -12,15 +14,22 @@ class MyPointsPage extends StatefulWidget {
   }
 }
 
-class MyPointsPageState extends State<MyPointsPage> {
+class MyPointsPageState extends State<MyPointsPage>
+    with TickerProviderStateMixin {
   double screenWidth = 0;
   List<UserPoints> pointsList = new List();
   int curPage = 0;
+  AnimationController animationController;
+  int ownPointsCount = 0;
 
   @override
   void initState() {
     super.initState();
-    loadPoints(curPage);
+    animationController = new AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this);
+    animationController.forward();
+    loadPointsRanking(curPage);
+    loadOwnPoint();
   }
 
   @override
@@ -32,7 +41,7 @@ class MyPointsPageState extends State<MyPointsPage> {
         context,
         Colours.appThemeColor,
         Color(0xfffa5650),
-        title: "我的积分(406)",
+        title: "积分",
       ),
       body: ListView.separated(
         physics: PageScrollPhysics(),
@@ -59,7 +68,7 @@ class MyPointsPageState extends State<MyPointsPage> {
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 250,
+          height: 320,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -71,12 +80,52 @@ class MyPointsPageState extends State<MyPointsPage> {
             ),
           ),
         ),
-        Image(
-          width: 200,
-          alignment: Alignment.topCenter,
-          fit: BoxFit.contain,
-          image: AssetImage("images/trophy.png"),
+//        Image(
+//          width: 200,
+//          alignment: Alignment.topCenter,
+//          fit: BoxFit.contain,
+//          image: AssetImage("images/trophy.png"),
+//        ),
+
+        Container(
+          child: CustomPaint(
+            size: Size(160, 160),
+            painter: CircleDegreeRing(ownPointsCount / 2000 * 100),
+          ),
         ),
+        Container(
+          alignment: Alignment.center,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Baseline(
+                baseline: 100,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  ownPointsCount.toString(),
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 28,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Baseline(
+                baseline: 100,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  " 分",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
         Positioned(
           bottom: 0,
           child: Row(
@@ -243,12 +292,29 @@ class MyPointsPageState extends State<MyPointsPage> {
     );
   }
 
-  void loadPoints(int page) {
+  /// 获取积分排行版
+  void loadPointsRanking(int page) {
     HttpClient.getInstance().get(Api.POINTS_RANK, data: {"page": page},
         callback: (data) {
       MyPoints myPoints = MyPoints.fromJson(data);
       setState(() {
         pointsList = myPoints?.datas;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    animationController?.dispose();
+  }
+
+  /// 获取自己的积分
+  void loadOwnPoint() {
+    HttpClient.getInstance().get(Api.POINTS_OWN, callback: (data) {
+      OwnPoints ownPoints = OwnPoints.fromJson(data);
+      setState(() {
+        ownPointsCount = ownPoints?.coinCount;
       });
     });
   }

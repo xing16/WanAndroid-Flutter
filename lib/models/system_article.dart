@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 
-part 'square_article.g.dart';
+part 'system_article.g.dart';
 
 @JsonSerializable()
 class SystemArticle extends Object {

@@ -44,8 +44,12 @@ class Api {
   // 广场
   static const String SQUARE_ARTICLE = "user_article/list/:page/json";
 
+  // 妹子
   static const String GANK_MEIZI =
       GANK_URL + "api/data/%E7%A6%8F%E5%88%A9/:pageSize/:page";
+
+  // 我的积分
+  static const String POINTS_OWN = "lg/coin/userinfo/json";
 
   // 积分排行榜
   static const String POINTS_RANK = "coin/rank/:page/json";
