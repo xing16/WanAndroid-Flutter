@@ -20,7 +20,7 @@ class MyPointsPageState extends State<MyPointsPage>
   List<UserPoints> pointsList = new List();
   int curPage = 0;
   AnimationController animationController;
-  int ownPointsCount = 0;
+  int ownPointsCount = 600;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class MyPointsPageState extends State<MyPointsPage>
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 320,
+          height: 620,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -89,7 +89,7 @@ class MyPointsPageState extends State<MyPointsPage>
 
         Container(
           child: CustomPaint(
-            size: Size(160, 160),
+            size: Size(220, 220),
             painter: CircleDegreeRing(ownPointsCount / 2000 * 100),
           ),
         ),
