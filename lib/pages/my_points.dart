@@ -93,39 +93,6 @@ class MyPointsPageState extends State<MyPointsPage>
             painter: CircleDegreeRing(ownPointsCount / 2000 * 100),
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Baseline(
-                baseline: 100,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  ownPointsCount.toString(),
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontSize: 28,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Baseline(
-                baseline: 100,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  " 分",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
         Positioned(
           bottom: 0,
           child: Row(

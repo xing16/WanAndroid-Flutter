@@ -14,6 +14,8 @@ class CircleDegreeRing extends CustomPainter {
   double startAngle = 5 * pi / 6;
   double sweepAngle = 4 * pi / 3; // 240度
   double progress = 30;
+  double gap = 2;
+  double centerRingWidth = 12;
 
   CircleDegreeRing(this.progress);
 
@@ -42,19 +44,44 @@ class CircleDegreeRing extends CustomPainter {
         false,
         mPaint);
 
-    mPaint.strokeWidth = 12;
-    canvas.drawArc(Rect.fromCircle(center: Offset(0, 0), radius: radius - 12),
-        startAngle, sweepAngle, false, mPaint);
+    mPaint.strokeWidth = centerRingWidth;
+    canvas.drawArc(
+        Rect.fromCircle(center: Offset(0, 0), radius: radius - centerRingWidth),
+        startAngle,
+        sweepAngle,
+        false,
+        mPaint);
+
+    ui.ParagraphBuilder scorePb = new ui.ParagraphBuilder(ui.ParagraphStyle(
+      textAlign: TextAlign.left,
+    ))
+      ..pushStyle(ui.TextStyle(
+        color: Colors.white,
+        fontSize: 36,
+        fontWeight: FontWeight.normal,
+        textBaseline: TextBaseline.alphabetic,
+      ))
+      ..addText("0099")
+      ..pushStyle(ui.TextStyle(
+        fontSize: 20,
+        textBaseline: TextBaseline.alphabetic,
+      ))
+      ..addText("分");
+
+    ui.ParagraphConstraints scorePc = ui.ParagraphConstraints(width: 120);
+    ui.Paragraph scoreParagraph = scorePb.build()..layout(scorePc);
+    var textHeight = scoreParagraph.height;
+    canvas.drawParagraph(
+        scoreParagraph, new Offset(-scorePc.width / 2, -textHeight / 2));
 
     canvas.rotate(pi * 4 / 3);
-
     double degreeCount = 8;
     mPaint.strokeWidth = 2;
     for (int i = 0; i <= degreeCount; i++) {
-      canvas.drawLine(Offset(0, -size.height / 2 + 8),
-          Offset(0, -size.height / 2 + 14), mPaint);
-
-      String text = (i * 500).toString();
+      // 刻度线
+      canvas.drawLine(Offset(0, -size.height / 2 + centerRingWidth / 2 + 2),
+          Offset(0, -size.height / 2 + centerRingWidth + 3), mPaint);
+      String text = (i).toString();
       ui.ParagraphBuilder pb = ui.ParagraphBuilder(ui.ParagraphStyle(
         textAlign: TextAlign.center,
         fontStyle: FontStyle.normal,
@@ -64,9 +91,10 @@ class CircleDegreeRing extends CustomPainter {
           color: Colors.white,
         ))
         ..addText(text);
-      ui.ParagraphConstraints pc = ui.ParagraphConstraints(width: 30);
+      ui.ParagraphConstraints pc = ui.ParagraphConstraints(width: 10);
       ui.Paragraph paragraph = pb.build()..layout(pc);
-      canvas.drawParagraph(paragraph, new Offset(0, -size.height / 2 + 22));
+      canvas.drawParagraph(
+          paragraph, new Offset(0, -size.height / 2 + centerRingWidth * 2));
       canvas.rotate(sweepAngle / degreeCount);
     }
     canvas.restore();

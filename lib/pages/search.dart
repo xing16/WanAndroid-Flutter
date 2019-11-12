@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/item_creator.dart';
+import 'package:wanandroid_flutter/widgets/painter.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -23,10 +24,12 @@ class SearchPageState extends State<SearchPage> {
         Color(0xfffa5650),
         title: "搜索",
       ),
-      body: Column(
-        children: <Widget>[
-          Image.asset("images/avatar.jpeg"),
-        ],
+      body: Container(
+        color: Colors.amber,
+        child: CustomPaint(
+          size: Size(220, 220),
+          painter: MyPointer(),
+        ),
       ),
     );
   }
