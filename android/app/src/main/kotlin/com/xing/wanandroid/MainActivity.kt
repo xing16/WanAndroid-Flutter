@@ -1,4 +1,4 @@
-package com.example.wanandroid_flutter
+package com.xing.wanandroid
 
 import android.os.Bundle
 
