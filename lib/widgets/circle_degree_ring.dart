@@ -52,27 +52,52 @@ class CircleDegreeRing extends CustomPainter {
         false,
         mPaint);
 
-    ui.ParagraphBuilder scorePb = new ui.ParagraphBuilder(ui.ParagraphStyle(
-      textAlign: TextAlign.left,
-    ))
-      ..pushStyle(ui.TextStyle(
-        color: Colors.white,
-        fontSize: 36,
-        fontWeight: FontWeight.normal,
-        textBaseline: TextBaseline.alphabetic,
-      ))
-      ..addText("0099")
-      ..pushStyle(ui.TextStyle(
-        fontSize: 20,
-        textBaseline: TextBaseline.alphabetic,
-      ))
-      ..addText("分");
+    TextPainter textPainter = new TextPainter(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "1001",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 36,
+            ),
+          ),
+          TextSpan(
+            text: "分",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+      maxLines: 1,
+    );
+    textPainter.layout();
+    textPainter.paint(
+        canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
 
-    ui.ParagraphConstraints scorePc = ui.ParagraphConstraints(width: 120);
-    ui.Paragraph scoreParagraph = scorePb.build()..layout(scorePc);
-    var textHeight = scoreParagraph.height;
-    canvas.drawParagraph(
-        scoreParagraph, new Offset(-scorePc.width / 2, -textHeight / 2));
+    textPainter = new TextPainter(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "3 级",
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 22,
+            ),
+          ),
+        ],
+      ),
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+      maxLines: 1,
+    );
+    textPainter.layout();
+    textPainter.paint(
+        canvas, Offset(-textPainter.width / 2, textPainter.height / 2));
 
     canvas.rotate(pi * 4 / 3);
     double degreeCount = 8;
@@ -81,20 +106,31 @@ class CircleDegreeRing extends CustomPainter {
       // 刻度线
       canvas.drawLine(Offset(0, -size.height / 2 + centerRingWidth / 2 + 2),
           Offset(0, -size.height / 2 + centerRingWidth + 3), mPaint);
-      String text = (i).toString();
-      ui.ParagraphBuilder pb = ui.ParagraphBuilder(ui.ParagraphStyle(
+      String text = (i * 5).toString();
+      Path path = new Path();
+
+      canvas.drawPath(path, mPaint);
+
+      textPainter = new TextPainter(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: text,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        textDirection: TextDirection.ltr,
         textAlign: TextAlign.center,
-        fontStyle: FontStyle.normal,
-        fontSize: 12,
-      ))
-        ..pushStyle(ui.TextStyle(
-          color: Colors.white,
-        ))
-        ..addText(text);
-      ui.ParagraphConstraints pc = ui.ParagraphConstraints(width: 10);
-      ui.Paragraph paragraph = pb.build()..layout(pc);
-      canvas.drawParagraph(
-          paragraph, new Offset(0, -size.height / 2 + centerRingWidth * 2));
+        maxLines: 1,
+      );
+      textPainter.layout();
+      textPainter.paint(
+          canvas, new Offset(0, -size.height / 2 + centerRingWidth * 2));
+
       canvas.rotate(sweepAngle / degreeCount);
     }
     canvas.restore();

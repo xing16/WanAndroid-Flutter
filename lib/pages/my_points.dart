@@ -68,7 +68,7 @@ class MyPointsPageState extends State<MyPointsPage>
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 620,
+          height: 340,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -89,7 +89,7 @@ class MyPointsPageState extends State<MyPointsPage>
 
         Container(
           child: CustomPaint(
-            size: Size(220, 220),
+            size: Size(180, 200),
             painter: CircleDegreeRing(ownPointsCount / 2000 * 100),
           ),
         ),
@@ -99,10 +99,10 @@ class MyPointsPageState extends State<MyPointsPage>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              getTopItem(160, pointsList[0].username, pointsList[0].coinCount,
+              getTopItem(150, pointsList[0].username, pointsList[0].coinCount,
                   1, AssetImage("images/avatar.jpeg")),
               getTopItem(
-                  170,
+                  150,
                   pointsList[1].username,
                   pointsList[1].coinCount,
                   0,
