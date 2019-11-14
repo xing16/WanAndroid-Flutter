@@ -68,7 +68,7 @@ class MyPointsPageState extends State<MyPointsPage>
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 340,
+          height: 940,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -89,7 +89,7 @@ class MyPointsPageState extends State<MyPointsPage>
 
         Container(
           child: CustomPaint(
-            size: Size(180, 200),
+            size: Size(200, 360),
             painter: CircleDegreeRing(ownPointsCount / 2000 * 100),
           ),
         ),
@@ -153,7 +153,7 @@ class MyPointsPageState extends State<MyPointsPage>
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                pointsList[index].level?.toString() + "级",
+                "${pointsList[index]?.level?.toString()}级",
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -183,7 +183,7 @@ class MyPointsPageState extends State<MyPointsPage>
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                pointsList[index].coinCount?.toString(),
+                "${pointsList[index].coinCount?.toString()} 分",
                 style: TextStyle(
                   fontSize: 18,
                 ),

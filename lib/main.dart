@@ -154,7 +154,10 @@ class MainPageState extends State<MainPage> {
 
   createNavigationBarItem(BuildContext context, String content, Icon icon) {
     return BottomNavigationBarItem(
-      title: new Text(content),
+      title: new Text(
+        content,
+        style: TextStyle(fontSize: 12),
+      ),
       icon: icon,
       backgroundColor: Theme.of(context).backgroundColor,
     );
