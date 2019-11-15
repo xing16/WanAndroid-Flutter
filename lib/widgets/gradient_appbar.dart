@@ -27,7 +27,7 @@ class GradientAppBar {
       ),
       preferredSize: Size(
         MediaQuery.of(context).size.width,
-        55,
+        50,
       ),
     );
   }

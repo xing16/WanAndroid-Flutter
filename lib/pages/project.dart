@@ -43,8 +43,12 @@ class ProjectPageState extends State<ProjectPage>
               children: <Widget>[
                 Expanded(
                   child: TabBar(
-                    labelPadding: EdgeInsets.all(14),
-                    indicatorPadding: EdgeInsets.all(0),
+                    labelPadding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      bottom: 5,
+                    ),
+//                    indicatorPadding: EdgeInsets.all(0),
                     // 选中颜色
                     labelColor: Colors.white,
                     // 选中样式
@@ -90,7 +94,7 @@ class ProjectPageState extends State<ProjectPage>
         ),
         preferredSize: Size(
           MediaQuery.of(context).size.width,
-          55,
+          50,
         ),
       ),
       body: TabBarView(

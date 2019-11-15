@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -9,6 +11,7 @@ import 'package:wanandroid_flutter/models/home_banner.dart';
 import 'package:wanandroid_flutter/pages/search.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/utils/screen_utils.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -76,7 +79,7 @@ class HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(
                   top: 30,
                 ),
-                height: 80,
+                height: ScreenUtils.getStatusBarHeight() + 50,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,

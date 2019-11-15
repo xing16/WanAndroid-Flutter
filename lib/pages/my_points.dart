@@ -89,8 +89,8 @@ class MyPointsPageState extends State<MyPointsPage>
 
         Container(
           child: CustomPaint(
-            size: Size(200, 360),
-            painter: CircleDegreeRing(ownPointsCount / 2000 * 100),
+            size: Size(300, 360),
+            painter: CircleDegreeRing(20),
           ),
         ),
         Positioned(

@@ -15,10 +15,12 @@ class CircleDegreeRing extends CustomPainter {
 
   double startAngle = 5 * pi / 6;
   double sweepAngle = 4 * pi / 3; // 240度
-  double progress = 30;
+  double progress;
   double gap = 2;
-  double centerRingWidth = 12;
+  double centerRingWidth = 16;
   TextPainter textPainter;
+
+  Offset pointOffset;
 
   CircleDegreeRing(this.progress);
 
@@ -28,18 +30,26 @@ class CircleDegreeRing extends CustomPainter {
     double percent = progress / 100;
     // 绘制半径 = (宽高最小值 - strokeWidth) / 2
     double radius = min(size.width, size.height) / 2 - mPaint.strokeWidth / 2;
-
     canvas.save();
     // 平移到中心
     canvas.translate(size.width / 2, size.height / 2);
-    mPaint.color = Colors.white;
-    mPaint.strokeWidth = 3;
 
-    double pointAngle = percent * sweepAngle;
-    canvas.drawPoints(
-        ui.PointMode.points, [new Offset(pointAngle * si, dy)], mPaint);
+    // 绘制圆点
+    mPaint.style = PaintingStyle.fill;
+    mPaint.color = Colors.white24;
+    pointOffset = new Offset(
+        cos(1 / 2 * pi + sweepAngle / 2 - sweepAngle * percent) * radius,
+        -sin(1 / 2 * pi + sweepAngle / 2 - sweepAngle * percent) * radius);
+    canvas.drawCircle(pointOffset, 8, mPaint);
+    mPaint.color = Colors.white38;
+    canvas.drawCircle(pointOffset, 6, mPaint);
+    mPaint.color = Colors.white;
+    canvas.drawCircle(pointOffset, 3, mPaint);
 
     // 已达到的刻度
+    mPaint.color = Colors.white;
+    mPaint.style = PaintingStyle.stroke;
+    mPaint.strokeWidth = 3;
     canvas.drawArc(Rect.fromCircle(center: Offset(0, 0), radius: radius),
         startAngle, sweepAngle * percent, false, mPaint);
     // 未达到的刻度
@@ -60,6 +70,14 @@ class CircleDegreeRing extends CustomPainter {
         sweepAngle,
         false,
         mPaint);
+    mPaint.strokeWidth = 2;
+    canvas.drawArc(
+        Rect.fromCircle(
+            center: Offset(0, 0), radius: radius - centerRingWidth * 3 / 2 - 4),
+        startAngle,
+        sweepAngle,
+        false,
+        mPaint);
 
     // 绘制中间分数
     textPainter = new TextPainter(
@@ -69,7 +87,7 @@ class CircleDegreeRing extends CustomPainter {
             text: "1001",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 36,
+              fontSize: 34,
             ),
           ),
           TextSpan(

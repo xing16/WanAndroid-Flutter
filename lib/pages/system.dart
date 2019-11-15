@@ -55,7 +55,11 @@ class SystemPageState extends State<SystemPage>
               children: <Widget>[
                 Expanded(
                   child: TabBar(
-                    labelPadding: EdgeInsets.all(14),
+                    labelPadding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      bottom: 5,
+                    ),
                     indicatorPadding: EdgeInsets.all(0),
                     // 选中颜色
                     labelColor: Colors.white,
@@ -102,7 +106,7 @@ class SystemPageState extends State<SystemPage>
         ),
         preferredSize: Size(
           MediaQuery.of(context).size.width,
-          55,
+          50,
         ),
       ),
       body: TabBarView(
