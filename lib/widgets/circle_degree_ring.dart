@@ -1,8 +1,7 @@
-import 'dart:ui' as ui;
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 class CircleDegreeRing extends CustomPainter {
   Paint mPaint = new Paint()
@@ -26,7 +25,6 @@ class CircleDegreeRing extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    print("size = $size");
     double percent = progress / 100;
     // 绘制半径 = (宽高最小值 - strokeWidth) / 2
     double radius = min(size.width, size.height) / 2 - mPaint.strokeWidth / 2;
@@ -40,9 +38,9 @@ class CircleDegreeRing extends CustomPainter {
     pointOffset = new Offset(
         cos(1 / 2 * pi + sweepAngle / 2 - sweepAngle * percent) * radius,
         -sin(1 / 2 * pi + sweepAngle / 2 - sweepAngle * percent) * radius);
-    canvas.drawCircle(pointOffset, 8, mPaint);
+    canvas.drawCircle(pointOffset, 12, mPaint);
     mPaint.color = Colors.white38;
-    canvas.drawCircle(pointOffset, 6, mPaint);
+    canvas.drawCircle(pointOffset, 8, mPaint);
     mPaint.color = Colors.white;
     canvas.drawCircle(pointOffset, 3, mPaint);
 
@@ -63,7 +61,9 @@ class CircleDegreeRing extends CustomPainter {
         mPaint);
 
     // 绘制中间圆环
+    // 以达到刻度
     mPaint.strokeWidth = centerRingWidth;
+    mPaint.color = Colors.white54;
     canvas.drawArc(
         Rect.fromCircle(center: Offset(0, 0), radius: radius - centerRingWidth),
         startAngle,
@@ -167,7 +167,7 @@ class CircleDegreeRing extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 
   String getTipString(int coinCount) {

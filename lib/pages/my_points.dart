@@ -6,6 +6,7 @@ import 'package:wanandroid_flutter/models/own_points.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/circle_degree_ring.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
+import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class MyPointsPage extends StatefulWidget {
   @override
@@ -16,20 +17,28 @@ class MyPointsPage extends StatefulWidget {
 
 class MyPointsPageState extends State<MyPointsPage>
     with TickerProviderStateMixin {
+  AnimationController animationController;
+  Animation<double> animation;
+  int ownPointsCount = 600;
   double screenWidth = 0;
   List<UserPoints> pointsList = new List();
   int curPage = 0;
-  AnimationController animationController;
-  int ownPointsCount = 600;
 
   @override
   void initState() {
     super.initState();
     animationController = new AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
-    animationController.forward();
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    animation = new Tween(begin: 0.0, end: 100.0).animate(animationController)
+      ..addListener(() {
+        setState(() {});
+      });
     loadPointsRanking(curPage);
     loadOwnPoint();
+  }
+
+  startAnimation() {
+    animationController?.forward();
   }
 
   @override
@@ -43,13 +52,14 @@ class MyPointsPageState extends State<MyPointsPage>
         Color(0xfffa5650),
         title: "积分",
       ),
-      body: ListView.separated(
-        physics: PageScrollPhysics(),
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return getHeader();
-          }
-          return getItem(context, index + 2);
+      body: HeaderListView(
+        pointsList,
+        headerList: [1],
+        headerBuilder: (BuildContext context, int position) {
+          return getHeader();
+        },
+        itemBuilder: (BuildContext context, int position) {
+          return getItem(context, position);
         },
         separatorBuilder: (context, index) {
           return Divider(
@@ -58,9 +68,32 @@ class MyPointsPageState extends State<MyPointsPage>
             height: 0,
           );
         },
-        itemCount: pointsList.length,
       ),
+
+//      body: ListView.separated(
+//        physics: PageScrollPhysics(),
+//        itemBuilder: (context, index) {
+//          if (index == 0) {
+//            return getHeader();
+//          }
+//          return getItem(context, index + 2);
+//        },
+//        separatorBuilder: (context, index) {
+//          return Divider(
+//            indent: 60,
+//            endIndent: 60,
+//            height: 0,
+//          );
+//        },
+//        itemCount: pointsList.length,
+//      ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    animationController?.dispose();
   }
 
   Widget getHeader() {
@@ -68,7 +101,7 @@ class MyPointsPageState extends State<MyPointsPage>
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 940,
+          height: 340,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -80,18 +113,8 @@ class MyPointsPageState extends State<MyPointsPage>
             ),
           ),
         ),
-//        Image(
-//          width: 200,
-//          alignment: Alignment.topCenter,
-//          fit: BoxFit.contain,
-//          image: AssetImage("images/trophy.png"),
-//        ),
-
-        Container(
-          child: CustomPaint(
-            size: Size(300, 360),
-            painter: CircleDegreeRing(20),
-          ),
+        AnimationCirclePointsWidget(
+          animation: animation,
         ),
         Positioned(
           bottom: 0,
@@ -263,17 +286,12 @@ class MyPointsPageState extends State<MyPointsPage>
   void loadPointsRanking(int page) {
     HttpClient.getInstance().get(Api.POINTS_RANK, data: {"page": page},
         callback: (data) {
+      startAnimation();
       MyPoints myPoints = MyPoints.fromJson(data);
       setState(() {
         pointsList = myPoints?.datas;
       });
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    animationController?.dispose();
   }
 
   /// 获取自己的积分
@@ -284,5 +302,22 @@ class MyPointsPageState extends State<MyPointsPage>
         ownPointsCount = ownPoints?.coinCount;
       });
     });
+  }
+}
+
+class AnimationCirclePointsWidget extends AnimatedWidget {
+  final Animation<double> animation;
+
+  AnimationCirclePointsWidget({Key key, this.animation})
+      : super(key: key, listenable: animation);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: CustomPaint(
+        size: Size(220, 220),
+        painter: CircleDegreeRing(animation.value),
+      ),
+    );
   }
 }

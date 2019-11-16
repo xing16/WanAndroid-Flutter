@@ -7,7 +7,8 @@ class Colours {
   static const Color appText = Color(0xff222222);
   static const Color appBackground = Color(0xfff5f5f5);
   static const Color app = Color(0xffffffff);
-  static const Color appDivider = Color(0xffe5e5e5);
+//  static const Color appDivider = Color(0xffe0e0e0);
+  static const Color appDivider = Color(0xff666666);
 
   /// -------- dark mode color ----------- ///
   static const Color darkAppBackground = Color(0xff282828);

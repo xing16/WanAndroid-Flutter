@@ -12,6 +12,7 @@ import 'package:wanandroid_flutter/pages/search.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
+import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -55,22 +56,23 @@ class HomePageState extends State<HomePage> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return getHomeHeader();
-                  }
-                  return getHomePageItem(context, index - 1);
+              child: HeaderListView(
+                articles,
+                headerList: [1],
+                headerBuilder: (BuildContext context, int position) {
+                  return getHomeHeader();
+                },
+                itemBuilder: (BuildContext context, int position) {
+                  return getHomePageItem(context, position);
                 },
                 separatorBuilder: (context, index) {
                   return Divider(
                     indent: 12,
                     endIndent: 12,
-                    height: 0.5,
+                    height: 1,
                   );
                 },
                 controller: mController,
-                itemCount: articles.length,
               ),
             ),
             Opacity(

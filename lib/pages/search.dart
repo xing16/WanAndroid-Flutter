@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
-import 'package:wanandroid_flutter/widgets/item_creator.dart';
 import 'package:wanandroid_flutter/widgets/painter.dart';
 
 class SearchPage extends StatefulWidget {
