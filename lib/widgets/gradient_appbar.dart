@@ -8,6 +8,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget title;
   final bool centerTitle;
   final List<Widget> actions;
+  final Brightness brightness;
 
   GradientAppBar({
     Key key,
@@ -17,6 +18,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.title,
     this.centerTitle = false,
     this.actions,
+    this.brightness = Brightness.dark,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class GradientAppBarState extends State<GradientAppBar> {
         children: <Widget>[
           Container(
             child: AppBar(
+              brightness: widget.brightness,
               leading: widget.leading,
               titleSpacing: 0,
               title: widget.title,

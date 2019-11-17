@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/pages/register.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,11 +14,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).backgroundColor,
-        centerTitle: true,
+      appBar: GradientAppBar(
         leading: IconButton(
           icon: Icon(
             Icons.close,
@@ -28,6 +25,11 @@ class LoginPageState extends State<LoginPage> {
             Navigator.pop(context);
           },
         ),
+        colors: [
+          Colors.transparent,
+          Colors.transparent,
+        ],
+        brightness: Brightness.light,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -53,9 +55,20 @@ class LoginPageState extends State<LoginPage> {
                     color: Colors.black87,
                   ),
                   decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.black38,
+                      ),
+                    ),
                     hintText: "请输入用户名",
-                    prefixIcon: Icon(Icons.person),
+                    prefixIcon: Icon(
+                      Icons.person,
+                    ),
                     prefixStyle: TextStyle(
+                      color: Colors.black87,
+                    ),
+                    suffixIcon: Icon(
+                      Icons.close,
                       color: Colors.black87,
                     ),
                   ),

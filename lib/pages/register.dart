@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/widgets/beizier_path_painter.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -23,10 +24,12 @@ class RegisterPageState extends State<RegisterPage> {
           Color(0xfffa5650),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Image.asset("images/avatar.jpeg"),
-        ],
+      body: Container(
+//        color: Colors.cyan,
+        child: CustomPaint(
+          size: Size(screenWidth, 220),
+          painter: BezierPathPainter(),
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/system_article.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/widgets/article_item.dart';
 
 class SystemSquarePage extends StatefulWidget {
   @override
@@ -25,6 +26,7 @@ class SystemSquarePageState extends State<SystemSquarePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListView.separated(
       itemBuilder: (context, index) {
         return getSystemSquareItem(index);
@@ -44,55 +46,21 @@ class SystemSquarePageState extends State<SystemSquarePage>
   }
 
   getSystemSquareItem(int index) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        onItemClick(index);
+    Article article = articleList[index];
+    return ArticleItem(
+      article.title,
+      article.niceDate,
+      article.shareUser,
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => WebViewPage(
+              url: article.link,
+            ),
+          ),
+        );
       },
-      child: Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              articleList[index].title,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 10,
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      articleList[index].niceDate,
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: Text(
-                      articleList[index].shareUser,
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

@@ -14,18 +14,21 @@ class CircleDegreeRing extends CustomPainter {
 
   double startAngle = 5 * pi / 6;
   double sweepAngle = 4 * pi / 3; // 240度
-  double progress;
+  double percent;
   double gap = 2;
   double centerRingWidth = 16;
   TextPainter textPainter;
+  int curPoints;
+  int maxPoints;
 
   Offset pointOffset;
 
-  CircleDegreeRing(this.progress);
+  CircleDegreeRing(this.curPoints, this.maxPoints) {
+    percent = curPoints / maxPoints > 1 ? 1 : curPoints / maxPoints;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    double percent = progress / 100;
     // 绘制半径 = (宽高最小值 - strokeWidth) / 2
     double radius = min(size.width, size.height) / 2 - mPaint.strokeWidth / 2;
     canvas.save();
@@ -84,7 +87,7 @@ class CircleDegreeRing extends CustomPainter {
       text: TextSpan(
         children: [
           TextSpan(
-            text: "1001",
+            text: curPoints.toString(),
             style: TextStyle(
               color: Colors.white,
               fontSize: 34,
@@ -112,7 +115,7 @@ class CircleDegreeRing extends CustomPainter {
       text: TextSpan(
         children: [
           TextSpan(
-            text: getTipString(100),
+            text: getTipString(curPoints),
             style: TextStyle(
               color: Colors.white70,
               fontSize: 22,
@@ -171,9 +174,9 @@ class CircleDegreeRing extends CustomPainter {
   }
 
   String getTipString(int coinCount) {
-    if (coinCount > 4000) {
+    if (coinCount >= 4000) {
       return "棒极";
-    } else if (coinCount > 3000) {
+    } else if (coinCount >= 3000) {
       return "厉害";
     }
     return "加油";

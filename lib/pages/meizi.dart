@@ -51,7 +51,7 @@ class MeiziPageState extends State<MeiziPage> {
           scrollDirection: Axis.vertical,
           // 纵轴方向被划分的个数
           crossAxisCount: 2,
-          itemCount: 20,
+          itemCount: meizis.length,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
           staggeredTileBuilder: (index) {
@@ -82,7 +82,6 @@ class MeiziPageState extends State<MeiziPage> {
   void loadMeizi(int pageSize, int page) {
     HttpClient.getInstance().get(Api.GANK_MEIZI,
         data: {"pageSize": pageSize, "page": page}, callback: (data) {
-      print("meizi ------- $data");
       if (data is List) {
         setState(() {
           meizis = data.map((map) => Meizi.fromJson(map)).toList();

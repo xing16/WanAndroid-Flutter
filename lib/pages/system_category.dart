@@ -33,6 +33,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     screenWidth = MediaQuery.of(context).size.width;
     return Container(
       child: Row(

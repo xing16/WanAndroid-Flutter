@@ -19,7 +19,8 @@ class MyPointsPageState extends State<MyPointsPage>
     with TickerProviderStateMixin {
   AnimationController animationController;
   Animation<double> animation;
-  int ownPointsCount = 600;
+  double ownPointsCount = 6000;
+  int maxPointsCount = 4000;
   double screenWidth = 0;
   List<UserPoints> pointsList = new List();
   int curPage = 0;
@@ -28,11 +29,12 @@ class MyPointsPageState extends State<MyPointsPage>
   void initState() {
     super.initState();
     animationController = new AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
-    animation = new Tween(begin: 0.0, end: 100.0).animate(animationController)
-      ..addListener(() {
+        duration: const Duration(milliseconds: 800), vsync: this);
+    animation =
+        new Tween(begin: 0.0, end: ownPointsCount).animate(animationController)
+          ..addListener(() {
 //        setState(() {});
-      });
+          });
     loadPointsRanking(curPage);
     loadOwnPoint();
   }
@@ -96,9 +98,7 @@ class MyPointsPageState extends State<MyPointsPage>
             ),
           ),
         ),
-        AnimationCirclePointsWidget(
-          animation: animation,
-        ),
+        AnimationCirclePointsWidget(maxPointsCount, animation),
         Positioned(
           bottom: 0,
           child: Row(
@@ -303,7 +303,7 @@ class MyPointsPageState extends State<MyPointsPage>
     HttpClient.getInstance().get(Api.POINTS_OWN, callback: (data) {
       OwnPoints ownPoints = OwnPoints.fromJson(data);
       setState(() {
-        ownPointsCount = ownPoints?.coinCount;
+        ownPointsCount = ownPoints?.coinCount?.toDouble();
       });
     });
   }
@@ -311,8 +311,9 @@ class MyPointsPageState extends State<MyPointsPage>
 
 class AnimationCirclePointsWidget extends AnimatedWidget {
   final Animation<double> animation;
+  final int maxPointsCount;
 
-  AnimationCirclePointsWidget({Key key, this.animation})
+  AnimationCirclePointsWidget(this.maxPointsCount, this.animation, {Key key})
       : super(key: key, listenable: animation);
 
   @override
@@ -320,7 +321,7 @@ class AnimationCirclePointsWidget extends AnimatedWidget {
     return Container(
       child: CustomPaint(
         size: Size(220, 220),
-        painter: CircleDegreeRing(animation.value),
+        painter: CircleDegreeRing(animation.value.toInt(), maxPointsCount),
       ),
     );
   }
