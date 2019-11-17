@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
-import 'package:wanandroid_flutter/models/project_article.dart';
 import 'package:wanandroid_flutter/models/project_tab.dart';
+import 'package:wanandroid_flutter/pages/project_list.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -107,92 +107,9 @@ class ProjectPageState extends State<ProjectPage>
   List<Widget> createTabPage() {
     List<Widget> widgets = new List();
     for (var projectTab in tabList) {
-      widgets.add(getProjectListView(projectTab.id));
+      widgets.add(ProjectListPage(projectTab.id));
     }
     return widgets;
-  }
-
-  /// 创建 ListView
-  getProjectListView(int tabId) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return getProjectListItem(tabId, index);
-      },
-      separatorBuilder: (context, index) {
-        return Divider(
-          indent: 12,
-          endIndent: 12,
-          height: 0.5,
-        );
-      },
-      itemCount: articleList.length,
-    );
-  }
-
-  /// ListView item
-  getProjectListItem(int tabId, int position) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      child: Row(
-        children: <Widget>[
-          FadeInImage.assetNetwork(
-            placeholder: "images/placeholder.png",
-            width: 90,
-            height: 66,
-            image: articleList[position].envelopePic,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            height: 66,
-            width: screenWidth - 124,
-            margin: EdgeInsets.only(
-              left: 10,
-            ),
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          child: Text(
-                            articleList[position].title,
-                            maxLines: 2,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          articleList[position].author,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: 20,
-                        ),
-                        child: Text(articleList[position].niceDate),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -208,11 +125,11 @@ class ProjectPageState extends State<ProjectPage>
     HttpClient.getInstance().get(Api.PROJECT_TABS, callback: (data) {
       if (data is List) {
         if (mounted) {
+          for (var value in data) {
+            ProjectTab tab = ProjectTab.fromJson(value);
+            tabList.add(tab);
+          }
           setState(() {
-            for (var value in data) {
-              ProjectTab tab = ProjectTab.fromJson(value);
-              tabList.add(tab);
-            }
             mController = TabController(
               length: tabList.length,
               vsync: this,
@@ -220,17 +137,6 @@ class ProjectPageState extends State<ProjectPage>
           });
         }
       }
-    });
-  }
-
-  /// 请求 tab 下的列表
-  void loadProjectsList(int tabId, int page) {
-    HttpClient.getInstance().get(Api.PROJECT_LIST,
-        data: {"page": page, "cid": tabId}, callback: (data) {
-      ProjectArticle projectArticle = ProjectArticle.fromJson(data);
-      setState(() {
-        articleList = projectArticle?.datas;
-      });
     });
   }
 }

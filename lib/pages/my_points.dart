@@ -31,7 +31,7 @@ class MyPointsPageState extends State<MyPointsPage>
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = new Tween(begin: 0.0, end: 100.0).animate(animationController)
       ..addListener(() {
-        setState(() {});
+//        setState(() {});
       });
     loadPointsRanking(curPage);
     loadOwnPoint();
@@ -69,24 +69,6 @@ class MyPointsPageState extends State<MyPointsPage>
           );
         },
       ),
-
-//      body: ListView.separated(
-//        physics: PageScrollPhysics(),
-//        itemBuilder: (context, index) {
-//          if (index == 0) {
-//            return getHeader();
-//          }
-//          return getItem(context, index + 2);
-//        },
-//        separatorBuilder: (context, index) {
-//          return Divider(
-//            indent: 60,
-//            endIndent: 60,
-//            height: 0,
-//          );
-//        },
-//        itemCount: pointsList.length,
-//      ),
     );
   }
 
