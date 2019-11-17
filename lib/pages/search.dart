@@ -17,11 +17,16 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "搜索",
+      appBar: GradientAppBar(
+        title: Text("搜索"),
+        centerTitle: true,
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
+        actions: <Widget>[
+          Icon(Icons.search),
+        ],
       ),
       body: Container(
         color: Colors.amber,

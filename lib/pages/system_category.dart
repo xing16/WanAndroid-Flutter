@@ -12,7 +12,8 @@ class SystemCategoryPage extends StatefulWidget {
   }
 }
 
-class SystemCategoryPageState extends State<SystemCategoryPage> {
+class SystemCategoryPageState extends State<SystemCategoryPage>
+    with AutomaticKeepAliveClientMixin {
   double screenWidth = 0;
   double leftMenuWidth = 100;
   double leftMenuRightMargin = 8;
@@ -190,4 +191,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage> {
       }
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

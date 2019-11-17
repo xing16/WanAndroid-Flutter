@@ -20,11 +20,12 @@ class SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "设置",
+      appBar: GradientAppBar(
+        title: Text("设置"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: Column(
         children: <Widget>[

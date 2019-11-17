@@ -18,7 +18,8 @@ class MeiziPage extends StatefulWidget {
 
 class MeiziPageState extends State<MeiziPage> {
   double screenWidth = 0;
-  ScrollController mScroller = new ScrollController();
+  ScrollController mScroller;
+
   List<Meizi> meizis = new List();
   int pageSize = 20;
   int curPage = 1;
@@ -26,6 +27,7 @@ class MeiziPageState extends State<MeiziPage> {
   @override
   void initState() {
     super.initState();
+    mScroller = new ScrollController();
     loadMeizi(pageSize, curPage);
     mScroller.addListener(() {});
   }
@@ -34,11 +36,12 @@ class MeiziPageState extends State<MeiziPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "妹子",
+      appBar: GradientAppBar(
+        title: Text("妹子"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: Container(
         child: StaggeredGridView.countBuilder(

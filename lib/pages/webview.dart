@@ -26,23 +26,24 @@ class WebViewPageState extends State<WebViewPage> {
       ..add({"title": "复制链接", "icon": Icons.link})
       ..add({"title": "浏览器打开", "icon": Icons.open_in_browser})
       ..add({"title": "微信分享", "icon": Icons.share})
-      ..add({"title": "微信分享", "icon": Icons.star});
+      ..add({"title": "刷新", "icon": Icons.refresh});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "详情",
+      appBar: GradientAppBar(
+        title: Text("详情"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
         actions: <Widget>[
           GestureDetector(
             onTap: () {
               // 显示底部弹框
-              _showBottomSheet(context);
+              showBottomSheet(context);
             },
             child: Container(
               padding: EdgeInsets.only(
@@ -71,7 +72,7 @@ class WebViewPageState extends State<WebViewPage> {
     );
   }
 
-  _showBottomSheet(BuildContext context) {
+  showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -84,12 +85,12 @@ class WebViewPageState extends State<WebViewPage> {
               crossAxisCount: 4,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              childAspectRatio: 0.7,
+              childAspectRatio: 0.8,
             ),
             itemBuilder: (BuildContext context, int index) {
               return createBottomSheetItem(
                   list[index]['title'], list[index]['icon'], (index) {
-                handleBottomSheetItemClick(index);
+                handleBottomSheetItemClick(context, index);
               });
             },
             itemCount: list.length,
@@ -101,6 +102,9 @@ class WebViewPageState extends State<WebViewPage> {
 
   createBottomSheetItem(String title, IconData icon, Function onClick) {
     return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
       child: Column(
         children: <Widget>[
           Container(
@@ -116,7 +120,7 @@ class WebViewPageState extends State<WebViewPage> {
             child: Icon(
               icon,
               color: Colours.appThemeColor,
-              size: 40,
+              size: 32,
             ),
           ),
           Text(
@@ -131,5 +135,33 @@ class WebViewPageState extends State<WebViewPage> {
     );
   }
 
-  void handleBottomSheetItemClick(index) {}
+  void handleBottomSheetItemClick(context, index) {
+    switch (index) {
+      case 0:
+        addArticleFavorite();
+        break;
+      case 1:
+        copyLink();
+        break;
+      case 2:
+        openByBrowser();
+        break;
+      case 3:
+        shareWeChat();
+        break;
+      case 4:
+        refresh();
+        break;
+    }
+  }
+
+  void addArticleFavorite() {}
+
+  void copyLink() {}
+
+  void openByBrowser() {}
+
+  void shareWeChat() {}
+
+  void refresh() {}
 }

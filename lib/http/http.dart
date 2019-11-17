@@ -9,10 +9,8 @@ class HttpClient {
   static const String POST = "POST";
   Dio dio;
 
-  /// 定义私有变量
-  static HttpClient _client;
-
-  HttpClient() {
+  /// 私有构造函数
+  HttpClient._internal() {
     dio = new Dio();
     dio.options.baseUrl = Api.BASE_URL;
     dio.options.connectTimeout = 10 * 1000;
@@ -20,10 +18,12 @@ class HttpClient {
     dio.options.receiveTimeout = 10 * 1000;
   }
 
+  /// 保存单例对象
+  static HttpClient _client = new HttpClient._internal();
+
+  factory HttpClient() => _client;
+
   static HttpClient getInstance() {
-    if (_client == null) {
-      _client = new HttpClient();
-    }
     return _client;
   }
 

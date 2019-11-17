@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/pages/favorite.dart';
 import 'package:wanandroid_flutter/pages/meizi.dart';
@@ -47,12 +48,13 @@ class MinePageState extends State<MinePage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "我的",
+      appBar: GradientAppBar(
+        title: Text("我的"),
         centerTitle: true,
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: Container(
         child: CustomScrollView(
@@ -97,13 +99,13 @@ class MinePageState extends State<MinePage> {
                                     children: <Widget>[
                                       ClipOval(
                                         child: FadeInImage.assetNetwork(
-                                            placeholder:
-                                                "images/avatar_def.png",
-                                            image:
-                                                "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35",
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.cover),
+                                          placeholder: "images/avatar_def.png",
+                                          image:
+                                              "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35",
+                                          width: 80,
+                                          height: 80,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(

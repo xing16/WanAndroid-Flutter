@@ -12,7 +12,8 @@ class SystemSquarePage extends StatefulWidget {
   }
 }
 
-class SystemSquarePageState extends State<SystemSquarePage> {
+class SystemSquarePageState extends State<SystemSquarePage>
+    with AutomaticKeepAliveClientMixin {
   int page = 0;
   List<Article> articleList = new List();
 
@@ -116,4 +117,7 @@ class SystemSquarePageState extends State<SystemSquarePage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

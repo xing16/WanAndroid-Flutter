@@ -46,11 +46,12 @@ class MyPointsPageState extends State<MyPointsPage>
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "积分",
+      appBar: GradientAppBar(
+        title: Text("积分"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: HeaderListView(
         pointsList,
@@ -83,7 +84,7 @@ class MyPointsPageState extends State<MyPointsPage>
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 340,
+          height: 200,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -104,17 +105,17 @@ class MyPointsPageState extends State<MyPointsPage>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              getTopItem(150, pointsList[0].username, pointsList[0].coinCount,
-                  1, AssetImage("images/avatar.jpeg")),
-              getTopItem(
-                  150,
-                  pointsList[1].username,
-                  pointsList[1].coinCount,
-                  0,
-                  NetworkImage(
-                      "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35")),
-              getTopItem(150, pointsList[2].username, pointsList[2].coinCount,
-                  2, AssetImage("images/avatar.jpeg")),
+//              getTopItem(150, pointsList[0].username, pointsList[0].coinCount,
+//                  1, AssetImage("images/avatar.jpeg")),
+//              getTopItem(
+//                  150,
+//                  pointsList[1].username,
+//                  pointsList[1].coinCount,
+//                  0,
+//                  NetworkImage(
+//                      "https://user-gold-cdn.xitu.io/2019/1/9/168329d14a4d9f35")),
+//              getTopItem(150, pointsList[2].username, pointsList[2].coinCount,
+//                  2, AssetImage("images/avatar.jpeg")),
             ],
           ),
         ),
@@ -141,17 +142,8 @@ class MyPointsPageState extends State<MyPointsPage>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Expanded(
-            flex: 1,
-            child: Container(
-              alignment: Alignment.centerRight,
-              child: Text(
-                (index + 1).toString(),
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-                maxLines: 1,
-              ),
-            ),
+            flex: 2,
+            child: getRankNumber(index),
           ),
           Expanded(
             flex: 2,
@@ -197,6 +189,36 @@ class MyPointsPageState extends State<MyPointsPage>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget getRankNumber(int index) {
+    if (index == 0 || index == 1) {
+      return Container(
+        alignment: Alignment.center,
+        height: 22,
+        width: 22,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: index == 0 ? Colors.red : Colors.amber,
+        ),
+        child: Text(
+          (index + 1).toString(),
+          style: TextStyle(
+            fontSize: 16,
+            color: Theme.of(context).accentColor,
+          ),
+        ),
+      );
+    }
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        (index + 1).toString(),
+        style: TextStyle(
+          fontSize: 16,
+        ),
       ),
     );
   }

@@ -16,11 +16,12 @@ class AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "关于",
+      appBar: GradientAppBar(
+        title: Text("关于"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: Column(
         children: <Widget>[

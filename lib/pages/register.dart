@@ -16,11 +16,12 @@ class RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "注册",
+      appBar: GradientAppBar(
+        title: Text("注册"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: Column(
         children: <Widget>[

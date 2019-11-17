@@ -19,7 +19,7 @@ class ProjectListPage extends StatefulWidget {
 }
 
 class ProjectListPageState extends State<ProjectListPage>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   List<Article> articleList = new List();
   double screenWidth = 0;
 
@@ -31,6 +31,7 @@ class ProjectListPageState extends State<ProjectListPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     screenWidth = ScreenUtils.getScreenWidth(context);
     return ListView.separated(
       itemBuilder: (context, index) {
@@ -140,4 +141,7 @@ class ProjectListPageState extends State<ProjectListPage>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

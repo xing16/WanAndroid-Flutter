@@ -1,33 +1,58 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// 渐变色 AppBar
-class GradientAppBar {
-  static create(BuildContext context, Color startColor, Color endColor,
-      {String title, bool centerTitle = false, List<Widget> actions}) {
+class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final Widget leading;
+  final double height;
+  final List<Color> colors;
+  final Widget title;
+  final bool centerTitle;
+  final List<Widget> actions;
+
+  GradientAppBar({
+    Key key,
+    this.leading,
+    this.height = 50,
+    this.colors = const [Colors.redAccent, Colors.redAccent],
+    this.title,
+    this.centerTitle = false,
+    this.actions,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return GradientAppBarState();
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
+}
+
+class GradientAppBarState extends State<GradientAppBar> {
+  @override
+  Widget build(BuildContext context) {
     return PreferredSize(
-      child: Container(
-        child: AppBar(
-          titleSpacing: 0,
-          title: Text(title),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: centerTitle,
-          actions: actions,
-        ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              startColor,
-              endColor,
-            ],
+      child: Stack(
+        children: <Widget>[
+          Container(
+            child: AppBar(
+              leading: widget.leading,
+              titleSpacing: 0,
+              title: widget.title,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: widget.centerTitle,
+              actions: widget.actions,
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: widget.colors,
+              ),
+            ),
           ),
-        ),
-      ),
-      preferredSize: Size(
-        MediaQuery.of(context).size.width,
-        50,
+        ],
       ),
     );
   }

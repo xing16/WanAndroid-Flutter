@@ -16,11 +16,12 @@ class FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: "收藏",
+      appBar: GradientAppBar(
+        title: Text("收藏"),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: Column(
         children: <Widget>[

@@ -110,7 +110,10 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[mCurrentIndex],
+      body: IndexedStack(
+        index: mCurrentIndex,
+        children: pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedIconTheme: IconThemeData(
           color: Colours.appThemeColor,

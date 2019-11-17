@@ -33,11 +33,12 @@ class SystemArticleListPageState extends State<SystemArticleListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GradientAppBar.create(
-        context,
-        Colours.appThemeColor,
-        Color(0xfffa5650),
-        title: widget.title,
+      appBar: GradientAppBar(
+        title: Text(widget.title),
+        colors: [
+          Colours.appThemeColor,
+          Color(0xfffa5650),
+        ],
       ),
       body: ListView.separated(
         itemBuilder: (context, index) {
