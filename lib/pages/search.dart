@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/models/hot_search.dart';
+import 'package:wanandroid_flutter/pages/search_history.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
-import 'package:wanandroid_flutter/widgets/painter.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -12,6 +13,12 @@ class SearchPage extends StatefulWidget {
 
 class SearchPageState extends State<SearchPage> {
   double screenWidth = 0;
+  List<HotSearch> hotSearchList = new List();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +35,7 @@ class SearchPageState extends State<SearchPage> {
           Icon(Icons.search),
         ],
       ),
-      body: Container(
-        color: Colors.amber,
-        child: CustomPaint(
-          size: Size(220, 220),
-          painter: MyPointer(),
-        ),
-      ),
+      body: SearchHistoryPage(),
     );
   }
 }

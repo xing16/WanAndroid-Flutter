@@ -11,11 +11,11 @@ class Api {
   static const String FAVORITE_LIST = BASE_URL + "lg/collect/list/";
 
   // 搜索
-  static const String ARTICLE_SEARCH = BASE_URL + "article/query/";
+  static const String ARTICLE_SEARCH = "article/query/";
 
   // 收藏,取消收藏
   static const String FAVORITE = BASE_URL + "lg/collect/";
-  static const String UNCOLLECT_ORIGINID = BASE_URL + "lg/uncollect_originId/";
+  static const String UNCOLLECT_ORIGINID = "lg/uncollect_originId/";
 
   // 收藏列表中取消收藏
   static const String UNCOLLECT_LIST = BASE_URL + "lg/uncollect/";
@@ -33,7 +33,7 @@ class Api {
   static const String SYSTEM_ARTICLE_LIST = "article/list/:page/json?cid=:cid";
 
   // 搜索热词
-  static const String SEARCH_HOTKEY = BASE_URL + "hotkey/json";
+  static const String SEARCH_HOT = "hotkey/json";
 
   // 项目分类
   static const String PROJECT_TABS = "project/tree/json";
