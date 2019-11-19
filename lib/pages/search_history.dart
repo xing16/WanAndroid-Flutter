@@ -68,7 +68,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
               ),
               Wrap(
                 spacing: 14,
-                runSpacing: 10,
+                runSpacing: 12,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: createWrapItems(),
               ),

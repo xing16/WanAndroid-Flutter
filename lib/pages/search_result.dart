@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
+import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/widgets/article_item.dart';
 
 class SearchResultPage extends StatefulWidget {
   final String keyword;
@@ -29,7 +31,18 @@ class SearchResultPageState extends State<SearchResultPage> {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemBuilder: (context, index) {
-        return Container();
+        var article = articleList[index];
+        return ArticleItem(article.title, article.niceDate, article.shareUser,
+            () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => WebViewPage(
+                url: article.link,
+              ),
+            ),
+          );
+        });
       },
       separatorBuilder: (context, index) {
         return Divider(
@@ -42,7 +55,15 @@ class SearchResultPageState extends State<SearchResultPage> {
     );
   }
 
-  void loadSearchResult(keyword, int curPage) {
-    HttpClient.getInstance().get(Api.ARTICLE_SEARCH, callback: (data) {});
+  void loadSearchResult(keyword, int page) {
+    HttpClient.getInstance().post(Api.ARTICLE_SEARCH,
+        data: {"page": page.toString(), "k": keyword}, callback: (data) {
+      print("data ===== bnner === $data");
+      if (data is List) {
+        setState(() {
+          articleList = data.map((map) => Article.fromJson(map)).toList();
+        });
+      }
+    });
   }
 }

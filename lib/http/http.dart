@@ -40,7 +40,7 @@ class HttpClient {
       {Map<String, String> data,
       Function callback,
       Function errorCallback}) async {
-    _request(path, POST, callback, errorCallback: errorCallback);
+    _request(path, POST, callback, data: data, errorCallback: errorCallback);
   }
 
   /// 私有方法，只可本类访问
@@ -89,6 +89,7 @@ class HttpClient {
     } on DioError catch (e) {
       // 请求错误
       var message = e.message;
+      print("message = $message");
       _handleErrorCallback(errorCallback, message);
     }
   }
