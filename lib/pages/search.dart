@@ -36,7 +36,10 @@ class SearchPageState extends State<SearchPage> {
           Icon(Icons.search),
         ],
       ),
-      body: SearchResultPage("动画"),
+      body: Visibility(
+        visible: true,
+        child: SearchResultPage("动画"),
+      ),
     );
   }
 }
