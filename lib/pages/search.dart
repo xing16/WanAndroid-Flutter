@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/models/hot_search.dart';
-import 'package:wanandroid_flutter/pages/search_history.dart';
 import 'package:wanandroid_flutter/pages/search_result.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';

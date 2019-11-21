@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
@@ -56,23 +57,29 @@ class HomePageState extends State<HomePage> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: HeaderListView(
-                articles,
-                headerList: [1],
-                headerBuilder: (BuildContext context, int position) {
-                  return getHomeHeader();
+              child: EasyRefresh(
+                onRefresh: () async {},
+                onLoad: () async {
+                  loadHomeArticles(curPage);
                 },
-                itemBuilder: (BuildContext context, int position) {
-                  return getHomePageItem(context, position);
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    indent: 12,
-                    endIndent: 12,
-                    height: 1,
-                  );
-                },
-                controller: mController,
+                child: HeaderListView(
+                  articles,
+                  headerList: [1],
+                  headerBuilder: (BuildContext context, int position) {
+                    return getHomeHeader();
+                  },
+                  itemBuilder: (BuildContext context, int position) {
+                    return getHomePageItem(context, position);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      indent: 12,
+                      endIndent: 12,
+                      height: 1,
+                    );
+                  },
+                  controller: mController,
+                ),
               ),
             ),
             Opacity(
@@ -241,6 +248,7 @@ class HomePageState extends State<HomePage> {
       print("articles = $articles");
       setState(() {
         this.articles = articles;
+        curPage++;
       });
     });
   }
