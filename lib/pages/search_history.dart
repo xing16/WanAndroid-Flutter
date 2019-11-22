@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/hot_search.dart';
@@ -21,19 +20,6 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
   void initState() {
     super.initState();
     searchHistoryList
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
-      ..add("dcd")
       ..add("dcd")
       ..add("dcd")
       ..add("dcd")
@@ -154,7 +140,6 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
             ));
       });
 
-  void onSearchHotClick(String name) {
-    Fluttertoast.showToast(msg: name);
-  }
+  // 热门搜索项点击
+  void onSearchHotClick(String name) {}
 }

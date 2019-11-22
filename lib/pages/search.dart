@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/models/hot_search.dart';
-import 'package:wanandroid_flutter/pages/search_result.dart';
+import 'package:wanandroid_flutter/pages/search_history.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
@@ -25,19 +25,53 @@ class SearchPageState extends State<SearchPage> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: GradientAppBar(
-        title: Text("搜索"),
+        title: Container(
+          margin: EdgeInsets.only(
+            right: 5,
+            left: 5,
+          ),
+          child: TextField(
+            cursorColor: Colors.white,
+            decoration: InputDecoration(
+              hintText: "输入关键字搜索",
+              hintStyle: TextStyle(
+                fontSize: 16,
+                color: Colors.white38,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                ),
+              ),
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                ),
+              ),
+              suffixIcon: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            textInputAction: TextInputAction.search,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+        ),
         centerTitle: true,
         colors: [
           Colours.appThemeColor,
           Color(0xfffa5650),
         ],
-        actions: <Widget>[
-          Icon(Icons.search),
-        ],
       ),
       body: Visibility(
         visible: true,
-        child: SearchResultPage("动画"),
+        child: SearchHistoryPage(),
       ),
     );
   }
