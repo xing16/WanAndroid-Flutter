@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/hot_search.dart';
 import 'package:wanandroid_flutter/pages/search_history.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -14,6 +15,8 @@ class SearchPage extends StatefulWidget {
 class SearchPageState extends State<SearchPage> {
   double screenWidth = 0;
   List<HotSearch> hotSearchList = new List();
+  TextEditingController controller = new TextEditingController();
+  bool showClose = false;
 
   @override
   void initState() {
@@ -31,7 +34,13 @@ class SearchPageState extends State<SearchPage> {
             left: 5,
           ),
           child: TextField(
+            controller: controller,
             cursorColor: Colors.white,
+            onChanged: (String value) {
+              setState(() {
+                showClose = value.length > 0;
+              });
+            },
             decoration: InputDecoration(
               hintText: "输入关键字搜索",
               hintStyle: TextStyle(
@@ -49,10 +58,15 @@ class SearchPageState extends State<SearchPage> {
                 ),
               ),
               suffixIcon: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white,
+                onTap: () {
+                  controller.text = "";
+                },
+                child: Visibility(
+                  visible: showClose,
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -74,5 +88,10 @@ class SearchPageState extends State<SearchPage> {
         child: SearchHistoryPage(),
       ),
     );
+  }
+
+  /// 请求搜索结果
+  void loadSearchResult() {
+//    HttpClient.getInstance().get()
   }
 }

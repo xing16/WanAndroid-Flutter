@@ -57,29 +57,23 @@ class HomePageState extends State<HomePage> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: EasyRefresh(
-                onRefresh: () async {},
-                onLoad: () async {
-                  loadHomeArticles(curPage);
+              child: HeaderListView(
+                articles,
+                headerList: [1],
+                headerBuilder: (BuildContext context, int position) {
+                  return getHomeHeader();
                 },
-                child: HeaderListView(
-                  articles,
-                  headerList: [1],
-                  headerBuilder: (BuildContext context, int position) {
-                    return getHomeHeader();
-                  },
-                  itemBuilder: (BuildContext context, int position) {
-                    return getHomePageItem(context, position);
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      indent: 12,
-                      endIndent: 12,
-                      height: 1,
-                    );
-                  },
-                  controller: mController,
-                ),
+                itemBuilder: (BuildContext context, int position) {
+                  return getHomePageItem(context, position);
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    indent: 12,
+                    endIndent: 12,
+                    height: 1,
+                  );
+                },
+                controller: mController,
               ),
             ),
             Opacity(

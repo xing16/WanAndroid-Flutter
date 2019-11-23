@@ -23,10 +23,37 @@ class AboutPageState extends State<AboutPage> {
           Color(0xfffa5650),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Image.asset("images/avatar.jpeg"),
-        ],
+      body: TextField(
+        cursorColor: Colors.white,
+        onChanged: (String value) {
+          setState(() {});
+        },
+        decoration: InputDecoration(
+          hintText: "输入关键字搜索",
+          hintStyle: TextStyle(
+            fontSize: 16,
+            color: Colors.white38,
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.yellow,
+              width: 1.0,
+              style: BorderStyle.solid,
+            ),
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.yellow,
+              width: 1.0,
+              style: BorderStyle.solid,
+            ),
+          ),
+        ),
+        textInputAction: TextInputAction.search,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+        ),
       ),
     );
   }
