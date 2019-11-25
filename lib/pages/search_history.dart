@@ -55,8 +55,8 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
                 ),
               ),
               Wrap(
-                spacing: 14,
-                runSpacing: 12,
+                spacing: 10,
+                runSpacing: 0,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: createWrapItems(),
               ),
@@ -116,30 +116,10 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
 
   List<Widget> createWrapItems() =>
       List.generate(hotSearchList.length, (index) {
-        return GestureDetector(
-            onTap: () {
-              onSearchHotClick(hotSearchList[index].name);
-            },
-            child: Container(
-              height: 30,
-              padding: EdgeInsets.fromLTRB(15, 3, 15, 3),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Color(0xaadddddd),
-                border: Border.all(
-                  color: Color(0xccaaaaaa),
-                  width: 0.5,
-                ),
-                shape: BoxShape.rectangle,
-              ),
-              child: Text(
-                hotSearchList[index].name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ));
+        return ActionChip(
+          label: Text(hotSearchList[index].name),
+          onPressed: () {},
+        );
       });
 
   // 热门搜索项点击
