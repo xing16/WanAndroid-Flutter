@@ -68,6 +68,7 @@ class ProjectListPageState extends State<ProjectListPage>
       },
       child: Container(
         padding: EdgeInsets.all(12),
+        color: Theme.of(context).backgroundColor,
         child: Row(
           children: <Widget>[
             FadeInImage.assetNetwork(

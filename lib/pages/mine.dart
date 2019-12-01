@@ -238,12 +238,7 @@ class MinePageState extends State<MinePage> {
         return AlertDialog(
           title: Text(
             "主题颜色选择",
-            style: TextStyle(
-//              color: Theme.of(context).textTheme.body1,
-                ),
           ),
-//          titleTextStyle: Theme.of(context).primaryTextTheme,
-          backgroundColor: Theme.of(context).backgroundColor,
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Container(
@@ -295,12 +290,15 @@ class MinePageState extends State<MinePage> {
                   "取消",
                   style: TextStyle(
                     fontSize: 16,
+                    color: Theme.of(context).textTheme.body1.color,
                   ),
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(
+                right: 20,
+              ),
               child: FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop(themeColors[selectedIndex]);
@@ -309,7 +307,7 @@ class MinePageState extends State<MinePage> {
                   "确定",
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.red,
+                    color: Theme.of(context).textTheme.body1.color,
                   ),
                 ),
               ),

@@ -91,7 +91,7 @@ class SettingsPageState extends State<SettingsPage> {
               bottom: 40,
             ),
             child: MaterialButton(
-              elevation: 0.5,
+              elevation: 0,
               onPressed: () {
                 Navigator.push(
                   context,

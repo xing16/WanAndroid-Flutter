@@ -47,7 +47,6 @@ class MyPointsPageState extends State<MyPointsPage>
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       appBar: GradientAppBar(
         title: Text("积分"),
         colors: [
@@ -126,7 +125,7 @@ class MyPointsPageState extends State<MyPointsPage>
   Widget getItem(BuildContext context, int index) {
     print("index = $index");
     return Container(
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).backgroundColor,
       margin: EdgeInsets.only(
         left: 15,
         right: 15,

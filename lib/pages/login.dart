@@ -14,23 +14,23 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GradientAppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.close,
-            color: Colors.black87,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        colors: [
-          Colors.transparent,
-          Colors.transparent,
-        ],
-        brightness: Brightness.light,
-      ),
+//      appBar: GradientAppBar(
+//        leading: IconButton(
+//          icon: Icon(
+//            Icons.close,
+//            color: Colors.black87,
+//            size: 30,
+//          ),
+//          onPressed: () {
+//            Navigator.pop(context);
+//          },
+//        ),
+//        colors: [
+//          Colors.transparent,
+//          Colors.transparent,
+//        ],
+//        brightness: Brightness.light,
+//      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(

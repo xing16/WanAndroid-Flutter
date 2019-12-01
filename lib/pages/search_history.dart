@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/hot_search.dart';
+import 'package:wanandroid_flutter/pages/search.dart';
 import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class SearchHistoryPage extends StatefulWidget {
+  SearchPage searchPage;
+
+  SearchHistoryPage(this.searchPage);
+
   @override
   State<StatefulWidget> createState() {
     return SearchHistoryPageState();
@@ -117,8 +122,11 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
   List<Widget> createWrapItems() =>
       List.generate(hotSearchList.length, (index) {
         return ActionChip(
+          backgroundColor: Theme.of(context).accentColor,
           label: Text(hotSearchList[index].name),
-          onPressed: () {},
+          onPressed: () {
+            onSearchHotClick(hotSearchList[index].name);
+          },
         );
       });
 

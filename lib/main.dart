@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,
-      theme: getTheme(isDarkMode: false),
+      theme: getTheme(isDarkMode: true),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
@@ -41,8 +41,7 @@ class MyApp extends StatelessWidget {
       // 页面背景颜色
       scaffoldBackgroundColor:
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
-      backgroundColor:
-          isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+      backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
       // tab 指示器颜色
       indicatorColor: Colours.appThemeColor,
       accentColor: isDarkMode ? Colours.darkApp : Colours.app,
@@ -55,32 +54,40 @@ class MyApp extends StatelessWidget {
 //      brightness: isDarkMode ? Brightness.light : Brightness.dark,
       // appBar 背景颜色
       appBarTheme: AppBarTheme(
-//        color: Colours.appThemeColor,
         // 状态栏字体颜色
-        brightness: isDarkMode ? Brightness.light : Brightness.dark,
+        brightness: Brightness.dark,
       ),
       textTheme: TextTheme(
         body1: isDarkMode
             ? TextStyle(color: Colours.darkAppText)
             : TextStyle(color: Colours.appText),
-        subtitle: isDarkMode
-            ? TextStyle(color: Colors.amber)
-            : TextStyle(color: Colors.cyan),
+//        subtitle: isDarkMode
+//            ? TextStyle(color: Colors.amber)
+//            : TextStyle(color: Colors.cyan),
+
+        body2: TextStyle(color: Colors.cyan),
+        button: TextStyle(color: Colors.orange),
+        subtitle: TextStyle(color: Colors.green),
       ),
       dialogTheme: DialogTheme(
-        backgroundColor:
-            isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+        backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
         titleTextStyle: TextStyle(
           color: isDarkMode ? Colours.darkAppText : Colours.appText,
           fontSize: 20,
         ),
+        contentTextStyle: TextStyle(
+          color: Colors.yellow,
+        ),
       ),
-
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor:
             isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
       ),
       dividerColor: isDarkMode ? Colours.darkAppDivider : Colours.appDivider,
+      cursorColor: Colours.appThemeColor,
     );
   }
 }

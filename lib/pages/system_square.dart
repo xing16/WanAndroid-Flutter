@@ -32,12 +32,9 @@ class SystemSquarePageState extends State<SystemSquarePage>
         return getSystemSquareItem(index);
       },
       separatorBuilder: (context, index) {
-        return Container(
-          margin: EdgeInsets.only(
-            left: 12,
-            right: 12,
-          ),
-          color: Colors.black12,
+        return Divider(
+          indent: 12,
+          endIndent: 12,
           height: 0.5,
         );
       },

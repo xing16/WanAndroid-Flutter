@@ -70,7 +70,7 @@ class HomePageState extends State<HomePage> {
                   return Divider(
                     indent: 12,
                     endIndent: 12,
-                    height: 1,
+                    height: 0.5,
                   );
                 },
                 controller: mController,
@@ -142,6 +142,7 @@ class HomePageState extends State<HomePage> {
       },
       child: Container(
         padding: EdgeInsets.all(12),
+        color: Theme.of(context).backgroundColor,
         alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,15 +192,20 @@ class HomePageState extends State<HomePage> {
                           : articles[index].author,
                       style: TextStyle(
                         fontSize: 14,
+                        color: Colors.black54,
                       ),
                     ),
                   ),
                   Container(
                     child: Text(
                       articles[index].niceDate,
-                      style: TextStyle(),
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
                     ),
-                    margin: EdgeInsets.only(left: 20),
+                    margin: EdgeInsets.only(
+                      left: 20,
+                    ),
                   ),
                 ],
               ),

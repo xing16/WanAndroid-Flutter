@@ -84,7 +84,7 @@ class SearchPageState extends State<SearchPage> {
         ],
       ),
       body: (controller.text == null || controller.text.isEmpty)
-          ? SearchHistoryPage()
+          ? SearchHistoryPage(SearchPage())
           : SearchResultPage(controller.text),
     );
   }
