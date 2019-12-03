@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,
-      theme: getTheme(isDarkMode: true),
+      theme: getTheme(isDarkMode: false),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),

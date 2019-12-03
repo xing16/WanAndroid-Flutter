@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/pages/register.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
-import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
 class LoginPage extends StatefulWidget {
   @override

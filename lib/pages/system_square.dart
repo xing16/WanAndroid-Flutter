@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/system_article.dart';
 import 'package:wanandroid_flutter/pages/webview.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
+
+import 'favorite.dart';
 
 class SystemSquarePage extends StatefulWidget {
   @override
@@ -15,30 +18,42 @@ class SystemSquarePage extends StatefulWidget {
 
 class SystemSquarePageState extends State<SystemSquarePage>
     with AutomaticKeepAliveClientMixin {
-  int page = 0;
+  int curPage = 0;
   List<Article> articleList = new List();
+  GlobalKey<FavoritePageState> _easyRefreshKey =
+      new GlobalKey<FavoritePageState>();
 
   @override
   void initState() {
     super.initState();
-    loadSystemSquare(page);
+    loadSystemSquare(curPage);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return getSystemSquareItem(index);
+    return EasyRefresh(
+      header: ClassicalHeader(enableHapticFeedback: false),
+      key: _easyRefreshKey,
+      onRefresh: () async {
+        loadSystemSquare(0);
       },
-      separatorBuilder: (context, index) {
-        return Divider(
-          indent: 12,
-          endIndent: 12,
-          height: 0.5,
-        );
+      onLoad: () async {
+        loadSystemSquare(curPage);
       },
-      itemCount: articleList.length,
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          return getSystemSquareItem(index);
+        },
+        separatorBuilder: (context, index) {
+          return Divider(
+            indent: 12,
+            endIndent: 12,
+            height: 0.5,
+          );
+        },
+        itemCount: articleList.length,
+      ),
     );
   }
 
@@ -64,9 +79,13 @@ class SystemSquarePageState extends State<SystemSquarePage>
   void loadSystemSquare(int page) {
     HttpClient.getInstance().get(Api.SQUARE_ARTICLE, data: {"page": page},
         callback: (data) {
+      curPage = page + 1;
       SystemArticle squareArticle = SystemArticle.fromJson(data);
       var articles = squareArticle.datas;
       setState(() {
+        if (page == 0) {
+          articleList.clear();
+        }
         articleList.addAll(articles);
       });
     });
