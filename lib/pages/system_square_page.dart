@@ -4,10 +4,10 @@ import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/system_article.dart';
-import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
 
-import 'favorite.dart';
+import 'favorite_page.dart';
 
 class SystemSquarePage extends StatefulWidget {
   @override

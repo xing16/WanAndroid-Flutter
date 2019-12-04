@@ -9,8 +9,8 @@ import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
-import 'package:wanandroid_flutter/pages/search.dart';
-import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/pages/search_page.dart';
+import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
 import 'package:wanandroid_flutter/widgets/header_list_view.dart';
@@ -142,7 +142,7 @@ class HomePageState extends State<HomePage> {
       },
       child: Container(
         padding: EdgeInsets.all(12),
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).accentColor,
         alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

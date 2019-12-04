@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/pages/register.dart';
+import 'package:wanandroid_flutter/pages/register_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class LoginPage extends StatefulWidget {

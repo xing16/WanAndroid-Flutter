@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/system_category.dart';
-import 'package:wanandroid_flutter/pages/system_article_list.dart';
+import 'package:wanandroid_flutter/pages/system_article_list_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
 class SystemCategoryPage extends StatefulWidget {

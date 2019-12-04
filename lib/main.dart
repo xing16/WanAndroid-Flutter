@@ -2,15 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wanandroid_flutter/pages/home.dart';
-import 'package:wanandroid_flutter/pages/login.dart';
-import 'package:wanandroid_flutter/pages/mine.dart';
-import 'package:wanandroid_flutter/pages/project.dart';
-import 'package:wanandroid_flutter/pages/system.dart';
+import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/pages/home_page.dart';
+import 'package:wanandroid_flutter/pages/login_page.dart';
+import 'package:wanandroid_flutter/pages/mine_page.dart';
+import 'package:wanandroid_flutter/pages/project_page.dart';
+import 'package:wanandroid_flutter/pages/system_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
+import 'models/app_theme.dart';
+
 void main() {
-  runApp(MyApp());
+  runApp(new ChangeNotifierProvider(
+    create: (context) => AppTheme(),
+    child: MyApp(),
+  ));
   // 设置状态栏和 appbar 颜色一致
   if (Platform.isAndroid) {
     var systemUiOverlayStyle =
@@ -20,13 +26,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var appTheme = Provider.of<AppTheme>(context);
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,
-      theme: getTheme(isDarkMode: false),
+      theme: getTheme(isDarkMode: appTheme.isDark),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
@@ -44,18 +50,24 @@ class MyApp extends StatelessWidget {
       backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
       // tab 指示器颜色
       indicatorColor: Colours.appThemeColor,
-      accentColor: isDarkMode ? Colours.darkApp : Colours.app,
-
+      accentColor:
+          isDarkMode ? Colours.darkAppForeground : Colours.appForeground,
       // 底部菜单背景颜色
       bottomAppBarColor:
-          isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
+          isDarkMode ? Colours.darkAppForeground : Colours.appForeground,
       primaryColor: Colours.appThemeColor,
       primaryColorDark: Colours.appBackground,
 //      brightness: isDarkMode ? Brightness.light : Brightness.dark,
-      // appBar 背景颜色
+      ///  appBar theme
       appBarTheme: AppBarTheme(
         // 状态栏字体颜色
         brightness: Brightness.dark,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        actionsIconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       textTheme: TextTheme(
         body1: isDarkMode
@@ -88,6 +100,9 @@ class MyApp extends StatelessWidget {
       ),
       dividerColor: isDarkMode ? Colours.darkAppDivider : Colours.appDivider,
       cursorColor: Colours.appThemeColor,
+      bottomAppBarTheme: BottomAppBarTheme(
+        color: isDarkMode ? Colours.darkAppForeground : Colours.appForeground,
+      ),
     );
   }
 }
@@ -130,7 +145,7 @@ class MainPageState extends State<MainPage> {
 //          color: Colors.black54,
             ),
         selectedFontSize: 14,
-        elevation: 20,
+        elevation: 50,
         unselectedFontSize: 14,
         selectedItemColor: Colours.appThemeColor,
         unselectedItemColor: Color(0xff555555),
@@ -170,7 +185,7 @@ class MainPageState extends State<MainPage> {
         style: TextStyle(fontSize: 12),
       ),
       icon: icon,
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).accentColor,
     );
   }
 

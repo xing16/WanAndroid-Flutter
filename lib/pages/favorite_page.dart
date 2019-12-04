@@ -4,7 +4,7 @@ import 'package:flutter_easyrefresh/bezier_circle_header.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:wanandroid_flutter/models/article.dart';
-import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';

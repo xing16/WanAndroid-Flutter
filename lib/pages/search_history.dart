@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/hot_search.dart';
-import 'package:wanandroid_flutter/pages/search.dart';
+import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class SearchHistoryPage extends StatefulWidget {

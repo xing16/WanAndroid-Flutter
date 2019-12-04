@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/pages/search.dart';
+import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
-import 'system_category.dart';
-import 'system_square.dart';
+import 'system_category_page.dart';
+import 'system_square_page.dart';
 
 class SystemPage extends StatefulWidget {
   @override

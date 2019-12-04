@@ -3,7 +3,7 @@ import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/project_article.dart';
-import 'package:wanandroid_flutter/pages/webview.dart';
+import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
 
 class ProjectListPage extends StatefulWidget {
@@ -68,7 +68,7 @@ class ProjectListPageState extends State<ProjectListPage>
       },
       child: Container(
         padding: EdgeInsets.all(12),
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).accentColor,
         child: Row(
           children: <Widget>[
             FadeInImage.assetNetwork(

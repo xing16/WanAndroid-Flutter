@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/pages/favorite.dart';
-import 'package:wanandroid_flutter/pages/meizi.dart';
-import 'package:wanandroid_flutter/pages/my_points.dart';
-import 'package:wanandroid_flutter/pages/settings.dart';
+import 'package:wanandroid_flutter/pages/favorite_page.dart';
+import 'package:wanandroid_flutter/pages/meizi_page.dart';
+import 'package:wanandroid_flutter/pages/my_points_page.dart';
+import 'package:wanandroid_flutter/pages/settings_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';

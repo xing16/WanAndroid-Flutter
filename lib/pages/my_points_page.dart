@@ -125,7 +125,7 @@ class MyPointsPageState extends State<MyPointsPage>
   Widget getItem(BuildContext context, int index) {
     print("index = $index");
     return Container(
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).accentColor,
       margin: EdgeInsets.only(
         left: 15,
         right: 15,

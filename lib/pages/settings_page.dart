@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/pages/about.dart';
-import 'package:wanandroid_flutter/pages/login.dart';
+import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/pages/about_page.dart';
+import 'package:wanandroid_flutter/pages/login_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/item_creator.dart';
@@ -39,11 +41,12 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             right: Switch(
                 activeColor: Colours.appThemeColor,
-                inactiveTrackColor: Theme.of(context).accentColor,
-                value: isDarkMode,
+                inactiveTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                value: Provider.of<AppTheme>(context).isDark,
                 onChanged: (value) {
                   setState(() {
-                    isDarkMode = !isDarkMode;
+                    Provider.of<AppTheme>(context).setIsDark =
+                        !Provider.of<AppTheme>(context).isDark;
                   });
                 }),
             hasDivider: false,
@@ -107,7 +110,7 @@ class SettingsPageState extends State<SettingsPage> {
                 "退出登录",
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.red,
+                  color: Colors.redAccent,
                 ),
               ),
               minWidth: screenWidth,
