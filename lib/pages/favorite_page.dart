@@ -38,10 +38,10 @@ class FavoritePageState extends State<FavoritePage> {
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("收藏"),
-        colors: [
-          Colours.appThemeColor,
-          Color(0xfffa5650),
-        ],
+//        colors: [
+//          Colours.appThemeColor,
+//          Color(0xfffa5650),
+//        ],
       ),
       body: EasyRefresh(
         header: ClassicalHeader(enableHapticFeedback: false),

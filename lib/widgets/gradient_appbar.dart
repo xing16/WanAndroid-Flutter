@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 
 class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget leading;
@@ -14,7 +16,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
     Key key,
     this.leading,
     this.height = 50,
-    this.colors = const [Colors.redAccent, Colors.redAccent],
+    this.colors = const [Colors.red, Colors.redAccent],
     this.title,
     this.centerTitle = false,
     this.actions,
@@ -33,6 +35,7 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
 class GradientAppBarState extends State<GradientAppBar> {
   @override
   Widget build(BuildContext context) {
+    var appTheme = Provider.of<AppTheme>(context);
     return PreferredSize(
       child: Stack(
         children: <Widget>[
@@ -51,7 +54,10 @@ class GradientAppBarState extends State<GradientAppBar> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: widget.colors,
+                colors: [
+                  appTheme.themeColor,
+                  appTheme.themeColor,
+                ],
               ),
             ),
           ),

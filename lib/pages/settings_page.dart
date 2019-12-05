@@ -5,7 +5,7 @@ import 'package:wanandroid_flutter/pages/about_page.dart';
 import 'package:wanandroid_flutter/pages/login_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
-import 'package:wanandroid_flutter/widgets/item_creator.dart';
+import 'package:wanandroid_flutter/widgets/section_item.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -31,53 +31,45 @@ class SettingsPageState extends State<SettingsPage> {
       ),
       body: Column(
         children: <Widget>[
-          ItemCreator.createItem(
-            context,
+          SectionItem(
             Icons.brightness_6,
             "夜间模式",
-            () {},
             margin: EdgeInsets.only(
               top: 20,
             ),
             right: Switch(
-                activeColor: Colours.appThemeColor,
-                inactiveTrackColor: Theme.of(context).scaffoldBackgroundColor,
+//                activeColor: Colours.appThemeColor,
+//                inactiveTrackColor: Theme.of(context).scaffoldBackgroundColor,
                 value: Provider.of<AppTheme>(context).isDark,
                 onChanged: (value) {
-                  setState(() {
-                    Provider.of<AppTheme>(context).setIsDark =
-                        !Provider.of<AppTheme>(context).isDark;
-                  });
+                  Provider.of<AppTheme>(context).switchTheme();
                 }),
             hasDivider: false,
           ),
-          ItemCreator.createItem(
-            context,
+          SectionItem(
             Icons.delete_forever,
             "清除缓存",
-            () {},
+            callback: () {},
             margin: EdgeInsets.only(
               top: 20,
             ),
             showMore: false,
             hasDivider: true,
           ),
-          ItemCreator.createItem(
-            context,
+          SectionItem(
             Icons.language,
             "语言设置",
-            () {},
+            callback: () {},
             hasDivider: true,
             right: Text(
               "中文",
               style: TextStyle(fontSize: 16),
             ),
           ),
-          ItemCreator.createItem(
-            context,
+          SectionItem(
             Icons.account_box,
             "关于",
-            () {
+            callback: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(

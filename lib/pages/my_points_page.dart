@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/models/my_points.dart';
 import 'package:wanandroid_flutter/models/own_points.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -46,6 +48,7 @@ class MyPointsPageState extends State<MyPointsPage>
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("积分"),
@@ -58,7 +61,7 @@ class MyPointsPageState extends State<MyPointsPage>
         pointsList,
         headerList: [1],
         headerBuilder: (BuildContext context, int position) {
-          return getHeader();
+          return getHeader(appTheme.themeColor);
         },
         itemBuilder: (BuildContext context, int position) {
           return getItem(context, position);
@@ -80,7 +83,7 @@ class MyPointsPageState extends State<MyPointsPage>
     animationController?.dispose();
   }
 
-  Widget getHeader() {
+  Widget getHeader(Color color) {
     return Stack(
       alignment: Alignment.topCenter,
       children: <Widget>[
@@ -90,10 +93,7 @@ class MyPointsPageState extends State<MyPointsPage>
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [
-                Colours.appThemeColor,
-                Color(0xfffa5650),
-              ],
+              colors: [color, color],
             ),
           ),
         ),

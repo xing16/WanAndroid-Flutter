@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/pages/favorite_page.dart';
 import 'package:wanandroid_flutter/pages/meizi_page.dart';
 import 'package:wanandroid_flutter/pages/my_points_page.dart';
@@ -7,7 +9,7 @@ import 'package:wanandroid_flutter/pages/settings_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
-import 'package:wanandroid_flutter/widgets/item_creator.dart';
+import 'package:wanandroid_flutter/widgets/section_item.dart';
 
 class MinePage extends StatefulWidget {
   @override
@@ -26,7 +28,7 @@ class MinePageState extends State<MinePage> {
   void initState() {
     super.initState();
     themeColors
-      ..add(Color(0xffe24f44)) //
+      ..add(Color(0xffc54945)) //
       ..add(Color(0xfffc5e38)) //
       ..add(Color(0xfffd742d)) //
       ..add(Color(0xfff6b816)) //
@@ -47,14 +49,12 @@ class MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+    var themeColor = Provider.of<AppTheme>(context).themeColor;
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("我的"),
         centerTitle: true,
-        colors: [
-          Colours.appThemeColor,
-          Color(0xfffa5650),
-        ],
+        colors: [themeColor, themeColor],
       ),
       body: Container(
         child: CustomScrollView(
@@ -80,10 +80,10 @@ class MinePageState extends State<MinePage> {
                                     height: 180,
                                     width: screenWidth,
                                     decoration: new BoxDecoration(
-                                      gradient: const LinearGradient(
+                                      gradient: LinearGradient(
                                         colors: [
-                                          Colours.appThemeColor,
-                                          Color(0xfffa5650),
+                                          themeColor,
+                                          themeColor,
                                         ],
                                       ),
                                     ),
@@ -150,11 +150,10 @@ class MinePageState extends State<MinePage> {
                           ),
                           Column(
                             children: <Widget>[
-                              ItemCreator.createItem(
-                                context,
+                              SectionItem(
                                 Icons.favorite,
                                 "收藏",
-                                () {
+                                callback: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -166,15 +165,15 @@ class MinePageState extends State<MinePage> {
                                 },
                                 margin: EdgeInsets.only(top: 20),
                               ),
-                              ItemCreator.createItem(
-                                context,
+                              SectionItem(
                                 Icons.color_lens,
                                 "主题颜色",
-                                () {
+                                callback: () {
                                   showThemeChooserDialog(context);
                                 },
                                 margin: EdgeInsets.only(top: 20),
                                 hasDivider: true,
+                                showMore: true,
                                 right: Container(
                                   height: 15,
                                   width: 15,
@@ -184,11 +183,10 @@ class MinePageState extends State<MinePage> {
                                   color: resultColor,
                                 ),
                               ),
-                              ItemCreator.createItem(
-                                context,
+                              SectionItem(
                                 Icons.local_florist,
                                 "干货妹子",
-                                () {
+                                callback: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -200,11 +198,10 @@ class MinePageState extends State<MinePage> {
                                 },
                                 hasDivider: true,
                               ),
-                              ItemCreator.createItem(
-                                context,
+                              SectionItem(
                                 Icons.settings,
                                 "设置",
-                                () {
+                                callback: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -284,7 +281,7 @@ class MinePageState extends State<MinePage> {
             Container(
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(resultColor);
                 },
                 child: Text(
                   "取消",
@@ -318,6 +315,7 @@ class MinePageState extends State<MinePage> {
     );
     result.then((color) {
       print("color = $color");
+      Provider.of<AppTheme>(context).updateThemeColor(color);
       setState(() {
         resultColor = color;
       });

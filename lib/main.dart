@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
 //      brightness: isDarkMode ? Brightness.light : Brightness.dark,
       ///  appBar theme
       appBarTheme: AppBarTheme(
+        color: Colors.yellow,
         // 状态栏字体颜色
         brightness: Brightness.dark,
         iconTheme: IconThemeData(
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
       ),
       dialogTheme: DialogTheme(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(12),
         ),
         backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
         titleTextStyle: TextStyle(
@@ -103,6 +104,7 @@ class MyApp extends StatelessWidget {
       bottomAppBarTheme: BottomAppBarTheme(
         color: isDarkMode ? Colours.darkAppForeground : Colours.appForeground,
       ),
+      toggleButtonsTheme: ToggleButtonsThemeData(color: Colors.yellow),
     );
   }
 }
@@ -132,6 +134,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       body: IndexedStack(
         index: mCurrentIndex,
@@ -139,7 +142,7 @@ class MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedIconTheme: IconThemeData(
-          color: Colours.appThemeColor,
+          color: appTheme.themeColor,
         ),
         unselectedIconTheme: IconThemeData(
 //          color: Colors.black54,
@@ -147,7 +150,7 @@ class MainPageState extends State<MainPage> {
         selectedFontSize: 14,
         elevation: 50,
         unselectedFontSize: 14,
-        selectedItemColor: Colours.appThemeColor,
+        selectedItemColor: appTheme.themeColor,
         unselectedItemColor: Color(0xff555555),
         showUnselectedLabels: true,
         currentIndex: mCurrentIndex,
