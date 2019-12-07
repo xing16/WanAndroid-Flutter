@@ -32,6 +32,7 @@ dependencies:
   cookie_jar: 1.0.0
   flutter_easyrefresh: 2.0.4
   provider: 3.2.0
+  shared_preferences: 0.4.2
 
 #  fluttertoast: ^3.1.3
 

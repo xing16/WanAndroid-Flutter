@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
@@ -50,6 +52,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       body: Container(
         child: Stack(
@@ -61,7 +64,7 @@ class HomePageState extends State<HomePage> {
                 articles,
                 headerList: [1],
                 headerBuilder: (BuildContext context, int position) {
-                  return getHomeHeader();
+                  return getHomeHeader(appTheme.themeColor);
                 },
                 itemBuilder: (BuildContext context, int position) {
                   return getHomePageItem(context, position);
@@ -88,8 +91,8 @@ class HomePageState extends State<HomePage> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colours.appThemeColor,
-                      Color(0xfffa5650),
+                      appTheme.themeColor,
+                      appTheme.themeColor,
                     ],
                   ),
                 ),
@@ -217,20 +220,25 @@ class HomePageState extends State<HomePage> {
   }
 
   /// 首页 header
-  getHomeHeader() {
+  getHomeHeader(Color themeColor) {
     return Container(
       height: 200,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return new Image.network(
+          return Image.network(
             banners[index].imagePath,
             fit: BoxFit.cover,
           );
         },
         itemCount: banners.length,
-        pagination: new SwiperPagination(
+        pagination: SwiperPagination(
           alignment: Alignment.bottomRight,
-          builder: SwiperPagination.dots,
+          builder: DotSwiperPaginationBuilder(
+            color: Colors.grey,
+            size: 8,
+            activeSize: 8,
+            activeColor: themeColor,
+          ),
         ),
         autoplay: true,
         onTap: (int index) {

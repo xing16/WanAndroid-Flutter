@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/pages/about_page.dart';
 import 'package:wanandroid_flutter/pages/login_page.dart';
@@ -42,7 +43,9 @@ class SettingsPageState extends State<SettingsPage> {
 //                inactiveTrackColor: Theme.of(context).scaffoldBackgroundColor,
                 value: Provider.of<AppTheme>(context).isDark,
                 onChanged: (value) {
+                  print("value = $value");
                   Provider.of<AppTheme>(context).switchTheme();
+                  saveDarkMode(value);
                 }),
             hasDivider: false,
           ),
@@ -113,5 +116,11 @@ class SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
+  }
+
+  void saveDarkMode(bool value) async {
+    print("dark  = $value");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("dark", value);
   }
 }

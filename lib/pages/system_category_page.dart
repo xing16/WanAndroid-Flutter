@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/models/system_category.dart';
 import 'package:wanandroid_flutter/pages/system_article_list_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -35,6 +37,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
   Widget build(BuildContext context) {
     super.build(context);
     screenWidth = MediaQuery.of(context).size.width;
+    var themeColor = Provider.of<AppTheme>(context).themeColor;
     return Container(
       child: Row(
         children: <Widget>[
@@ -57,7 +60,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
             padding: EdgeInsets.only(
               right: 5,
             ),
-            child: getSystemListView(),
+            child: getSystemListView(themeColor),
           ),
           Column(
             children: <Widget>[
@@ -76,7 +79,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
   }
 
   /// 创建左侧 ListView
-  getSystemListView() {
+  getSystemListView(Color themeColor) {
     return ListView.separated(
       itemBuilder: (context, index) {
         return GestureDetector(
@@ -102,7 +105,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
                   style: TextStyle(
                     fontSize: 16,
                     color: (index == selectedIndex)
-                        ? Colours.appThemeColor
+                        ? themeColor
                         : Theme.of(context).textTheme.body1.color,
                   ),
                 ),
@@ -115,7 +118,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
                   child: Container(
                     height: 24,
                     width: 6,
-                    color: Colours.appThemeColor,
+                    color: themeColor,
                   ),
                 ),
               ),

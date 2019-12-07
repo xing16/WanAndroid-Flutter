@@ -17,6 +17,10 @@ class AppTheme with ChangeNotifier {
     notifyListeners();
   }
 
+  void setDark(isDark) {
+    _isDark = isDark;
+  }
+
   /// 修改主题颜色
   void updateThemeColor(Color color) {
     this._themeColor = color;

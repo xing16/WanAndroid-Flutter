@@ -231,85 +231,89 @@ class MinePageState extends State<MinePage> {
   void showThemeChooserDialog(BuildContext context) {
     var result = showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "主题颜色选择",
-          ),
-          content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 250,
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 15,
-                    childAspectRatio: 1.2,
-                  ),
-                  itemCount: themeColors.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: themeColors[index],
-                          shape: BoxShape.circle,
-                        ),
-                        width: 30,
-                        height: 30,
-                        child: Visibility(
-                          visible: selectedIndex == index,
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: Text(
+              "主题颜色选择",
+            ),
+            content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: 250,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 1.2,
+                    ),
+                    itemCount: themeColors.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = index;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeColors[index],
+                            shape: BoxShape.circle,
+                          ),
+                          width: 30,
+                          height: 30,
+                          child: Visibility(
+                            visible: selectedIndex == index,
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            actions: <Widget>[
+              Container(
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(resultColor);
                   },
+                  child: Text(
+                    "取消",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).textTheme.body1.color,
+                    ),
+                  ),
                 ),
-              );
-            },
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  right: 20,
+                ),
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(themeColors[selectedIndex]);
+                  },
+                  child: Text(
+                    "确定",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).textTheme.body1.color,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          actions: <Widget>[
-            Container(
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop(resultColor);
-                },
-                child: Text(
-                  "取消",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).textTheme.body1.color,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                right: 20,
-              ),
-              child: FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop(themeColors[selectedIndex]);
-                },
-                child: Text(
-                  "确定",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).textTheme.body1.color,
-                  ),
-                ),
-              ),
-            ),
-          ],
         );
       },
     );

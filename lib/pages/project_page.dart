@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/project_tab.dart';
 import 'package:wanandroid_flutter/pages/project_list.dart';
@@ -34,6 +36,7 @@ class ProjectPageState extends State<ProjectPage>
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       appBar: PreferredSize(
         child: Container(
@@ -86,8 +89,8 @@ class ProjectPageState extends State<ProjectPage>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colours.appThemeColor,
-                Color(0xfffa5650),
+                appTheme.themeColor,
+                appTheme.themeColor,
               ],
             ),
           ),

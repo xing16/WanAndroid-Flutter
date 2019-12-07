@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -17,6 +18,7 @@ class WebViewPage extends StatefulWidget {
 
 class WebViewPageState extends State<WebViewPage> {
   List<Map<String, Object>> list = new List();
+  var appTheme;
 
   @override
   void initState() {
@@ -31,19 +33,20 @@ class WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: GradientAppBar(
         title: Text("详情"),
         colors: [
-          Colours.appThemeColor,
-          Color(0xfffa5650),
+          appTheme.themeColor,
+          appTheme.themeColor,
         ],
         actions: <Widget>[
           GestureDetector(
             onTap: () {
               // 显示底部弹框
-              showBottomSheet(context);
+              showBottomSheet(context, appTheme.themeColor);
             },
             child: Container(
               padding: EdgeInsets.only(
@@ -72,7 +75,7 @@ class WebViewPageState extends State<WebViewPage> {
     );
   }
 
-  showBottomSheet(BuildContext context) {
+  showBottomSheet(BuildContext context, Color color) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -89,7 +92,7 @@ class WebViewPageState extends State<WebViewPage> {
             ),
             itemBuilder: (BuildContext context, int index) {
               return createBottomSheetItem(
-                  list[index]['title'], list[index]['icon'], (index) {
+                  color, list[index]['title'], list[index]['icon'], (index) {
                 handleBottomSheetItemClick(context, index);
               });
             },
@@ -100,7 +103,8 @@ class WebViewPageState extends State<WebViewPage> {
     );
   }
 
-  createBottomSheetItem(String title, IconData icon, Function onClick) {
+  createBottomSheetItem(
+      Color color, String title, IconData icon, Function onClick) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pop();
@@ -119,7 +123,7 @@ class WebViewPageState extends State<WebViewPage> {
             ),
             child: Icon(
               icon,
-              color: Colours.appThemeColor,
+              color: color,
               size: 32,
             ),
           ),

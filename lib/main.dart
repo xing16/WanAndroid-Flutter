@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanandroid_flutter/pages/home_page.dart';
 import 'package:wanandroid_flutter/pages/login_page.dart';
 import 'package:wanandroid_flutter/pages/mine_page.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appTheme = Provider.of<AppTheme>(context);
+    queryDark(appTheme);
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,
@@ -106,6 +108,13 @@ class MyApp extends StatelessWidget {
       ),
       toggleButtonsTheme: ToggleButtonsThemeData(color: Colors.yellow),
     );
+  }
+
+  queryDark(AppTheme appTheme) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    bool isDark = sp.getBool("dark") ?? false;
+    print("main isDark = $isDark");
+    appTheme.setDark(isDark);
   }
 }
 
