@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/ball_pulse_header.dart';
-import 'package:flutter_easyrefresh/bezier_circle_header.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_header.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 
@@ -27,9 +23,6 @@ class FavoritePageState extends State<FavoritePage> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 30; i++) {
-      list.add("cdcd");
-    }
   }
 
   @override
@@ -38,10 +31,6 @@ class FavoritePageState extends State<FavoritePage> {
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("收藏"),
-//        colors: [
-//          Colours.appThemeColor,
-//          Color(0xfffa5650),
-//        ],
       ),
       body: EasyRefresh(
         header: ClassicalHeader(enableHapticFeedback: false),
@@ -66,25 +55,21 @@ class FavoritePageState extends State<FavoritePage> {
   }
 
   getFavoriteListItem(int index) {
-//    Article article = articleList[index];
-//    return ArticleItem(
-//      article.title,
-//      article.niceDate,
-//      article.shareUser,
-//      () {
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//            builder: (BuildContext context) => WebViewPage(
-//              url: article.link,
-//            ),
-//          ),
-//        );
-//      },
-//    );
-    return Container(
-      height: 50,
-      child: Text("ccdscasdc"),
+    Article article = articleList[index];
+    return ArticleItem(
+      article.title,
+      article.niceDate,
+      article.shareUser,
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => WebViewPage(
+              url: article.link,
+            ),
+          ),
+        );
+      },
     );
   }
 }

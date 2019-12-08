@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/pages/favorite_page.dart';
 import 'package:wanandroid_flutter/pages/meizi_page.dart';
@@ -21,7 +22,8 @@ class MinePage extends StatefulWidget {
 class MinePageState extends State<MinePage> {
   double screenWidth = 0;
   List<Color> themeColors = new List();
-  int selectedIndex = 0;
+  int clickedIndex = 0;
+  int curSelectedIndex = 0;
   Color resultColor = Colours.appThemeColor;
 
   @override
@@ -49,12 +51,12 @@ class MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var themeColor = Provider.of<AppTheme>(context).themeColor;
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("我的"),
         centerTitle: true,
-        colors: [themeColor, themeColor],
+        colors: [appTheme.themeColor, appTheme.themeColor],
       ),
       body: Container(
         child: CustomScrollView(
@@ -82,8 +84,8 @@ class MinePageState extends State<MinePage> {
                                     decoration: new BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          themeColor,
-                                          themeColor,
+                                          appTheme.themeColor,
+                                          appTheme.themeColor,
                                         ],
                                       ),
                                     ),
@@ -169,7 +171,7 @@ class MinePageState extends State<MinePage> {
                                 Icons.color_lens,
                                 "主题颜色",
                                 callback: () {
-                                  showThemeChooserDialog(context);
+                                  showThemeChooserDialog(context, appTheme);
                                 },
                                 margin: EdgeInsets.only(top: 20),
                                 hasDivider: true,
@@ -180,7 +182,7 @@ class MinePageState extends State<MinePage> {
                                   margin: EdgeInsets.only(
                                     right: 10,
                                   ),
-                                  color: resultColor,
+                                  color: themeColors[curSelectedIndex],
                                 ),
                               ),
                               SectionItem(
@@ -228,7 +230,7 @@ class MinePageState extends State<MinePage> {
     );
   }
 
-  void showThemeChooserDialog(BuildContext context) {
+  void showThemeChooserDialog(BuildContext context, AppTheme appTheme) {
     var result = showDialog(
       context: context,
       barrierDismissible: false,
@@ -256,7 +258,7 @@ class MinePageState extends State<MinePage> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            selectedIndex = index;
+                            clickedIndex = index;
                           });
                         },
                         child: Container(
@@ -267,7 +269,7 @@ class MinePageState extends State<MinePage> {
                           width: 30,
                           height: 30,
                           child: Visibility(
-                            visible: selectedIndex == index,
+                            visible: clickedIndex == index,
                             child: Icon(
                               Icons.check,
                               color: Colors.white,
@@ -284,7 +286,7 @@ class MinePageState extends State<MinePage> {
               Container(
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).pop(resultColor);
+                    Navigator.of(context).pop(curSelectedIndex);
                   },
                   child: Text(
                     "取消",
@@ -301,7 +303,7 @@ class MinePageState extends State<MinePage> {
                 ),
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).pop(themeColors[selectedIndex]);
+                    Navigator.of(context).pop(clickedIndex);
                   },
                   child: Text(
                     "确定",
@@ -317,11 +319,12 @@ class MinePageState extends State<MinePage> {
         );
       },
     );
-    result.then((color) {
-      print("color = $color");
-      Provider.of<AppTheme>(context).updateThemeColor(color);
+    result.then((colorSelectedIndex) {
+      print("colorSelectedIndex = $colorSelectedIndex");
+      saveThemeColor(themeColors[colorSelectedIndex]);
+      appTheme.updateThemeColor(themeColors[colorSelectedIndex]);
       setState(() {
-        resultColor = color;
+        curSelectedIndex = colorSelectedIndex;
       });
     });
   }
@@ -335,5 +338,10 @@ class MinePageState extends State<MinePage> {
         }),
       ),
     );
+  }
+
+  void saveThemeColor(Color curColor) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("themeColor", curColor.value);
   }
 }

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class BezierPathPainter extends CustomPainter {
-  Paint mPaint = new Paint()
-    ..color = Colors.redAccent
-    ..isAntiAlias = true;
-
   Path path = new Path();
   double bigRadius = 30;
   double smallRadius = 20;
+  Color color;
+  Paint mPaint;
+
+  BezierPathPainter(this.color) {
+    mPaint = new Paint()
+      ..color = color
+      ..isAntiAlias = true;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -15,10 +19,10 @@ class BezierPathPainter extends CustomPainter {
     canvas.translate(size.width / 2, size.height / 2);
 
     path.moveTo(-size.width / 2, -size.height / 2);
-    path.lineTo(-size.width / 2, size.height * 3 / 8);
+    path.lineTo(-size.width / 2, size.height * 2 / 8);
 
     path.quadraticBezierTo(
-        0, size.height / 2, size.width / 2, size.height * 3 / 8);
+        0, size.height / 2, size.width / 2, size.height * 2 / 8);
 
 //    path.cubicTo(size.width / 4, 0, size.width * 3 / 4, size.height, size.width,
 //        size.height / 2);
@@ -45,6 +49,6 @@ class BezierPathPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }
