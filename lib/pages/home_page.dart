@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
@@ -13,7 +12,6 @@ import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
 import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
 import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 

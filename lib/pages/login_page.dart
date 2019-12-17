@@ -5,6 +5,7 @@ import 'package:wanandroid_flutter/pages/register_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/beizier_path_painter.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
+import 'package:wanandroid_flutter/widgets/xtextfield.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,6 +16,9 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   double screenWidth = 0;
+  bool isHidden = true;
+  TextEditingController usernameController = new TextEditingController();
+  TextEditingController pwdController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,32 +52,14 @@ class LoginPageState extends State<LoginPage> {
                 left: 20,
                 right: 20,
               ),
-              child: TextField(
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black87,
-                ),
-                decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 0.5,
-                      color: Colors.black38,
-                    ),
-                  ),
-                  hintText: "用户名",
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: appTheme.themeColor,
-                  ),
-                  prefixStyle: TextStyle(
-                    color: Colors.black87,
-                  ),
-                  suffixIcon: Icon(
-                    Icons.close,
-                    size: 22,
-                    color: Colors.black87,
-                  ),
-                ),
+              child: XTextField(
+                usernameController,
+                "用户名",
+                prefixIcon: Icons.person,
+                suffixIcon: Icons.close,
+                callback: () {
+                  usernameController.text = "";
+                },
               ),
             ),
             Container(
@@ -84,44 +70,13 @@ class LoginPageState extends State<LoginPage> {
                 left: 20,
                 right: 20,
               ),
-              child: TextField(
+              child: XTextField(
+                pwdController,
+                "密码",
+                prefixIcon: Icons.lock,
+                suffixIcon: Icons.visibility,
+                callback: () {},
                 obscureText: true,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black87,
-                ),
-                decoration: InputDecoration(
-                    hintText: "密码",
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: appTheme.themeColor,
-                    ),
-                    prefixStyle: TextStyle(
-                      color: Colors.black87,
-                    ),
-                    suffixIcon: Container(
-                      width: 80,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(
-                              right: 12,
-                            ),
-                            child: Icon(
-                              Icons.visibility,
-                              size: 22,
-                            ),
-                          ),
-                          Container(
-                            child: Icon(
-                              Icons.close,
-                              size: 22,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
               ),
             ),
             Container(

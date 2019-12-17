@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.xing.wanandroid">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
@@ -8,9 +9,12 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
+        android:appComponentFactory="component"
         android:icon="@mipmap/ic_launcher"
         android:label="wanandroid_flutter"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:replace="android:appComponentFactory">
+
         <activity
             android:name="com.xing.wanandroid.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

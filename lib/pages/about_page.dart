@@ -23,7 +23,33 @@ class AboutPageState extends State<AboutPage> {
           Color(0xfffa5650),
         ],
       ),
-      body: Text("cdscasdcas"),
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+            child: Container(
+              height: 100,
+              color: Colors.yellow,
+            ),
+          ),
+          Positioned(
+            child: Container(
+              color: Colors.deepOrange,
+              width: 50,
+              height: 100,
+              child: Icon(Icons.add),
+            ),
+          ),
+          Positioned(
+            left: 50,
+            child: Container(
+              color: Colors.cyan,
+              width: 50,
+              height: 100,
+              child: Icon(Icons.close),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

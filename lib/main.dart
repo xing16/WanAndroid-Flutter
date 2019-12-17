@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,
-      theme: getTheme(isDarkMode: appTheme.isDark),
+      theme: getTheme(appTheme.themeColor, isDarkMode: appTheme.isDark),
       home: MainPage(),
       routes: {
         "login": (BuildContext context) => LoginPage(),
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  getTheme({bool isDarkMode = false}) {
+  getTheme(Color themeColor, {bool isDarkMode = false}) {
     return ThemeData(
 //      primarySwatch: MaterialColor()Colours.appThemeColor,
       // 页面背景颜色
@@ -83,6 +83,29 @@ class MyApp extends StatelessWidget {
         body2: TextStyle(color: Colors.cyan),
         button: TextStyle(color: Colors.orange),
         subtitle: TextStyle(color: Colors.green),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFFBDBDBD),
+            width: 1,
+            style: BorderStyle.solid,
+          ),
+        ),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFFBDBDBD),
+            width: 1,
+            style: BorderStyle.solid,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFFBDBDBD),
+            width: 1,
+            style: BorderStyle.solid,
+          ),
+        ),
       ),
       dialogTheme: DialogTheme(
         shape: RoundedRectangleBorder(
