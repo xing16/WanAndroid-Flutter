@@ -28,15 +28,16 @@ class HttpClient {
   }
 
   ///  GET 请求
-  void get(String path,
+  Future get(String path,
       {Map<String, dynamic> data,
       Function callback,
       Function errorCallback}) async {
-    _request(path, GET, callback, data: data, errorCallback: errorCallback);
+    return _request(path, GET, callback,
+        data: data, errorCallback: errorCallback);
   }
 
   /// POST 请求
-  void post(String path,
+  Future post(String path,
       {Map<String, String> data,
       Function callback,
       Function errorCallback}) async {
@@ -44,7 +45,7 @@ class HttpClient {
   }
 
   /// 私有方法，只可本类访问
-  void _request(String path, String method, Function callback,
+  Future _request(String path, String method, Function callback,
       {Map<String, dynamic> data, Function errorCallback}) async {
     data = data ?? {};
     method = method ?? GET;

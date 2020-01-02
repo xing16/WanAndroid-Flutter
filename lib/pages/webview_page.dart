@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -33,7 +33,7 @@ class WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: GradientAppBar(

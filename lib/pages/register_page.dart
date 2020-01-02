@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/textfield_provider.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/xtextfield.dart';
 
@@ -17,9 +18,29 @@ class RegisterPageState extends State<RegisterPage> {
   TextEditingController pwdController = new TextEditingController();
   TextEditingController repwdController = new TextEditingController();
 
+  FocusNode _usernameFocusNode = new FocusNode();
+  FocusNode _pwdFocusNode = new FocusNode();
+  FocusNode _repwdFocusNode = new FocusNode();
+  TextFieldProvider provider;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameFocusNode.addListener(() {
+      provider.setHasFocus = _usernameFocusNode.hasFocus;
+    });
+    _pwdFocusNode.addListener(() {
+      provider.setHasFocus = _pwdFocusNode.hasFocus;
+    });
+    _repwdFocusNode.addListener(() {
+      provider.setHasFocus = _repwdFocusNode.hasFocus;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
+    provider = Provider.of<TextFieldProvider>(context);
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: GradientAppBar(
@@ -39,10 +60,58 @@ class RegisterPageState extends State<RegisterPage> {
               child: XTextField(
                 usernameController,
                 "用户名",
+                focusNode: _usernameFocusNode,
                 prefixIcon: Icons.person,
-                suffixIcon: Icons.close,
-                callback: () {
-                  usernameController.text = "";
+                suffixIcon: Consumer<TextFieldProvider>(
+                  builder: (context, TextFieldProvider provider, child) {
+                    return Visibility(
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black54,
+                      ),
+                      visible: provider.hasFocus &&
+                          provider.text.toString().length > 0,
+                    );
+                  },
+                ),
+                onTap: () {
+                  usernameController.clear();
+                  provider.setText = "";
+                  print("length = ${provider.text.toString().length}");
+                },
+                onChanged: (text) {
+                  provider.setText = text;
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 20,
+              ),
+              child: XTextField(
+                pwdController,
+                "用户名",
+                focusNode: _pwdFocusNode,
+                prefixIcon: Icons.person,
+                suffixIcon: Consumer<TextFieldProvider>(
+                  builder: (context, TextFieldProvider provider, child) {
+                    return Visibility(
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black54,
+                      ),
+                      visible: provider.hasFocus &&
+                          provider.text.toString().length > 0,
+                    );
+                  },
+                ),
+                onTap: () {
+                  usernameController.clear();
+                  provider.setText = "";
+                  print("length = ${provider.text.toString().length}");
+                },
+                onChanged: (text) {
+                  provider.setText = text;
                 },
               ),
             ),
@@ -51,11 +120,11 @@ class RegisterPageState extends State<RegisterPage> {
                 top: 10,
               ),
               child: XTextField(
-                usernameController,
+                pwdController,
                 "密码",
-                prefixIcon: Icons.person,
-                suffixIcon: Icons.close,
-                callback: () {
+                prefixIcon: Icons.lock,
+                suffixIcon: Icon(Icons.close),
+                onTap: () {
                   usernameController.text = "";
                 },
               ),
@@ -65,11 +134,11 @@ class RegisterPageState extends State<RegisterPage> {
                 top: 10,
               ),
               child: XTextField(
-                usernameController,
+                repwdController,
                 "确认密码",
-                prefixIcon: Icons.person,
-                suffixIcon: Icons.close,
-                callback: () {
+                prefixIcon: Icons.lock,
+                suffixIcon: Icon(Icons.close),
+                onTap: () {
                   usernameController.text = "";
                 },
               ),

@@ -6,6 +6,7 @@ import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/system_article.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
+import 'package:wanandroid_flutter/widgets/content_empty.dart';
 
 import 'favorite_page.dart';
 
@@ -20,12 +21,12 @@ class SystemSquarePageState extends State<SystemSquarePage>
     with AutomaticKeepAliveClientMixin {
   int curPage = 0;
   List<Article> articleList = new List();
-  GlobalKey<FavoritePageState> _easyRefreshKey =
-      new GlobalKey<FavoritePageState>();
+  EasyRefreshController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = new EasyRefreshController();
     loadSystemSquare(curPage);
   }
 
@@ -33,12 +34,15 @@ class SystemSquarePageState extends State<SystemSquarePage>
   Widget build(BuildContext context) {
     super.build(context);
     return EasyRefresh(
-      header: ClassicalHeader(enableHapticFeedback: false),
-      key: _easyRefreshKey,
+      controller: _controller,
+//      emptyWidget: EmptyWidget(),
+      header: ClassicalHeader(),
+      footer: ClassicalFooter(),
       onRefresh: () async {
         loadSystemSquare(0);
       },
       onLoad: () async {
+        print("load = $curPage");
         loadSystemSquare(curPage);
       },
       child: ListView.separated(
@@ -79,6 +83,7 @@ class SystemSquarePageState extends State<SystemSquarePage>
   void loadSystemSquare(int page) {
     HttpClient.getInstance().get(Api.SQUARE_ARTICLE, data: {"page": page},
         callback: (data) {
+      print("$data");
       curPage = page + 1;
       SystemArticle squareArticle = SystemArticle.fromJson(data);
       var articles = squareArticle.datas;

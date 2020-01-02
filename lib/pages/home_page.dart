@@ -6,7 +6,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
@@ -50,7 +50,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       body: Container(
         child: Stack(

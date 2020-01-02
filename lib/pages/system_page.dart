@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
@@ -33,7 +33,7 @@ class SystemPageState extends State<SystemPage>
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         child: Container(

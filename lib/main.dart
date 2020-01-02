@@ -9,13 +9,20 @@ import 'package:wanandroid_flutter/pages/login_page.dart';
 import 'package:wanandroid_flutter/pages/mine_page.dart';
 import 'package:wanandroid_flutter/pages/project_page.dart';
 import 'package:wanandroid_flutter/pages/system_page.dart';
+import 'package:wanandroid_flutter/provider/textfield_provider.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 
-import 'models/app_theme.dart';
+import 'provider/app_theme_provider.dart';
 
 void main() {
-  runApp(new ChangeNotifierProvider(
-    create: (context) => AppTheme(),
+  final appThemeProvider = AppThemeProvider();
+  final textFieldProvider = TextFieldProvider();
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider.value(value: appThemeProvider),
+      ChangeNotifierProvider.value(value: textFieldProvider),
+    ],
     child: MyApp(),
   ));
   // 设置状态栏和 appbar 颜色一致
@@ -29,7 +36,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     queryDark(appTheme);
     return MaterialApp(
       title: 'WanAndroid',
@@ -51,7 +58,7 @@ class MyApp extends StatelessWidget {
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
       backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
       // tab 指示器颜色
-      indicatorColor: Colours.appThemeColor,
+      indicatorColor: Colors.white,
       accentColor:
           isDarkMode ? Colours.darkAppForeground : Colours.appForeground,
       // 底部菜单背景颜色
@@ -133,7 +140,7 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  queryDark(AppTheme appTheme) async {
+  queryDark(AppThemeProvider appTheme) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     bool isDark = sp.getBool("dark") ?? false;
     print("main isDark = $isDark");
@@ -166,7 +173,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       body: IndexedStack(
         index: mCurrentIndex,

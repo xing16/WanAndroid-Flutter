@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/pages/about_page.dart';
 import 'package:wanandroid_flutter/pages/login_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -41,10 +41,10 @@ class SettingsPageState extends State<SettingsPage> {
             right: Switch(
 //                activeColor: Colours.appThemeColor,
 //                inactiveTrackColor: Theme.of(context).scaffoldBackgroundColor,
-                value: Provider.of<AppTheme>(context).isDark,
+                value: Provider.of<AppThemeProvider>(context).isDark,
                 onChanged: (value) {
                   print("value = $value");
-                  Provider.of<AppTheme>(context).switchTheme();
+                  Provider.of<AppThemeProvider>(context).switchTheme();
                   saveDarkMode(value);
                 }),
             hasDivider: false,

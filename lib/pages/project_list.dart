@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
@@ -7,7 +9,6 @@ import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
 
 class ProjectListPage extends StatefulWidget {
-  final int curPage = 0;
   final int tabId;
 
   ProjectListPage(this.tabId, {Key key}) : super(key: key);
@@ -20,31 +21,69 @@ class ProjectListPage extends StatefulWidget {
 
 class ProjectListPageState extends State<ProjectListPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  int curPage = 0;
   List<Article> articleList = new List();
   double screenWidth = 0;
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    loadProjectList(widget.tabId, widget.curPage);
+    loadProjectList(widget.tabId, 0);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     screenWidth = ScreenUtils.getScreenWidth(context);
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return getProjectListItem(index);
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: WaterDropHeader(),
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus mode) {
+          Widget footer;
+          if (mode == LoadStatus.idle) {
+            footer = Text("上拉加载");
+          } else if (mode == LoadStatus.loading) {
+            footer = CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            footer = Text("加载失败！点击重试！");
+          } else if (mode == LoadStatus.canLoading) {
+            footer = Text("松手,加载更多!");
+          } else {
+            footer = Text("没有更多数据了!");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: footer),
+          );
+        },
+      ),
+      controller: _refreshController,
+      onRefresh: () {
+        _refreshController.refreshCompleted();
       },
-      separatorBuilder: (context, index) {
-        return Divider(
-          indent: 12,
-          endIndent: 12,
-          height: 0.5,
-        );
+      onLoading: () {
+        loadProjectList(widget.tabId, curPage);
+        // if failed,use loadFailed(),if no data return,use LoadNodata()
+        if (mounted) setState(() {});
+        _refreshController.loadComplete();
       },
-      itemCount: articleList.length,
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          return getProjectListItem(index);
+        },
+        separatorBuilder: (context, index) {
+          return Divider(
+            indent: 12,
+            endIndent: 12,
+            height: 0.5,
+          );
+        },
+        itemCount: articleList.length,
+      ),
     );
   }
 
@@ -53,8 +92,13 @@ class ProjectListPageState extends State<ProjectListPage>
     HttpClient.getInstance().get(Api.PROJECT_LIST,
         data: {"page": page, "cid": tabId}, callback: (data) {
       ProjectArticle projectArticle = ProjectArticle.fromJson(data);
+      curPage = page + 1;
+      print("data = ${projectArticle.datas}");
       setState(() {
-        articleList = projectArticle?.datas;
+        if (page == 0) {
+          articleList.clear();
+        }
+        articleList.addAll(projectArticle?.datas);
       });
     });
   }

@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/pages/favorite_page.dart';
 import 'package:wanandroid_flutter/pages/meizi_page.dart';
 import 'package:wanandroid_flutter/pages/my_points_page.dart';
 import 'package:wanandroid_flutter/pages/settings_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/res/theme_colors.dart';
 import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/section_item.dart';
@@ -29,29 +30,13 @@ class MinePageState extends State<MinePage> {
   @override
   void initState() {
     super.initState();
-    themeColors
-      ..add(Color(0xffc54945)) //
-      ..add(Color(0xfffc5e38)) //
-      ..add(Color(0xfffd742d)) //
-      ..add(Color(0xfff6b816)) //
-      ..add(Color(0xffcae053)) //
-      ..add(Color(0xff81c842)) //
-      ..add(Color(0xff5cc095)) //
-      ..add(Color(0xff569ce4)) //
-      ..add(Color(0xff5978e9)) //
-      ..add(Color(0xff7668f6)) //
-      ..add(Color(0xffa674e6)) //
-      ..add(Color(0xffd477e6)) //
-      ..add(Color(0xffec7ec5)) //
-      ..add(Color(0xffed698b)) //
-      ..add(Color(0xfff19fb4)) //
-      ..add(Color(0xff323638));
+    themeColors = getThemeColors();
   }
 
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("我的"),
@@ -78,17 +63,21 @@ class MinePageState extends State<MinePage> {
                                 // 贝塞尔背景
                                 ClipPath(
                                   clipper: BezierClipper(),
-                                  child: Container(
-                                    height: 180,
-                                    width: screenWidth,
-                                    decoration: new BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          appTheme.themeColor,
-                                          appTheme.themeColor,
-                                        ],
-                                      ),
-                                    ),
+                                  child: Consumer<AppThemeProvider>(
+                                    builder: (context, provider, child) {
+                                      return Container(
+                                        height: 180,
+                                        width: screenWidth,
+                                        decoration: new BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              appTheme.themeColor,
+                                              appTheme.themeColor,
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                                 // 头像，名字
@@ -230,7 +219,7 @@ class MinePageState extends State<MinePage> {
     );
   }
 
-  void showThemeChooserDialog(BuildContext context, AppTheme appTheme) {
+  void showThemeChooserDialog(BuildContext context, AppThemeProvider appTheme) {
     var result = showDialog(
       context: context,
       barrierDismissible: false,

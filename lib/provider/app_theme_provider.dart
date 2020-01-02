@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/res/theme_colors.dart';
 
-class AppTheme with ChangeNotifier {
+class AppThemeProvider with ChangeNotifier {
   /// 夜间模式
   bool _isDark = false;
 
   /// 主题颜色
-  Color _themeColor = Colors.redAccent;
+  Color _themeColor = getThemeColors()[0];
 
   get themeColor => _themeColor;
 

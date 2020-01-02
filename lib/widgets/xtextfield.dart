@@ -5,9 +5,11 @@ class XTextField extends StatefulWidget {
   Color prefixIconColor;
   String hintText;
   IconData prefixIcon;
-  IconData suffixIcon;
-  GestureTapCallback callback;
+  Widget suffixIcon;
+  GestureTapCallback onTap;
   bool obscureText;
+  FocusNode focusNode;
+  ValueChanged<String> onChanged;
 
   XTextField(
     this.controller,
@@ -16,7 +18,9 @@ class XTextField extends StatefulWidget {
     this.prefixIconColor,
     this.obscureText = false,
     this.suffixIcon,
-    this.callback,
+    this.focusNode,
+    this.onTap,
+    this.onChanged,
   }) : super();
 
   @override
@@ -30,7 +34,10 @@ class XTextFieldState extends State<XTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
-      obscureText: widget.obscureText, //是否是密码
+      obscureText: widget.obscureText,
+      focusNode: widget.focusNode,
+      onChanged: widget.onChanged,
+      //是否是密码
       style: TextStyle(
         fontSize: 16,
         color: Colors.black87,
@@ -44,14 +51,8 @@ class XTextFieldState extends State<XTextField> {
           color: Colors.black87,
         ),
         suffixIcon: GestureDetector(
-          onTap: widget.callback,
-          child: Container(
-            child: Icon(
-              widget.suffixIcon,
-              size: 22,
-              color: Colors.black54,
-            ),
-          ),
+          onTap: widget.onTap,
+          child: widget.suffixIcon,
         ),
       ),
     );

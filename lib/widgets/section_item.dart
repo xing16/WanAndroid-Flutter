@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 
 class SectionItem extends StatefulWidget {
   final IconData icon;
@@ -35,7 +35,6 @@ class SectionItem extends StatefulWidget {
 class SectionItemState extends State<SectionItem> {
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
     return GestureDetector(
       onTap: widget.callback,
       child: Container(
@@ -64,10 +63,14 @@ class SectionItemState extends State<SectionItem> {
                   right: 5,
                 ),
                 Positioned(
-                  child: Icon(
-                    widget.icon,
-                    color: appTheme.themeColor,
-                    size: 22,
+                  child: Consumer<AppThemeProvider>(
+                    builder: (context, provider, child) {
+                      return Icon(
+                        widget.icon,
+                        color: provider.themeColor,
+                        size: 22,
+                      );
+                    },
                   ),
                   top: 16,
                 ),

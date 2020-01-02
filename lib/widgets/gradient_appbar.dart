@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 
 class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget leading;
@@ -35,31 +35,34 @@ class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {
 class GradientAppBarState extends State<GradientAppBar> {
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppTheme>(context);
     return PreferredSize(
       child: Stack(
         children: <Widget>[
-          Container(
-            child: AppBar(
-              brightness: widget.brightness,
-              leading: widget.leading,
-              titleSpacing: 0,
-              title: widget.title,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              centerTitle: widget.centerTitle,
-              actions: widget.actions,
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  appTheme.themeColor,
-                  appTheme.themeColor,
-                ],
-              ),
-            ),
+          Consumer<AppThemeProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                child: AppBar(
+                  brightness: widget.brightness,
+                  leading: widget.leading,
+                  titleSpacing: 0,
+                  title: widget.title,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  centerTitle: widget.centerTitle,
+                  actions: widget.actions,
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      provider.themeColor,
+                      provider.themeColor,
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

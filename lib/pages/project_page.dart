@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/models/app_theme.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/project_tab.dart';
 import 'package:wanandroid_flutter/pages/project_list.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 
 class ProjectPage extends StatefulWidget {
   @override
@@ -36,7 +35,7 @@ class ProjectPageState extends State<ProjectPage>
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var appTheme = Provider.of<AppTheme>(context);
+    var appTheme = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         child: Container(
@@ -49,7 +48,7 @@ class ProjectPageState extends State<ProjectPage>
                     labelPadding: EdgeInsets.only(
                       left: 16,
                       right: 16,
-                      bottom: 5,
+                      bottom: 2,
                     ),
 //                    indicatorPadding: EdgeInsets.all(0),
                     // 选中颜色
