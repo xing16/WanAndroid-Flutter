@@ -4,7 +4,7 @@ import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/project_tab.dart';
-import 'package:wanandroid_flutter/pages/project_list.dart';
+import 'package:wanandroid_flutter/pages/project_list_page.dart';
 import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -123,22 +123,21 @@ class ProjectPageState extends State<ProjectPage>
   }
 
   /// 请求 tabs
-  void loadTabs(int page) {
-    HttpClient.getInstance().get(Api.PROJECT_TABS, callback: (data) {
-      if (data is List) {
-        if (mounted) {
-          for (var value in data) {
-            ProjectTab tab = ProjectTab.fromJson(value);
-            tabList.add(tab);
-          }
-          setState(() {
-            mController = TabController(
-              length: tabList.length,
-              vsync: this,
-            );
-          });
+  void loadTabs(int page) async {
+    var result = await HttpClient.getInstance().get(Api.PROJECT_TABS);
+    if (result is List) {
+      if (mounted) {
+        for (var value in result) {
+          ProjectTab tab = ProjectTab.fromJson(value);
+          tabList.add(tab);
         }
+        setState(() {
+          mController = TabController(
+            length: tabList.length,
+            vsync: this,
+          );
+        });
       }
-    });
+    }
   }
 }

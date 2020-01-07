@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
@@ -28,13 +29,13 @@ class HomePageState extends State<HomePage> {
   ScrollController mController = new ScrollController();
   double appBarOpacity = 0;
   int curPage = 0;
+  EasyRefreshController _refreshController = new EasyRefreshController();
 
   @override
   void initState() {
     super.initState();
     mController.addListener(() {
       double opacity = mController.offset / 150;
-      print("opacity = $opacity");
       if (opacity < 0.0) {
         opacity = 0.0;
       } else if (opacity > 1.0) {
@@ -58,23 +59,50 @@ class HomePageState extends State<HomePage> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: HeaderListView(
-                articles,
-                headerList: [1],
-                headerBuilder: (BuildContext context, int position) {
-                  return getHomeHeader(appTheme.themeColor);
+              child: EasyRefresh(
+                controller: _refreshController,
+                header: ClassicalHeader(),
+                footer: ClassicalFooter(
+                  noMoreText: "到底了",
+                ),
+                onRefresh: () async {
+                  loadHomeArticles(0);
                 },
-                itemBuilder: (BuildContext context, int position) {
-                  return getHomePageItem(context, position);
+                onLoad: () async {
+                  loadHomeArticles(curPage);
                 },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    indent: 12,
-                    endIndent: 12,
-                    height: 0.5,
-                  );
-                },
-                controller: mController,
+//                child: ListView.separated(
+//                  itemBuilder: (context, index) {
+//                    return createHomePageItem(context, index);
+//                  },
+//                  separatorBuilder: (context, index) {
+//                    return Divider(
+//                      indent: 12,
+//                      endIndent: 12,
+//                      height: 0.5,
+//                    );
+//                  },
+//                  itemCount: 30,
+//                ),
+
+                child: HeaderListView(
+                  articles,
+                  headerList: [1],
+                  headerBuilder: (BuildContext context, int position) {
+                    return createHomeHeader(appTheme.themeColor);
+                  },
+                  itemBuilder: (BuildContext context, int position) {
+                    return createHomePageItem(context, position);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      indent: 12,
+                      endIndent: 12,
+                      height: 0.5,
+                    );
+                  },
+                  controller: mController,
+                ),
               ),
             ),
             Opacity(
@@ -134,7 +162,7 @@ class HomePageState extends State<HomePage> {
   }
 
   /// 首页普通 item
-  getHomePageItem(BuildContext context, int index) {
+  createHomePageItem(BuildContext context, int index) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       // item 点击事件
@@ -161,7 +189,7 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: articles[index].fresh,
+                    visible: true,
                     child: Container(
                       child: Text(
                         "最新",
@@ -218,7 +246,7 @@ class HomePageState extends State<HomePage> {
   }
 
   /// 首页 header
-  getHomeHeader(Color themeColor) {
+  createHomeHeader(Color themeColor) {
     return Container(
       height: 200,
       child: Swiper(
@@ -246,28 +274,27 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  loadHomeArticles(int page) {
-    HttpClient.getInstance().get(Api.HOME_ARTICLE, data: {"page": page},
-        callback: (data) {
-      HomeArticle homeArticle = HomeArticle.fromJson(data);
-      List<Article> articles = homeArticle.datas;
-      print("articles = $articles");
-      setState(() {
-        this.articles = articles;
-        curPage++;
-      });
+  loadHomeArticles(int page) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.HOME_ARTICLE, data: {"page": page});
+    curPage = page + 1;
+    HomeArticle homeArticle = HomeArticle.fromJson(result);
+    List<Article> articles = homeArticle.datas;
+    setState(() {
+      if (page == 0) {
+        this.articles.clear();
+      }
+      this.articles.addAll(articles);
     });
   }
 
-  loadBanner() {
-    HttpClient.getInstance().get(Api.BANNER, callback: (data) {
-      print("data ===== bnner === $data");
-      if (data is List) {
-        setState(() {
-          banners = data.map((map) => HomeBanner.fromJson(map)).toList();
-        });
-      }
-    });
+  loadBanner() async {
+    var result = await HttpClient.getInstance().get(Api.BANNER);
+    if (result is List) {
+      setState(() {
+        banners = result.map((map) => HomeBanner.fromJson(map)).toList();
+      });
+    }
   }
 
   /// item 点击事件

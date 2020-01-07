@@ -110,13 +110,12 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
   }
 
   void loadHotSearch() {
-    HttpClient.getInstance().get(Api.SEARCH_HOT, callback: (data) {
-      if (data is List) {
-        setState(() {
-          hotSearchList = data.map((map) => HotSearch.fromJson(map)).toList();
-        });
-      }
-    });
+    var result = HttpClient.getInstance().get(Api.SEARCH_HOT);
+    if (result is List) {
+      setState(() {
+        hotSearchList = result.map((map) => HotSearch.fromJson(map)).toList();
+      });
+    }
   }
 
   List<Widget> createWrapItems() =>
@@ -130,6 +129,6 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
         );
       });
 
-  // 热门搜索项点击
+// 热门搜索项点击
   void onSearchHotClick(String name) {}
 }

@@ -35,19 +35,17 @@ class SystemSquarePageState extends State<SystemSquarePage>
     super.build(context);
     return EasyRefresh(
       controller: _controller,
-//      emptyWidget: EmptyWidget(),
       header: ClassicalHeader(),
       footer: ClassicalFooter(),
       onRefresh: () async {
         loadSystemSquare(0);
       },
       onLoad: () async {
-        print("load = $curPage");
         loadSystemSquare(curPage);
       },
       child: ListView.separated(
         itemBuilder: (context, index) {
-          return getSystemSquareItem(index);
+          return createSystemSquareItem(index);
         },
         separatorBuilder: (context, index) {
           return Divider(
@@ -61,7 +59,7 @@ class SystemSquarePageState extends State<SystemSquarePage>
     );
   }
 
-  getSystemSquareItem(int index) {
+  createSystemSquareItem(int index) {
     Article article = articleList[index];
     return ArticleItem(
       article.title,
@@ -80,19 +78,18 @@ class SystemSquarePageState extends State<SystemSquarePage>
     );
   }
 
-  void loadSystemSquare(int page) {
-    HttpClient.getInstance().get(Api.SQUARE_ARTICLE, data: {"page": page},
-        callback: (data) {
-      print("$data");
-      curPage = page + 1;
-      SystemArticle squareArticle = SystemArticle.fromJson(data);
-      var articles = squareArticle.datas;
-      setState(() {
-        if (page == 0) {
-          articleList.clear();
-        }
-        articleList.addAll(articles);
-      });
+  void loadSystemSquare(int page) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.SQUARE_ARTICLE, data: {"page": page});
+    print("page = $page, result = $result");
+    curPage = page + 1;
+    SystemArticle squareArticle = SystemArticle.fromJson(result);
+    var articles = squareArticle.datas;
+    setState(() {
+      if (page == 0) {
+        articleList.clear();
+      }
+      articleList.addAll(articles);
     });
   }
 

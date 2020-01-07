@@ -56,14 +56,13 @@ class SearchResultPageState extends State<SearchResultPage> {
   }
 
   void loadSearchResult(keyword, int page) {
-    HttpClient.getInstance().post(Api.ARTICLE_SEARCH,
-        data: {"page": page.toString(), "k": keyword}, callback: (data) {
-      print("data ===== bnner === $data");
-      if (data is List) {
-        setState(() {
-          articleList = data.map((map) => Article.fromJson(map)).toList();
-        });
-      }
-    });
+    var result = HttpClient.getInstance().post(Api.ARTICLE_SEARCH,
+        data: {"page": page.toString(), "k": keyword});
+    print("data ===== bnner === $result");
+    if (result is List) {
+      setState(() {
+        articleList = result.map((map) => Article.fromJson(map)).toList();
+      });
+    }
   }
 }

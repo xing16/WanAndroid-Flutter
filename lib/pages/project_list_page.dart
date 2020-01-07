@@ -24,8 +24,7 @@ class ProjectListPageState extends State<ProjectListPage>
   int curPage = 0;
   List<Article> articleList = new List();
   double screenWidth = 0;
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  EasyRefreshController _controller = new EasyRefreshController();
 
   @override
   void initState() {
@@ -37,39 +36,17 @@ class ProjectListPageState extends State<ProjectListPage>
   Widget build(BuildContext context) {
     super.build(context);
     screenWidth = ScreenUtils.getScreenWidth(context);
-    return SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: true,
-      header: WaterDropHeader(),
-      footer: CustomFooter(
-        builder: (BuildContext context, LoadStatus mode) {
-          Widget footer;
-          if (mode == LoadStatus.idle) {
-            footer = Text("上拉加载");
-          } else if (mode == LoadStatus.loading) {
-            footer = CupertinoActivityIndicator();
-          } else if (mode == LoadStatus.failed) {
-            footer = Text("加载失败！点击重试！");
-          } else if (mode == LoadStatus.canLoading) {
-            footer = Text("松手,加载更多!");
-          } else {
-            footer = Text("没有更多数据了!");
-          }
-          return Container(
-            height: 55.0,
-            child: Center(child: footer),
-          );
-        },
+    return EasyRefresh(
+      controller: _controller,
+      header: ClassicalHeader(),
+      footer: ClassicalFooter(
+        noMoreText: "到底了",
       ),
-      controller: _refreshController,
-      onRefresh: () {
-        _refreshController.refreshCompleted();
+      onRefresh: () async {
+        loadProjectList(widget.tabId, 0);
       },
-      onLoading: () {
+      onLoad: () async {
         loadProjectList(widget.tabId, curPage);
-        // if failed,use loadFailed(),if no data return,use LoadNodata()
-        if (mounted) setState(() {});
-        _refreshController.loadComplete();
       },
       child: ListView.separated(
         itemBuilder: (context, index) {
@@ -88,18 +65,17 @@ class ProjectListPageState extends State<ProjectListPage>
   }
 
   /// 请求 tab 下的列表
-  void loadProjectList(int tabId, int page) {
-    HttpClient.getInstance().get(Api.PROJECT_LIST,
-        data: {"page": page, "cid": tabId}, callback: (data) {
-      ProjectArticle projectArticle = ProjectArticle.fromJson(data);
-      curPage = page + 1;
-      print("data = ${projectArticle.datas}");
-      setState(() {
-        if (page == 0) {
-          articleList.clear();
-        }
-        articleList.addAll(projectArticle?.datas);
-      });
+  void loadProjectList(int tabId, int page) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.PROJECT_LIST, data: {"page": page, "cid": tabId});
+    ProjectArticle projectArticle = ProjectArticle.fromJson(result);
+    curPage = page + 1;
+    print("data = ${projectArticle.datas}");
+    setState(() {
+      if (page == 0) {
+        articleList.clear();
+      }
+      articleList.addAll(projectArticle?.datas);
     });
   }
 

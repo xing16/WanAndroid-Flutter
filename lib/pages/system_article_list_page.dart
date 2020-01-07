@@ -79,14 +79,13 @@ class SystemArticleListPageState extends State<SystemArticleListPage> {
     );
   }
 
-  void loadArticleList(int page, int cid) {
-    HttpClient.getInstance().get(Api.SYSTEM_ARTICLE_LIST,
-        data: {"page": page, "cid": cid}, callback: (data) {
-      SystemArticle squareArticle = SystemArticle.fromJson(data);
-      var articles = squareArticle.datas;
-      setState(() {
-        articleList.addAll(articles);
-      });
+  void loadArticleList(int page, int cid) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.SYSTEM_ARTICLE_LIST, data: {"page": page, "cid": cid});
+    SystemArticle squareArticle = SystemArticle.fromJson(result);
+    var articles = squareArticle.datas;
+    setState(() {
+      articleList.addAll(articles);
     });
   }
 

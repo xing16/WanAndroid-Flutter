@@ -5,6 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 
 class HttpClient {
+  static const int ERROR_DIO = 101;
+  static const int ERROR_PARSE = 102;
+
   static const String GET = "GET";
   static const String POST = "POST";
   Dio dio;
@@ -28,25 +31,17 @@ class HttpClient {
   }
 
   ///  GET 请求
-  Future get(String path,
-      {Map<String, dynamic> data,
-      Function callback,
-      Function errorCallback}) async {
-    return _request(path, GET, callback,
-        data: data, errorCallback: errorCallback);
+  get(String path, {Map<String, dynamic> data}) async {
+    return _request(path, GET, data: data);
   }
 
   /// POST 请求
-  Future post(String path,
-      {Map<String, String> data,
-      Function callback,
-      Function errorCallback}) async {
-    _request(path, POST, callback, data: data, errorCallback: errorCallback);
+  post(String path, {Map<String, String> data}) async {
+    return _request(path, POST, data: data);
   }
 
   /// 私有方法，只可本类访问
-  Future _request(String path, String method, Function callback,
-      {Map<String, dynamic> data, Function errorCallback}) async {
+  _request(String path, String method, {Map<String, dynamic> data}) async {
     data = data ?? {};
     method = method ?? GET;
     data.forEach((key, value) {
@@ -59,7 +54,7 @@ class HttpClient {
       Response response =
           await dio.request(path, data: data, options: Options(method: method));
       if (response?.statusCode != 200) {
-        _handleErrorCallback(errorCallback, "网络连接异常");
+        _handleError(response?.statusCode, response?.statusMessage);
         return;
       }
       var jsonString = json.encode(response.data);
@@ -74,35 +69,30 @@ class HttpClient {
         var data = dataMap['data'];
         // 请求失败
         if (errorCode != 0 && error) {
-          _handleErrorCallback(errorCallback, errorMsg);
+          _handleError(errorCode, errorMsg);
           return;
         }
-        if (callback != null) {
-          if (data != null) {
-            callback(data);
-          } else if (results != null) {
-            callback(results);
-          }
+        if (data != null) {
+          return data;
+        } else if (results != null) {
+          return results;
         }
       } else {
-        _handleErrorCallback(errorCallback, "数据解析失败");
+        _handleError(ERROR_PARSE, "数据解析失败");
       }
     } on DioError catch (e) {
       // 请求错误
       var message = e.message;
       print("message = $message");
-      _handleErrorCallback(errorCallback, message);
+      _handleError(ERROR_DIO, message);
     }
   }
 
-  void _handleErrorCallback(Function errorCallback, String errorMsg) {
+  void _handleError(int errorCode, String errorMsg) {
     print("_handleErrorCallback = $errorMsg");
     Fluttertoast.showToast(
         msg: errorMsg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM);
-    if (errorCallback != null) {
-      errorCallback(errorMsg);
-    }
   }
 }

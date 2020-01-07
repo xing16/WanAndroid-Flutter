@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/models/system_category.dart';
 import 'package:wanandroid_flutter/pages/system_article_list_page.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 
 class SystemCategoryPage extends StatefulWidget {
   @override
@@ -181,19 +180,18 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
     );
   }
 
-  void loadSystemCategory() {
-    HttpClient.getInstance().get(Api.SYSTEM_CATEGORY, callback: (data) {
-      if (data is List) {
-        List<SystemCategory> list =
-            data.map((map) => SystemCategory.fromJson(map)).toList();
-        contentSystemList = list[selectedIndex].children;
-        setState(() {
-          if (mounted) {
-            systemCategoryList = list;
-          }
-        });
-      }
-    });
+  void loadSystemCategory() async {
+    var result = await HttpClient.getInstance().get(Api.SYSTEM_CATEGORY);
+    if (result is List) {
+      List<SystemCategory> list =
+          result.map((map) => SystemCategory.fromJson(map)).toList();
+      contentSystemList = list[selectedIndex].children;
+      setState(() {
+        if (mounted) {
+          systemCategoryList = list;
+        }
+      });
+    }
   }
 
   @override

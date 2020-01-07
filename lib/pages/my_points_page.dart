@@ -286,24 +286,22 @@ class MyPointsPageState extends State<MyPointsPage>
   }
 
   /// 获取积分排行版
-  void loadPointsRanking(int page) {
-    HttpClient.getInstance().get(Api.POINTS_RANK, data: {"page": page},
-        callback: (data) {
-      startAnimation();
-      MyPoints myPoints = MyPoints.fromJson(data);
-      setState(() {
-        pointsList = myPoints?.datas;
-      });
+  void loadPointsRanking(int page) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.POINTS_RANK, data: {"page": page});
+    startAnimation();
+    MyPoints myPoints = MyPoints.fromJson(result);
+    setState(() {
+      pointsList = myPoints?.datas;
     });
   }
 
   /// 获取自己的积分
-  void loadOwnPoint() {
-    HttpClient.getInstance().get(Api.POINTS_OWN, callback: (data) {
-      OwnPoints ownPoints = OwnPoints.fromJson(data);
-      setState(() {
-        ownPointsCount = ownPoints?.coinCount?.toDouble();
-      });
+  void loadOwnPoint() async {
+    var result = await HttpClient.getInstance().get(Api.POINTS_OWN);
+    OwnPoints ownPoints = OwnPoints.fromJson(result);
+    setState(() {
+      ownPointsCount = ownPoints?.coinCount?.toDouble();
     });
   }
 }
