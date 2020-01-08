@@ -36,6 +36,7 @@ class GradientAppBarState extends State<GradientAppBar> {
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
+      preferredSize: widget.preferredSize,
       child: Stack(
         children: <Widget>[
           Consumer<AppThemeProvider>(

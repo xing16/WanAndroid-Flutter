@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -75,7 +73,7 @@ class MeiziPageState extends State<MeiziPage> {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
-                  _onItemClick(meizis[index]);
+                  _onItemClick(meizis, index);
                 },
                 child: Container(
                   //随机生成高度
@@ -112,15 +110,19 @@ class MeiziPageState extends State<MeiziPage> {
   @override
   void dispose() {
     super.dispose();
-    mScroller.dispose();
+    mScroller?.dispose();
   }
 
   /// item 点击事件
-  void _onItemClick(Meizi meizi) {
+  void _onItemClick(List<Meizi> meizis, int index) {
+    List<String> urls = new List();
+    meizis.forEach((meizi) {
+      urls.add(meizi.url);
+    });
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => ImagePreviewPage(),
+        builder: (BuildContext context) => ImagePreviewPage(urls, index),
       ),
     );
   }

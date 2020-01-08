@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class ScreenUtils {
-  static double getStatusBarHeight() {
-    return MediaQueryData.fromWindow(window).padding.top;
-  }
+double getStatusBarHeight() {
+  return MediaQueryData.fromWindow(window).padding.top;
+}
 
-  static double getScreenWidth(BuildContext context) {
-    return MediaQuery.of(context).size.width;
-  }
+double getScreenWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
+
+double getScreenHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
 }

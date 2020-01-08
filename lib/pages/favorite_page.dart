@@ -17,12 +17,13 @@ class FavoritePageState extends State<FavoritePage> {
   List<Article> articleList = new List();
   List<String> list = new List();
 
-  GlobalKey<FavoritePageState> _easyRefreshKey =
-      new GlobalKey<FavoritePageState>();
-
   @override
   void initState() {
     super.initState();
+    list.add("casd");
+    list.add("casd");
+    list.add("casd");
+    list.add("casd");
   }
 
   @override
@@ -33,13 +34,40 @@ class FavoritePageState extends State<FavoritePage> {
         title: Text("收藏"),
       ),
       body: EasyRefresh(
-        header: ClassicalHeader(enableHapticFeedback: false),
-        key: _easyRefreshKey,
+        header: ClassicalHeader(),
+        footer: ClassicalFooter(
+          noMoreText: "到底了",
+        ),
         onRefresh: () async {},
         onLoad: () async {},
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            return getFavoriteListItem(index);
+        child:
+//        HeaderListView(
+//          list,
+//          headerList: [1],
+//          headerBuilder: (BuildContext context, int position) {
+//            return Image(
+//              image: AssetImage("images/avatar.jpeg"),
+//            );
+//          },
+//          itemBuilder: (BuildContext context, int position) {
+//            return Text("casdc");
+//          },
+//          separatorBuilder: (context, index) {
+//            return Divider(
+//              indent: 12,
+//              endIndent: 12,
+//              height: 0.5,
+//            );
+//          },
+//        ),
+
+            ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            if (index < 1) {
+              return header(context);
+            }
+            int itemIndex = index - 1;
+            return item(context, itemIndex);
           },
           separatorBuilder: (context, index) {
             return Divider(
@@ -48,13 +76,17 @@ class FavoritePageState extends State<FavoritePage> {
               height: 0.5,
             );
           },
-          itemCount: list.length,
+          itemCount: 20,
         ),
+//            Container(
+//          height: 300,
+//          color: Colors.redAccent,
+//        ),
       ),
     );
   }
 
-  getFavoriteListItem(int index) {
+  getFavoriteListItem(BuildContext context, int index) {
     Article article = articleList[index];
     return ArticleItem(
       article.title,
@@ -70,6 +102,19 @@ class FavoritePageState extends State<FavoritePage> {
           ),
         );
       },
+    );
+  }
+
+  Widget item(BuildContext context, int itemIndex) {
+    return Container(
+      height: 50,
+      child: Text("casdcasc"),
+    );
+  }
+
+  Widget header(BuildContext context) {
+    return Image(
+      image: AssetImage("images/avatar.jpeg"),
     );
   }
 }

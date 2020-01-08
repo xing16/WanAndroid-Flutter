@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/pages/search_page.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 
 import 'system_category_page.dart';
 import 'system_square_page.dart';

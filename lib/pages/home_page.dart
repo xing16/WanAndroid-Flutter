@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_easyrefresh/taurus_header.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
@@ -61,7 +62,7 @@ class HomePageState extends State<HomePage> {
               removeTop: true,
               child: EasyRefresh(
                 controller: _refreshController,
-                header: ClassicalHeader(),
+                header: TaurusHeader(),
                 footer: ClassicalFooter(
                   noMoreText: "到底了",
                 ),
@@ -71,28 +72,13 @@ class HomePageState extends State<HomePage> {
                 onLoad: () async {
                   loadHomeArticles(curPage);
                 },
-//                child: ListView.separated(
-//                  itemBuilder: (context, index) {
-//                    return createHomePageItem(context, index);
-//                  },
-//                  separatorBuilder: (context, index) {
-//                    return Divider(
-//                      indent: 12,
-//                      endIndent: 12,
-//                      height: 0.5,
-//                    );
-//                  },
-//                  itemCount: 30,
-//                ),
-
-                child: HeaderListView(
-                  articles,
-                  headerList: [1],
-                  headerBuilder: (BuildContext context, int position) {
-                    return createHomeHeader(appTheme.themeColor);
-                  },
-                  itemBuilder: (BuildContext context, int position) {
-                    return createHomePageItem(context, position);
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    if (index < 1) {
+                      return createHomeHeader(appTheme.themeColor);
+                    }
+                    int itemIndex = index - 1;
+                    return createHomePageItem(context, itemIndex);
                   },
                   separatorBuilder: (context, index) {
                     return Divider(
@@ -102,7 +88,28 @@ class HomePageState extends State<HomePage> {
                     );
                   },
                   controller: mController,
+                  itemCount: articles.length + 1,
                 ),
+//                child: Container(
+//                  child: HeaderListView(
+//                    articles,
+//                    headerList: [1],
+//                    headerBuilder: (BuildContext context, int position) {
+//                      return createHomeHeader(appTheme.themeColor);
+//                    },
+//                    itemBuilder: (BuildContext context, int position) {
+//                      return createHomePageItem(context, position);
+//                    },
+//                    separatorBuilder: (context, index) {
+//                      return Divider(
+//                        indent: 12,
+//                        endIndent: 12,
+//                        height: 0.5,
+//                      );
+//                    },
+//                    controller: mController,
+//                  ),
+//                ),
               ),
             ),
             Opacity(
@@ -111,7 +118,7 @@ class HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(
                   top: 30,
                 ),
-                height: ScreenUtils.getStatusBarHeight() + 50,
+                height: getStatusBarHeight() + 50,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -189,7 +196,7 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: true,
+                    visible: articles[index].fresh,
                     child: Container(
                       child: Text(
                         "最新",

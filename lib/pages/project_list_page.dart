@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
@@ -35,7 +34,7 @@ class ProjectListPageState extends State<ProjectListPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    screenWidth = ScreenUtils.getScreenWidth(context);
+    screenWidth = getScreenWidth(context);
     return EasyRefresh(
       controller: _controller,
       header: ClassicalHeader(),

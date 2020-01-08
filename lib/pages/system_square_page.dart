@@ -6,9 +6,6 @@ import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/system_article.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
-import 'package:wanandroid_flutter/widgets/content_empty.dart';
-
-import 'favorite_page.dart';
 
 class SystemSquarePage extends StatefulWidget {
   @override

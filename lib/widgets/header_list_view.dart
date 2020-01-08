@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/utils/screen_utils.dart';
 
 typedef HeaderBuilder = Function(BuildContext context, int position);
 typedef ItemBuilder = Function(BuildContext context, int position);
@@ -29,13 +30,16 @@ class HeaderListView extends StatefulWidget {
 class HeaderListViewState extends State<HeaderListView> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (BuildContext context, int position) {
-        return buildItemWidget(context, position);
-      },
-      separatorBuilder: widget.separatorBuilder,
-      itemCount: getItemCount(),
-      controller: widget.controller,
+    return SizedBox(
+      height: getScreenHeight(context),
+      child: ListView.separated(
+        itemBuilder: (BuildContext context, int position) {
+          return buildItemWidget(context, position);
+        },
+        separatorBuilder: widget.separatorBuilder,
+        itemCount: getItemCount(),
+        controller: widget.controller,
+      ),
     );
   }
 
