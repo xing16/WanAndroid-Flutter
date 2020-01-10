@@ -43,9 +43,7 @@ class ArticleItemState extends State<ArticleItem> {
                   Container(
                     child: Text(
                       widget.niceDate,
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context).textTheme.body2,
                     ),
                   ),
                   Container(
@@ -54,9 +52,7 @@ class ArticleItemState extends State<ArticleItem> {
                     ),
                     child: Text(
                       widget.shareUser,
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context).textTheme.body2,
                     ),
                   ),
                 ],

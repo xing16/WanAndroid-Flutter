@@ -10,7 +10,7 @@ List<Color> getThemeColors() {
     ..add(Color(0xffcae053)) //
     ..add(Color(0xff81c842)) //
     ..add(Color(0xff5cc095)) //
-    ..add(Color(0xff569ce4)) //
+    ..add(Color(0xff1e88e5)) //
     ..add(Color(0xff5978e9)) //
     ..add(Color(0xff7668f6)) //
     ..add(Color(0xffa674e6)) //

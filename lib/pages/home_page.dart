@@ -8,14 +8,13 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
 import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
+import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
-import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -53,6 +52,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var appTheme = Provider.of<AppThemeProvider>(context);
+
     return Scaffold(
       body: Container(
         child: Stack(
@@ -223,21 +223,16 @@ class HomePageState extends State<HomePage> {
                   ),
                   Container(
                     child: Text(
-                      articles[index].author.isEmpty
-                          ? articles[index].shareUser
-                          : articles[index].author,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black54,
-                      ),
+                      articles[index].author.isNotEmpty
+                          ? articles[index].author
+                          : articles[index].shareUser,
+                      style: Theme.of(context).textTheme.body2,
                     ),
                   ),
                   Container(
                     child: Text(
                       articles[index].niceDate,
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
+                      style: Theme.of(context).textTheme.body2,
                     ),
                     margin: EdgeInsets.only(
                       left: 20,

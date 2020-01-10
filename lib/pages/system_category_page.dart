@@ -146,14 +146,14 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
       ),
       childrenDelegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return getGridItem(index);
+          return createGridItem(index);
         },
         childCount: contentSystemList.length,
       ),
     );
   }
 
-  getGridItem(int index) {
+  createGridItem(int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(

@@ -64,8 +64,8 @@ class SystemArticleListPageState extends State<SystemArticleListPage> {
     Article article = articleList[index];
     return ArticleItem(
       article.title,
+      article.author.isNotEmpty ? article.author : article.shareUser,
       article.niceDate,
-      article.shareUser,
       () {
         Navigator.push(
           context,

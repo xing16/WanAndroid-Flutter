@@ -72,24 +72,33 @@ class MyApp extends StatelessWidget {
         color: Colors.yellow,
         // 状态栏字体颜色
         brightness: Brightness.dark,
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
+        iconTheme: IconThemeData(color: Colors.white),
         actionsIconTheme: IconThemeData(
           color: Colors.white,
         ),
       ),
       textTheme: TextTheme(
         body1: isDarkMode
-            ? TextStyle(color: Colours.darkAppText)
-            : TextStyle(color: Colours.appText),
+            ? TextStyle(
+                color: Colours.darkAppText,
+              )
+            : TextStyle(
+                color: Colours.appText,
+              ),
 //        subtitle: isDarkMode
 //            ? TextStyle(color: Colors.amber)
 //            : TextStyle(color: Colors.cyan),
 
-        body2: TextStyle(color: Colors.cyan),
-        button: TextStyle(color: Colors.orange),
-        subtitle: TextStyle(color: Colors.green),
+        body2: isDarkMode
+            ? TextStyle(
+                color: Colours.darkAppSubText,
+                fontSize: 14,
+              )
+            : TextStyle(
+                color: Colours.appSubText,
+                fontSize: 14,
+              ),
+        button: TextStyle(color: isDarkMode ? Colors.white30 : Colors.black54),
       ),
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: UnderlineInputBorder(
@@ -116,9 +125,10 @@ class MyApp extends StatelessWidget {
       ),
       dialogTheme: DialogTheme(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
         ),
-        backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
+        backgroundColor:
+            isDarkMode ? Colours.darkDialogBackground : Colors.white,
         titleTextStyle: TextStyle(
           color: isDarkMode ? Colours.darkAppText : Colours.appText,
           fontSize: 20,

@@ -39,8 +39,7 @@ class SettingsPageState extends State<SettingsPage> {
               top: 20,
             ),
             right: Switch(
-//                activeColor: Colours.appThemeColor,
-//                inactiveTrackColor: Theme.of(context).scaffoldBackgroundColor,
+                activeColor: Provider.of<AppThemeProvider>(context).themeColor,
                 value: Provider.of<AppThemeProvider>(context).isDark,
                 onChanged: (value) {
                   print("value = $value");
@@ -59,16 +58,18 @@ class SettingsPageState extends State<SettingsPage> {
             showMore: false,
             hasDivider: true,
           ),
-          SectionItem(
-            Icons.language,
-            "语言设置",
-            callback: () {},
-            hasDivider: true,
-            right: Text(
-              "中文",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
+          SectionItem(Icons.language, "语言设置",
+              callback: () {},
+              hasDivider: true,
+              right: Padding(
+                padding: EdgeInsets.only(
+                  right: 8,
+                ),
+                child: Text(
+                  "中文",
+                  style: TextStyle(fontSize: 16),
+                ),
+              )),
           SectionItem(
             Icons.account_box,
             "关于",
@@ -82,6 +83,11 @@ class SettingsPageState extends State<SettingsPage> {
                 ),
               );
             },
+            right: Icon(
+              Icons.chevron_right,
+              color: Theme.of(context).textTheme.button.color,
+              size: 30,
+            ),
           ),
           Container(
             margin: EdgeInsets.only(

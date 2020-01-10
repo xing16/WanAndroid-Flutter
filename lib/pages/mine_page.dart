@@ -113,7 +113,7 @@ class MinePageState extends State<MinePage> {
                                   ),
                                 ),
                                 Positioned(
-                                  right: 3,
+                                  right: 5,
                                   bottom: 15,
                                   child: GestureDetector(
                                     onTap: () {
@@ -129,7 +129,10 @@ class MinePageState extends State<MinePage> {
                                         ),
                                         Icon(
                                           Icons.chevron_right,
-                                          color: Colors.black45,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .color,
                                           size: 30,
                                         ),
                                       ],
@@ -154,6 +157,12 @@ class MinePageState extends State<MinePage> {
                                     ),
                                   );
                                 },
+                                right: Icon(
+                                  Icons.chevron_right,
+                                  color:
+                                      Theme.of(context).textTheme.button.color,
+                                  size: 30,
+                                ),
                                 margin: EdgeInsets.only(top: 20),
                               ),
                               SectionItem(
@@ -187,6 +196,12 @@ class MinePageState extends State<MinePage> {
                                     ),
                                   );
                                 },
+                                right: Icon(
+                                  Icons.chevron_right,
+                                  color:
+                                      Theme.of(context).textTheme.button.color,
+                                  size: 30,
+                                ),
                                 hasDivider: true,
                               ),
                               SectionItem(
@@ -202,6 +217,12 @@ class MinePageState extends State<MinePage> {
                                     ),
                                   );
                                 },
+                                right: Icon(
+                                  Icons.chevron_right,
+                                  color:
+                                      Theme.of(context).textTheme.button.color,
+                                  size: 30,
+                                ),
                                 hasDivider: false,
                               ),
                             ],

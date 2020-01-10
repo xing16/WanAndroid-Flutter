@@ -61,7 +61,7 @@ class SystemSquarePageState extends State<SystemSquarePage>
     return ArticleItem(
       article.title,
       article.niceDate,
-      article.shareUser,
+      article.author.isNotEmpty ? article.author : article.shareUser,
       () {
         Navigator.push(
           context,

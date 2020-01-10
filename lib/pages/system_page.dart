@@ -60,7 +60,7 @@ class SystemPageState extends State<SystemPage>
                     labelPadding: EdgeInsets.only(
                       left: 16,
                       right: 16,
-                      bottom: 5,
+                      bottom: 2,
                     ),
                     indicatorPadding: EdgeInsets.all(0),
                     // 选中颜色

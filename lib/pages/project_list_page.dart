@@ -130,14 +130,20 @@ class ProjectListPageState extends State<ProjectListPage>
                       children: <Widget>[
                         Container(
                           child: Text(
-                            articleList[position].author,
+                            articleList[position].author.isEmpty
+                                ? articleList[position].shareUser
+                                : articleList[position].author,
+                            style: Theme.of(context).textTheme.body2,
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
                             left: 20,
                           ),
-                          child: Text(articleList[position].niceDate),
+                          child: Text(
+                            articleList[position].niceDate,
+                            style: Theme.of(context).textTheme.body2,
+                          ),
                         ),
                       ],
                     ),
