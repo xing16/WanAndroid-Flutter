@@ -6,9 +6,8 @@ class XTextField extends StatefulWidget {
   String hintText;
   IconData prefixIcon;
   Widget suffixIcon;
-  GestureTapCallback onTap;
   bool obscureText;
-  FocusNode focusNode;
+
   ValueChanged<String> onChanged;
 
   XTextField(
@@ -16,10 +15,8 @@ class XTextField extends StatefulWidget {
     this.hintText, {
     this.prefixIcon,
     this.prefixIconColor,
-    this.obscureText = false,
+    this.obscureText = true,
     this.suffixIcon,
-    this.focusNode,
-    this.onTap,
     this.onChanged,
   }) : super();
 
@@ -30,29 +27,50 @@ class XTextField extends StatefulWidget {
 }
 
 class XTextFieldState extends State<XTextField> {
+  bool hasClearIcon = false;
+  FocusNode focusNode = new FocusNode();
+  bool hasFocus = false;
+
   @override
   Widget build(BuildContext context) {
+    focusNode.addListener(() {
+      print("hasFocus = ${focusNode.hasFocus}");
+      setState(() {
+        hasFocus = focusNode.hasFocus;
+      });
+    });
     return TextField(
       controller: widget.controller,
       obscureText: widget.obscureText,
-      focusNode: widget.focusNode,
-      onChanged: widget.onChanged,
+      focusNode: focusNode,
+      onChanged: (text) {
+        widget.onChanged(text);
+        setState(() {
+          hasClearIcon = text.isNotEmpty;
+        });
+      },
       //是否是密码
       style: TextStyle(
         fontSize: 16,
-        color: Colors.black87,
+        color: Theme.of(context).textTheme.body1.color,
       ),
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: TextStyle(
+          color: Theme.of(context).textTheme.body1.color,
+        ),
         prefixIcon: Icon(
           widget.prefixIcon,
-        ),
-        prefixStyle: TextStyle(
-          color: Colors.black87,
+//          color: Theme.of(context).textTheme.body1.color,
         ),
         suffixIcon: GestureDetector(
-          onTap: widget.onTap,
-          child: widget.suffixIcon,
+          onTap: () {
+            widget.controller.clear();
+            setState(() {
+              hasClearIcon = false;
+            });
+          },
+          child: hasClearIcon && hasFocus ? widget.suffixIcon : Text(""),
         ),
       ),
     );

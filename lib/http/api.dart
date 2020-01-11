@@ -8,23 +8,23 @@ class Api {
   static const String BANNER = "banner/json";
 
   // 收藏文章列表
-  static const String FAVORITE_LIST = BASE_URL + "lg/collect/list/";
+  static const String FAVORITE_LIST = "lg/collect/list/";
 
   // 搜索
   static const String ARTICLE_SEARCH = "article/query/:page/json";
 
   // 收藏,取消收藏
-  static const String FAVORITE = BASE_URL + "lg/collect/";
+  static const String FAVORITE = "lg/collect/";
   static const String UNCOLLECT_ORIGINID = "lg/uncollect_originId/";
 
   // 收藏列表中取消收藏
-  static const String UNCOLLECT_LIST = BASE_URL + "lg/uncollect/";
+  static const String UNCOLLECT_LIST = "lg/uncollect/";
 
   // 登录
-  static const String USER_LOGIN = BASE_URL + "user/login";
+  static const String USER_LOGIN = "user/login";
 
   // 注册
-  static const String USER_REGISTER = BASE_URL + "user/register";
+  static const String USER_REGISTER = "user/register";
 
   // 知识体系
   static const String SYSTEM_CATEGORY = "tree/json";

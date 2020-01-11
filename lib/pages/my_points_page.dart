@@ -222,7 +222,7 @@ class MyPointsPageState extends State<MyPointsPage>
     );
   }
 
-  Widget getTopItem(double height, String name, int coinCount, int index,
+  Widget createTopItem(double height, String name, int coinCount, int index,
       ImageProvider avatar) {
     return Container(
       height: height,
@@ -299,10 +299,13 @@ class MyPointsPageState extends State<MyPointsPage>
   /// 获取自己的积分
   void loadOwnPoint() async {
     var result = await HttpClient.getInstance().get(Api.POINTS_OWN);
-    OwnPoints ownPoints = OwnPoints.fromJson(result);
-    setState(() {
-      ownPointsCount = ownPoints?.coinCount?.toDouble();
-    });
+    if (result != null) {
+      print("loadOwnPoint = $result");
+      OwnPoints ownPoints = OwnPoints.fromJson(result);
+      setState(() {
+        ownPointsCount = ownPoints?.coinCount?.toDouble();
+      });
+    }
   }
 }
 

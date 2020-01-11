@@ -6,7 +6,7 @@ import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class SearchHistoryPage extends StatefulWidget {
-  SearchPage searchPage;
+  final SearchPage searchPage;
 
   SearchHistoryPage(this.searchPage);
 
@@ -42,7 +42,8 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
       headerList: [1],
       headerBuilder: (BuildContext context, int position) {
         return Container(
-          padding: EdgeInsets.all(12),
+          color: Theme.of(context).accentColor,
+          padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -80,8 +81,12 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
       },
       itemBuilder: (BuildContext context, int position) {
         return Container(
+          color: Theme.of(context).accentColor,
           height: 50,
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(
+            left: 15,
+            right: 15,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -91,24 +96,31 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
               ),
               Icon(
                 Icons.close,
-                color: Colors.black54,
+                color: Theme.of(context).textTheme.button.color,
               ),
             ],
           ),
         );
       },
       separatorBuilder: (context, index) {
-        return Divider(
-          indent: 12,
-          endIndent: 12,
-          height: 1,
-        );
+        if (index > 0) {
+          return Divider(
+            indent: 12,
+            endIndent: 12,
+            height: 1,
+          );
+        } else {
+          return Text(
+            "",
+            style: TextStyle(fontSize: 0),
+          );
+        }
       },
     );
   }
 
-  void loadHotSearch() {
-    var result = HttpClient.getInstance().get(Api.SEARCH_HOT);
+  void loadHotSearch() async {
+    var result = await HttpClient.getInstance().get(Api.SEARCH_HOT);
     if (result is List) {
       setState(() {
         hotSearchList = result.map((map) => HotSearch.fromJson(map)).toList();
@@ -119,8 +131,14 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
   List<Widget> createWrapItems() =>
       List.generate(hotSearchList.length, (index) {
         return ActionChip(
-          backgroundColor: Theme.of(context).accentColor,
-          label: Text(hotSearchList[index].name),
+          backgroundColor: Theme.of(context).textTheme.display1.color,
+          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          label: Text(
+            hotSearchList[index].name,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.body1.color,
+            ),
+          ),
           onPressed: () {
             onSearchHotClick(hotSearchList[index].name);
           },

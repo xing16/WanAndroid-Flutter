@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/manager/UserInfoManager.dart';
+import 'package:wanandroid_flutter/models/user_info.dart';
 import 'package:wanandroid_flutter/pages/register_page.dart';
 import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
 import 'package:wanandroid_flutter/widgets/beizier_path_painter.dart';
@@ -55,10 +60,12 @@ class LoginPageState extends State<LoginPage> {
                 usernameController,
                 "用户名",
                 prefixIcon: Icons.person,
-                suffixIcon: Icon(Icons.close),
-                onTap: () {
-                  usernameController.text = "";
-                },
+                obscureText: false,
+                suffixIcon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).textTheme.button.color,
+                ),
+                onChanged: (text) {},
               ),
             ),
             Container(
@@ -71,13 +78,13 @@ class LoginPageState extends State<LoginPage> {
               ),
               child: XTextField(
                 pwdController,
-                "密码",
+                "密  码",
                 prefixIcon: Icons.lock,
                 suffixIcon: Icon(
-                  Icons.visibility,
+                  Icons.close,
+                  color: Theme.of(context).textTheme.button.color,
                 ),
-                onTap: () {},
-                obscureText: true,
+                onChanged: (text) {},
               ),
             ),
             Container(
@@ -94,7 +101,9 @@ class LoginPageState extends State<LoginPage> {
                     flex: 1,
                     child: MaterialButton(
                       elevation: 0,
-                      onPressed: () {},
+                      onPressed: () {
+                        login();
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
@@ -105,8 +114,8 @@ class LoginPageState extends State<LoginPage> {
                       child: Text(
                         "登录",
                         style: TextStyle(
-                          fontSize: 16,
                           color: Colors.white,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -136,7 +145,7 @@ class LoginPageState extends State<LoginPage> {
                 child: Text(
                   "注册账号?",
                   style: TextStyle(
-                    color: Colors.black87,
+                    color: Theme.of(context).textTheme.body1.color,
                     decoration: TextDecoration.underline,
                     fontSize: 16,
                   ),
@@ -147,5 +156,26 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void login() async {
+    String username = usernameController.text;
+    String password = pwdController.text;
+    if (username.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入用户名");
+      return;
+    }
+    if (password.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入密码");
+      return;
+    }
+    var result = await HttpClient.getInstance().post(Api.USER_LOGIN,
+        data: {"username": username, "password": password});
+    UserInfo userInfo = UserInfo.fromJson(result);
+    print("userinfo = $userInfo");
+    if (userInfo != null) {
+      Navigator.pop(context);
+      UserInfoManager.getInstance().setUserInfo(userInfo);
+    }
   }
 }

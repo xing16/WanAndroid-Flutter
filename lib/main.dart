@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       textTheme: TextTheme(
+        // 一级文本
         body1: isDarkMode
             ? TextStyle(
                 color: Colours.darkAppText,
@@ -88,7 +89,7 @@ class MyApp extends StatelessWidget {
 //        subtitle: isDarkMode
 //            ? TextStyle(color: Colors.amber)
 //            : TextStyle(color: Colors.cyan),
-
+        // 二级文本
         body2: isDarkMode
             ? TextStyle(
                 color: Colours.darkAppSubText,
@@ -98,26 +99,29 @@ class MyApp extends StatelessWidget {
                 color: Colours.appSubText,
                 fontSize: 14,
               ),
+        display1: isDarkMode
+            ? TextStyle(color: Colours.darkAppActionClip)
+            : TextStyle(color: Colours.appActionClip),
         button: TextStyle(color: isDarkMode ? Colors.white30 : Colors.black54),
       ),
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFBDBDBD),
+            color: isDarkMode ? Colours.darkAppDivider : Colours.appDivider,
             width: 1,
             style: BorderStyle.solid,
           ),
         ),
         border: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFBDBDBD),
+            color: isDarkMode ? Colours.darkAppDivider : Colours.appDivider,
             width: 1,
             style: BorderStyle.solid,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Color(0xFFBDBDBD),
+            color: isDarkMode ? Colours.darkAppDivider : Colours.appDivider,
             width: 1,
             style: BorderStyle.solid,
           ),

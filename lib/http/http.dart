@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/http/api.dart';
+
+import 'interceptor.dart';
 
 class HttpClient {
   static const int ERROR_DIO = 101;
@@ -19,6 +22,7 @@ class HttpClient {
     dio.options.connectTimeout = 10 * 1000;
     dio.options.sendTimeout = 10 * 1000;
     dio.options.receiveTimeout = 10 * 1000;
+    dio.interceptors.add(new HeaderInterceptor());
   }
 
   /// 保存单例对象
@@ -43,16 +47,24 @@ class HttpClient {
   /// 私有方法，只可本类访问
   _request(String path, String method, {Map<String, dynamic> data}) async {
     data = data ?? {};
+    var tempData = null;
     method = method ?? GET;
-    data.forEach((key, value) {
-      if (path.indexOf(key) != -1) {
-        path = path.replaceAll(":$key", value.toString());
-      }
-    });
-    print("url = ${Api.BASE_URL + path}");
+    if (method == GET) {
+      data.forEach((key, value) {
+        if (path.indexOf(key) != -1) {
+          path = path.replaceAll(":$key", value.toString());
+        }
+      });
+      print("path = ------ $path");
+    } else if (method == POST) {
+      tempData = new FormData.fromMap(data);
+    }
+    print("http: url = ${Api.BASE_URL + path}");
+    print("http: params = $data");
     try {
-      Response response =
-          await dio.request(path, data: data, options: Options(method: method));
+      Response response = await dio.request(path,
+          data: tempData, options: Options(method: method));
+      print("http response = $response");
       if (response?.statusCode != 200) {
         _handleError(response?.statusCode, response?.statusMessage);
         return;
@@ -89,7 +101,7 @@ class HttpClient {
   }
 
   void _handleError(int errorCode, String errorMsg) {
-    print("_handleErrorCallback = $errorMsg");
+    print("_handleError = $errorMsg");
     Fluttertoast.showToast(
         msg: errorMsg,
         toastLength: Toast.LENGTH_SHORT,

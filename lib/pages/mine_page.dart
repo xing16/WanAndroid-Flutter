@@ -294,6 +294,7 @@ class MinePageState extends State<MinePage> {
             ),
             actions: <Widget>[
               Container(
+                margin: EdgeInsets.only(top: 0),
                 child: FlatButton(
                   onPressed: () {
                     Navigator.of(context).pop(curSelectedIndex);
@@ -310,6 +311,7 @@ class MinePageState extends State<MinePage> {
               Container(
                 margin: EdgeInsets.only(
                   right: 20,
+                  top: 0,
                 ),
                 child: FlatButton(
                   onPressed: () {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
-import 'package:wanandroid_flutter/provider/textfield_provider.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/xtextfield.dart';
 
@@ -18,29 +20,14 @@ class RegisterPageState extends State<RegisterPage> {
   TextEditingController pwdController = new TextEditingController();
   TextEditingController repwdController = new TextEditingController();
 
-  FocusNode _usernameFocusNode = new FocusNode();
-  FocusNode _pwdFocusNode = new FocusNode();
-  FocusNode _repwdFocusNode = new FocusNode();
-  TextFieldProvider provider;
-
   @override
   void initState() {
     super.initState();
-    _usernameFocusNode.addListener(() {
-      provider.setHasFocus = _usernameFocusNode.hasFocus;
-    });
-    _pwdFocusNode.addListener(() {
-      provider.setHasFocus = _pwdFocusNode.hasFocus;
-    });
-    _repwdFocusNode.addListener(() {
-      provider.setHasFocus = _repwdFocusNode.hasFocus;
-    });
+    usernameController.addListener(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppThemeProvider>(context);
-    provider = Provider.of<TextFieldProvider>(context);
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: GradientAppBar(
@@ -60,116 +47,103 @@ class RegisterPageState extends State<RegisterPage> {
               child: XTextField(
                 usernameController,
                 "用户名",
-                focusNode: _usernameFocusNode,
                 prefixIcon: Icons.person,
-                suffixIcon: Consumer<TextFieldProvider>(
-                  builder: (context, TextFieldProvider provider, child) {
-                    return Visibility(
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.black54,
-                      ),
-                      visible: provider.hasFocus &&
-                          provider.text.toString().length > 0,
-                    );
-                  },
+                obscureText: false,
+                suffixIcon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).textTheme.button.color,
                 ),
-                onTap: () {
-                  usernameController.clear();
-                  provider.setText = "";
-                  print("length = ${provider.text.toString().length}");
-                },
-                onChanged: (text) {
-                  provider.setText = text;
-                },
+                onChanged: (text) {},
               ),
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 20,
-              ),
-              child: XTextField(
-                pwdController,
-                "用户名",
-                focusNode: _pwdFocusNode,
-                prefixIcon: Icons.person,
-                suffixIcon: Consumer<TextFieldProvider>(
-                  builder: (context, TextFieldProvider provider, child) {
-                    return Visibility(
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.black54,
-                      ),
-                      visible: provider.hasFocus &&
-                          provider.text.toString().length > 0,
-                    );
-                  },
-                ),
-                onTap: () {
-                  usernameController.clear();
-                  provider.setText = "";
-                  print("length = ${provider.text.toString().length}");
-                },
-                onChanged: (text) {
-                  provider.setText = text;
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 10,
+                top: 16,
               ),
               child: XTextField(
                 pwdController,
                 "密码",
                 prefixIcon: Icons.lock,
-                suffixIcon: Icon(Icons.close),
-                onTap: () {
-                  usernameController.text = "";
-                },
+                suffixIcon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).textTheme.button.color,
+                ),
+                onChanged: (text) {},
               ),
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 10,
+                top: 16,
               ),
               child: XTextField(
                 repwdController,
                 "确认密码",
                 prefixIcon: Icons.lock,
-                suffixIcon: Icon(Icons.close),
-                onTap: () {
-                  usernameController.text = "";
-                },
+                suffixIcon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).textTheme.button.color,
+                ),
+                onChanged: (text) {},
               ),
             ),
             Container(
               margin: EdgeInsets.only(
                 top: 30,
               ),
-              child: MaterialButton(
-                elevation: 0,
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                height: 46,
-                minWidth: screenWidth,
-                color: appTheme.themeColor,
-                child: Text(
-                  "注册",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
+              child: Consumer<AppThemeProvider>(
+                builder: (context, provider, child) {
+                  return MaterialButton(
+                    elevation: 0,
+                    onPressed: () {
+                      register();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    height: 46,
+                    minWidth: screenWidth,
+                    color: provider.themeColor,
+                    child: Text(
+                      "注册",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void register() async {
+    String username = usernameController.text;
+    String password = pwdController.text;
+    String repassword = repwdController.text;
+    if (username.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入用户名");
+      return;
+    }
+    if (password.isEmpty || repassword.isEmpty) {
+      Fluttertoast.showToast(msg: "请输入密码");
+      return;
+    }
+    if (password != repassword) {
+      Fluttertoast.showToast(msg: "两次密码不一致");
+      return;
+    }
+    var result = await HttpClient.getInstance().post(Api.USER_REGISTER, data: {
+      "username": username,
+      "password": password,
+      "repassword": repassword
+    });
+    Fluttertoast.showToast(msg: "注册成功");
+    Navigator.of(context).pop();
   }
 }
