@@ -5,7 +5,7 @@ import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/models/project_tab.dart';
 import 'package:wanandroid_flutter/pages/project_list_page.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 
 class ProjectPage extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class ProjectPageState extends State<ProjectPage>
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var appTheme = Provider.of<AppThemeProvider>(context);
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       appBar: PreferredSize(
         child: Container(

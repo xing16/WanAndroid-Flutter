@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/pages/favorite_page.dart';
 import 'package:wanandroid_flutter/pages/meizi_page.dart';
 import 'package:wanandroid_flutter/pages/my_points_page.dart';
@@ -36,7 +36,7 @@ class MinePageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var appTheme = Provider.of<AppThemeProvider>(context);
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("我的"),
@@ -63,7 +63,7 @@ class MinePageState extends State<MinePage> {
                                 // 贝塞尔背景
                                 ClipPath(
                                   clipper: BezierClipper(),
-                                  child: Consumer<AppThemeProvider>(
+                                  child: Consumer<AppTheme>(
                                     builder: (context, provider, child) {
                                       return Container(
                                         height: 180,
@@ -240,7 +240,7 @@ class MinePageState extends State<MinePage> {
     );
   }
 
-  void showThemeChooserDialog(BuildContext context, AppThemeProvider appTheme) {
+  void showThemeChooserDialog(BuildContext context, AppTheme appTheme) {
     var result = showDialog(
       context: context,
       barrierDismissible: false,

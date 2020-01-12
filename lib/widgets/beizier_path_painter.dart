@@ -10,6 +10,7 @@ class BezierPathPainter extends CustomPainter {
   BezierPathPainter(this.color) {
     mPaint = new Paint()
       ..color = color
+      ..style = PaintingStyle.fill
       ..isAntiAlias = true;
   }
 

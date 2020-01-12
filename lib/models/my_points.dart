@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'my_points.g.dart';
 
 @JsonSerializable()
-class MyPoints extends Object {
+class PointsRank extends Object {
   @JsonKey(name: 'curPage')
   int curPage;
 
@@ -25,7 +25,7 @@ class MyPoints extends Object {
   @JsonKey(name: 'total')
   int total;
 
-  MyPoints(
+  PointsRank(
     this.curPage,
     this.datas,
     this.offset,
@@ -35,10 +35,10 @@ class MyPoints extends Object {
     this.total,
   );
 
-  factory MyPoints.fromJson(Map<String, dynamic> srcJson) =>
-      _$MyPointsFromJson(srcJson);
+  factory PointsRank.fromJson(Map<String, dynamic> srcJson) =>
+      _$PointsRankFromJson(srcJson);
 
-  Map<String, dynamic> toJson() => _$MyPointsToJson(this);
+  Map<String, dynamic> toJson() => _$PointsRankToJson(this);
 }
 
 @JsonSerializable()

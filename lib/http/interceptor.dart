@@ -1,4 +1,3 @@
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 
 class HeaderInterceptor extends Interceptor {
@@ -8,8 +7,8 @@ class HeaderInterceptor extends Interceptor {
     var parameters = options.queryParameters;
     print("onRequest: path = $path");
     print("onRequest: parameters = $parameters");
-    var cookieJar = new PersistCookieJar(dir: "./cookies");
-    options.headers.addAll({"developer": "xing", "cookie": cookieJar});
+    print("onRequest: options.headers = ${options.headers}");
+    options.headers.addAll({"developer": "xing"});
     return super.onRequest(options);
   }
 }

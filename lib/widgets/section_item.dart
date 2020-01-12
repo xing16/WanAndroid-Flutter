@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 
 class SectionItem extends StatefulWidget {
   final IconData icon;
@@ -63,7 +63,7 @@ class SectionItemState extends State<SectionItem> {
                   right: 5,
                 ),
                 Positioned(
-                  child: Consumer<AppThemeProvider>(
+                  child: Consumer<AppTheme>(
                     builder: (context, provider, child) {
                       return Icon(
                         widget.icon,

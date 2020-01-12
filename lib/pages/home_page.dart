@@ -13,7 +13,7 @@ import 'package:wanandroid_flutter/models/home_article.dart';
 import 'package:wanandroid_flutter/models/home_banner.dart';
 import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,7 +51,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppThemeProvider>(context);
+    var appTheme = Provider.of<AppTheme>(context);
 
     return Scaffold(
       body: Container(

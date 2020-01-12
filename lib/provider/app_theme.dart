@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/res/theme_colors.dart';
 
-class AppThemeProvider with ChangeNotifier {
+class AppTheme with ChangeNotifier {
   /// 夜间模式
   bool _isDark = false;
 

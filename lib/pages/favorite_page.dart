@@ -4,6 +4,9 @@ import 'package:wanandroid_flutter/models/article.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
+import 'package:wanandroid_flutter/http/http.dart';
+import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/models/article_response.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -16,14 +19,27 @@ class FavoritePageState extends State<FavoritePage> {
   double screenWidth = 0;
   List<Article> articleList = new List();
   List<String> list = new List();
+  int currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    list.add("casd");
-    list.add("casd");
-    list.add("casd");
-    list.add("casd");
+    loadFavorites(currentPage);
+  }
+
+  void loadFavorites(int page) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.FAVORITE_LIST, data: {"page": page});
+    if (result != null) {
+      ArticleResponse articleResponse = ArticleResponse.fromJson(result);
+      List<Article> articles = articleResponse.datas;
+      if (page == 0) {
+        articleList.clear();
+      }
+      setState(() {
+        articleList.addAll(articles);
+      });
+    }
   }
 
   @override
@@ -40,34 +56,9 @@ class FavoritePageState extends State<FavoritePage> {
         ),
         onRefresh: () async {},
         onLoad: () async {},
-        child:
-//        HeaderListView(
-//          list,
-//          headerList: [1],
-//          headerBuilder: (BuildContext context, int position) {
-//            return Image(
-//              image: AssetImage("images/avatar.jpeg"),
-//            );
-//          },
-//          itemBuilder: (BuildContext context, int position) {
-//            return Text("casdc");
-//          },
-//          separatorBuilder: (context, index) {
-//            return Divider(
-//              indent: 12,
-//              endIndent: 12,
-//              height: 0.5,
-//            );
-//          },
-//        ),
-
-            ListView.separated(
+        child: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
-            if (index < 1) {
-              return header(context);
-            }
-            int itemIndex = index - 1;
-            return item(context, itemIndex);
+            return createFavoriteListItem(context, index);
           },
           separatorBuilder: (context, index) {
             return Divider(
@@ -76,22 +67,26 @@ class FavoritePageState extends State<FavoritePage> {
               height: 0.5,
             );
           },
-          itemCount: 20,
+          itemCount: articleList.length,
         ),
-//            Container(
-//          height: 300,
-//          color: Colors.redAccent,
-//        ),
       ),
     );
   }
 
-  getFavoriteListItem(BuildContext context, int index) {
+  createFavoriteListItem(BuildContext context, int index) {
     Article article = articleList[index];
+    String author;
+    if (article.author != null) {
+      author = article.author;
+    } else if (article.shareUser != null) {
+      author = article.shareUser;
+    } else {
+      author = "";
+    }
     return ArticleItem(
       article.title,
       article.niceDate,
-      article.shareUser,
+      author,
       () {
         Navigator.push(
           context,

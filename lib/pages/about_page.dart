@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/link_text.dart';
+import 'package:wanandroid_flutter/widgets/beizier_path_painter.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -24,10 +25,6 @@ class AboutPageState extends State<AboutPage> {
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("关于"),
-        colors: [
-          Colours.appThemeColor,
-          Color(0xfffa5650),
-        ],
       ),
       body: Container(
         color: Theme.of(context).accentColor,
@@ -35,6 +32,12 @@ class AboutPageState extends State<AboutPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Container(
+              child: CustomPaint(
+                size: Size(screenWidth, 150),
+                painter: BezierPathPainter(Colors.redAccent),
+              ),
+            ),
             Container(
               child: Text(
                 "简介",

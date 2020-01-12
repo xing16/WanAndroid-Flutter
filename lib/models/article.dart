@@ -2,6 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'article.g.dart';
 
+/// https://caijinglong.github.io/json2dart/index.html
+///
+/// flutter packages pub run build_runner build
 @JsonSerializable()
 class Article extends Object {
   @JsonKey(name: 'apkLink')

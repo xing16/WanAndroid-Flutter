@@ -6,8 +6,8 @@ part of 'my_points.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MyPoints _$MyPointsFromJson(Map<String, dynamic> json) {
-  return MyPoints(
+PointsRank _$PointsRankFromJson(Map<String, dynamic> json) {
+  return PointsRank(
     json['curPage'] as int,
     (json['datas'] as List)
         ?.map((e) =>
@@ -21,7 +21,8 @@ MyPoints _$MyPointsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MyPointsToJson(MyPoints instance) => <String, dynamic>{
+Map<String, dynamic> _$PointsRankToJson(PointsRank instance) =>
+    <String, dynamic>{
       'curPage': instance.curPage,
       'datas': instance.datas,
       'offset': instance.offset,

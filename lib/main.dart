@@ -4,27 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wanandroid_flutter/pages/home_page.dart';
 import 'package:wanandroid_flutter/pages/login_page.dart';
-import 'package:wanandroid_flutter/pages/mine_page.dart';
-import 'package:wanandroid_flutter/pages/project_page.dart';
-import 'package:wanandroid_flutter/pages/system_page.dart';
-import 'package:wanandroid_flutter/provider/textfield_provider.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
-
-import 'provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/pages/main_page.dart';
+import 'provider/app_theme.dart';
+import 'provider/login_state.dart';
 
 void main() {
-  final appThemeProvider = AppThemeProvider();
-  final textFieldProvider = TextFieldProvider();
+  final appTheme = AppTheme();
+  final loginState = LoginState();
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider.value(value: appThemeProvider),
-      ChangeNotifierProvider.value(value: textFieldProvider),
-    ],
-    child: MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: appTheme),
+        ChangeNotifierProvider.value(value: loginState),
+      ],
+      child: MyApp(),
+    ),
+  );
+
   // 设置状态栏和 appbar 颜色一致
   if (Platform.isAndroid) {
     var systemUiOverlayStyle =
@@ -36,7 +35,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppThemeProvider>(context);
+    var appTheme = Provider.of<AppTheme>(context);
     queryDark(appTheme);
     return MaterialApp(
       title: 'WanAndroid',
@@ -154,100 +153,10 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  queryDark(AppThemeProvider appTheme) async {
+  queryDark(AppTheme appTheme) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     bool isDark = sp.getBool("dark") ?? false;
     print("main isDark = $isDark");
     appTheme.setDark(isDark);
-  }
-}
-
-class MainPage extends StatefulWidget {
-  MainPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  MainPageState createState() => MainPageState();
-}
-
-class MainPageState extends State<MainPage> {
-  int mCurrentIndex = 0;
-  List<Widget> pages = new List<Widget>();
-
-  @override
-  void initState() {
-    super.initState();
-    pages
-      ..add(HomePage())
-      ..add(ProjectPage())
-      ..add(SystemPage())
-      ..add(MinePage());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppThemeProvider>(context);
-    return Scaffold(
-      body: IndexedStack(
-        index: mCurrentIndex,
-        children: pages,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme: IconThemeData(
-          color: appTheme.themeColor,
-        ),
-        unselectedIconTheme: IconThemeData(
-//          color: Colors.black54,
-            ),
-        selectedFontSize: 14,
-        elevation: 50,
-        unselectedFontSize: 14,
-        selectedItemColor: appTheme.themeColor,
-        unselectedItemColor: Color(0xff555555),
-        showUnselectedLabels: true,
-        currentIndex: mCurrentIndex,
-        onTap: onNavigationItemSelected,
-        items: [
-          createNavigationBarItem(
-            context,
-            "首页",
-            Icon(Icons.home),
-          ),
-          createNavigationBarItem(
-            context,
-            "项目",
-            Icon(Icons.store),
-          ),
-          createNavigationBarItem(
-            context,
-            "体系",
-            Icon(Icons.apps),
-          ),
-          createNavigationBarItem(
-            context,
-            "我的",
-            Icon(Icons.person),
-          ),
-        ],
-      ),
-    );
-  }
-
-  createNavigationBarItem(BuildContext context, String content, Icon icon) {
-    return BottomNavigationBarItem(
-      title: new Text(
-        content,
-        style: TextStyle(fontSize: 12),
-      ),
-      icon: icon,
-      backgroundColor: Theme.of(context).accentColor,
-    );
-  }
-
-  void onNavigationItemSelected(int value) {
-    setState(() {
-      this.mCurrentIndex = value;
-    });
   }
 }

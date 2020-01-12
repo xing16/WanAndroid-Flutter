@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/models/my_points.dart';
 import 'package:wanandroid_flutter/models/own_points.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
@@ -20,8 +20,8 @@ class MyPointsPage extends StatefulWidget {
 class MyPointsPageState extends State<MyPointsPage>
     with TickerProviderStateMixin {
   AnimationController animationController;
-  Animation<double> animation;
-  double ownPointsCount = 6000;
+  Animation animation;
+  int ownPointsCount = 0;
   int maxPointsCount = 4000;
   double screenWidth = 0;
   List<UserPoints> pointsList = new List();
@@ -32,11 +32,10 @@ class MyPointsPageState extends State<MyPointsPage>
     super.initState();
     animationController = new AnimationController(
         duration: const Duration(milliseconds: 800), vsync: this);
-    animation =
-        new Tween(begin: 0.0, end: ownPointsCount).animate(animationController)
-          ..addListener(() {
-//        setState(() {});
-          });
+    animation = new IntTween(begin: 0, end: ownPointsCount)
+        .animate(animationController)
+          ..addListener(() {});
+
     loadPointsRanking(curPage);
     loadOwnPoint();
   }
@@ -48,7 +47,7 @@ class MyPointsPageState extends State<MyPointsPage>
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var appTheme = Provider.of<AppThemeProvider>(context);
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("积分"),
@@ -289,8 +288,7 @@ class MyPointsPageState extends State<MyPointsPage>
   void loadPointsRanking(int page) async {
     var result = await HttpClient.getInstance()
         .get(Api.POINTS_RANK, data: {"page": page});
-    startAnimation();
-    MyPoints myPoints = MyPoints.fromJson(result);
+    PointsRank myPoints = PointsRank.fromJson(result);
     setState(() {
       pointsList = myPoints?.datas;
     });
@@ -302,15 +300,18 @@ class MyPointsPageState extends State<MyPointsPage>
     if (result != null) {
       print("loadOwnPoint = $result");
       OwnPoints ownPoints = OwnPoints.fromJson(result);
-      setState(() {
-        ownPointsCount = ownPoints?.coinCount?.toDouble();
-      });
+      if (ownPoints != null) {
+        setState(() {
+          ownPointsCount = ownPoints.coinCount;
+        });
+        startAnimation();
+      }
     }
   }
 }
 
 class AnimationCirclePointsWidget extends AnimatedWidget {
-  final Animation<double> animation;
+  final Animation<int> animation;
   final int maxPointsCount;
 
   AnimationCirclePointsWidget(this.maxPointsCount, this.animation, {Key key})
@@ -321,7 +322,7 @@ class AnimationCirclePointsWidget extends AnimatedWidget {
     return Container(
       child: CustomPaint(
         size: Size(220, 220),
-        painter: CircleDegreeRing(animation.value.toInt(), maxPointsCount),
+        painter: CircleDegreeRing(animation.value, maxPointsCount),
       ),
     );
   }

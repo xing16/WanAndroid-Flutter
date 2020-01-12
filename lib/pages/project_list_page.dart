@@ -49,7 +49,7 @@ class ProjectListPageState extends State<ProjectListPage>
       },
       child: ListView.separated(
         itemBuilder: (context, index) {
-          return getProjectListItem(index);
+          return createProjectListItem(index);
         },
         separatorBuilder: (context, index) {
           return Divider(
@@ -79,7 +79,7 @@ class ProjectListPageState extends State<ProjectListPage>
   }
 
   /// ListView item
-  getProjectListItem(int position) {
+  createProjectListItem(int position) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {

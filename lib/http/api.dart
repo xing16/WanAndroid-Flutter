@@ -8,7 +8,7 @@ class Api {
   static const String BANNER = "banner/json";
 
   // 收藏文章列表
-  static const String FAVORITE_LIST = "lg/collect/list/";
+  static const String FAVORITE_LIST = "lg/collect/list/:page/json";
 
   // 搜索
   static const String ARTICLE_SEARCH = "article/query/:page/json";

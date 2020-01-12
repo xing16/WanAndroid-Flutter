@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/xtextfield.dart';
 
@@ -30,6 +30,7 @@ class RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: GradientAppBar(
         title: Text("注册"),
       ),
@@ -90,7 +91,7 @@ class RegisterPageState extends State<RegisterPage> {
               margin: EdgeInsets.only(
                 top: 30,
               ),
-              child: Consumer<AppThemeProvider>(
+              child: Consumer<AppTheme>(
                 builder: (context, provider, child) {
                   return MaterialButton(
                     elevation: 0,

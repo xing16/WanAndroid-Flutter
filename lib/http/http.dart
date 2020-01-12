@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/http/api.dart';
-
+import 'package:wanandroid_flutter/utils/file_utils.dart';
 import 'interceptor.dart';
 
 class HttpClient {
@@ -14,6 +15,7 @@ class HttpClient {
   static const String GET = "GET";
   static const String POST = "POST";
   Dio dio;
+  PersistCookieJar persistCookieJar;
 
   /// 私有构造函数
   HttpClient._internal() {
@@ -23,6 +25,13 @@ class HttpClient {
     dio.options.sendTimeout = 10 * 1000;
     dio.options.receiveTimeout = 10 * 1000;
     dio.interceptors.add(new HeaderInterceptor());
+
+    /// cookie
+    getCookiePath().then((path) {
+      persistCookieJar = new PersistCookieJar(dir: path);
+      CookieManager cookieManager = new CookieManager(persistCookieJar);
+      dio.interceptors.add(cookieManager);
+    });
   }
 
   /// 保存单例对象
@@ -47,7 +56,7 @@ class HttpClient {
   /// 私有方法，只可本类访问
   _request(String path, String method, {Map<String, dynamic> data}) async {
     data = data ?? {};
-    var tempData = null;
+    var tempData;
     method = method ?? GET;
     if (method == GET) {
       data.forEach((key, value) {
@@ -106,5 +115,7 @@ class HttpClient {
         msg: errorMsg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM);
+    // 未登录
+    if (errorCode == -1001) {}
   }
 }

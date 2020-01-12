@@ -4,7 +4,7 @@ import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/system_category.dart';
 import 'package:wanandroid_flutter/pages/system_article_list_page.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 
 class SystemCategoryPage extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class SystemCategoryPageState extends State<SystemCategoryPage>
   Widget build(BuildContext context) {
     super.build(context);
     screenWidth = MediaQuery.of(context).size.width;
-    var themeColor = Provider.of<AppThemeProvider>(context).themeColor;
+    var themeColor = Provider.of<AppTheme>(context).themeColor;
     return Container(
       child: Row(
         children: <Widget>[

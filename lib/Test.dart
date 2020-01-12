@@ -26,3 +26,7 @@ request() async {
     return e.toString();
   }
 }
+
+class Person {
+  Person() async {}
+}

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:wanandroid_flutter/provider/app_theme_provider.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;
@@ -18,7 +20,7 @@ class WebViewPage extends StatefulWidget {
 
 class WebViewPageState extends State<WebViewPage> {
   List<Map<String, Object>> list = new List();
-  var appTheme;
+  String loadUrl;
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appTheme = Provider.of<AppThemeProvider>(context);
+    var appTheme = Provider.of<AppTheme>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: GradientAppBar(
@@ -66,6 +68,7 @@ class WebViewPageState extends State<WebViewPage> {
           });
           controller.currentUrl().then((url) {
             print(url);
+            loadUrl = url;
           });
         },
         onPageFinished: (String url) {
@@ -91,10 +94,14 @@ class WebViewPageState extends State<WebViewPage> {
               childAspectRatio: 0.8,
             ),
             itemBuilder: (BuildContext context, int index) {
-              return createBottomSheetItem(
-                  color, list[index]['title'], list[index]['icon'], (index) {
-                handleBottomSheetItemClick(context, index);
-              });
+              return GestureDetector(
+                child: createBottomSheetItem(
+                    color, list[index]['title'], list[index]['icon']),
+                onTap: () {
+                  Navigator.pop(context);
+                  handleBottomSheetItemClick(context, index);
+                },
+              );
             },
             itemCount: list.length,
           ),
@@ -103,39 +110,33 @@ class WebViewPageState extends State<WebViewPage> {
     );
   }
 
-  createBottomSheetItem(
-      Color color, String title, IconData icon, Function onClick) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pop();
-      },
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(
-              top: 10,
-              bottom: 10,
-            ),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Icon(
-              icon,
-              color: color,
-              size: 32,
-            ),
+  createBottomSheetItem(Color color, String title, IconData icon) {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
           ),
-          Text(
-            title,
-            maxLines: 1,
-            style: TextStyle(
-              fontSize: 14,
-            ),
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).accentColor,
+            borderRadius: BorderRadius.circular(20),
           ),
-        ],
-      ),
+          child: Icon(
+            icon,
+            color: color,
+            size: 32,
+          ),
+        ),
+        Text(
+          title,
+          maxLines: 1,
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ],
     );
   }
 
@@ -145,6 +146,7 @@ class WebViewPageState extends State<WebViewPage> {
         addArticleFavorite();
         break;
       case 1:
+        print("cdscsdc");
         copyLink();
         break;
       case 2:
@@ -159,13 +161,22 @@ class WebViewPageState extends State<WebViewPage> {
     }
   }
 
+  /// 添加收藏
   void addArticleFavorite() {}
 
-  void copyLink() {}
+  /// 复制链接
+  void copyLink() {
+    ClipboardData data = new ClipboardData(text: loadUrl);
+    Clipboard.setData(data);
+    Fluttertoast.showToast(msg: "复制成功");
+  }
 
+  /// 从浏览器打开
   void openByBrowser() {}
 
+  /// 分享到微信
   void shareWeChat() {}
 
+  /// 刷新
   void refresh() {}
 }

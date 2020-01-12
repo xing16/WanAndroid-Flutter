@@ -18,13 +18,13 @@ class CircleDegreeRing extends CustomPainter {
   double gap = 2;
   double centerRingWidth = 16;
   TextPainter textPainter;
-  int curPoints;
-  int maxPoints;
+  int curValue;
+  int maxValue;
 
   Offset pointOffset;
 
-  CircleDegreeRing(this.curPoints, this.maxPoints) {
-    percent = curPoints / maxPoints > 1 ? 1 : curPoints / maxPoints;
+  CircleDegreeRing(this.curValue, this.maxValue) {
+    percent = curValue / maxValue > 1 ? 1 : curValue / maxValue;
   }
 
   @override
@@ -87,7 +87,7 @@ class CircleDegreeRing extends CustomPainter {
       text: TextSpan(
         children: [
           TextSpan(
-            text: curPoints.toString(),
+            text: curValue.toString(),
             style: TextStyle(
               color: Colors.white,
               fontSize: 34,
@@ -115,7 +115,7 @@ class CircleDegreeRing extends CustomPainter {
       text: TextSpan(
         children: [
           TextSpan(
-            text: getTipString(curPoints),
+            text: getTipString(curValue),
             style: TextStyle(
               color: Colors.white70,
               fontSize: 22,
