@@ -33,12 +33,6 @@ class AboutPageState extends State<AboutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              child: CustomPaint(
-                size: Size(screenWidth, 150),
-                painter: BezierPathPainter(Colors.redAccent),
-              ),
-            ),
-            Container(
               child: Text(
                 "简介",
                 style: TextStyle(

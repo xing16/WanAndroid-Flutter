@@ -16,6 +16,8 @@ class BezierPathPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    print("ppppp");
+    mPaint.color = color;
     canvas.save();
     canvas.translate(size.width / 2, size.height / 2);
 
@@ -50,6 +52,6 @@ class BezierPathPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return false;
   }
 }

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 class XTextField extends StatefulWidget {
   final TextEditingController controller;
-  Color prefixIconColor;
-  String hintText;
-  IconData prefixIcon;
-  Widget suffixIcon;
-  bool obscureText;
-
-  ValueChanged<String> onChanged;
+  final Color prefixIconColor;
+  final String hintText;
+  final IconData prefixIcon;
+  final Widget suffixIcon;
+  final bool obscureText;
+  final ValueChanged<String> onChanged;
 
   XTextField(
     this.controller,
@@ -33,6 +32,7 @@ class XTextFieldState extends State<XTextField> {
 
   @override
   Widget build(BuildContext context) {
+    print("build..........");
     focusNode.addListener(() {
       print("hasFocus = ${focusNode.hasFocus}");
       setState(() {

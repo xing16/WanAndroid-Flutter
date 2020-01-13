@@ -43,6 +43,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("casdcasdc--------");
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
 //      backgroundColor: Theme.of(context).accentColor,
@@ -59,11 +60,6 @@ class LoginPageState extends State<LoginPage> {
       body: Column(
         children: <Widget>[
           Container(
-            color: Colors.cyan,
-//            child: CustomPaint(
-//              size: Size(screenWidth, 150),
-//              painter: BezierPathPainter(),
-//            ),
             child: Consumer<AppTheme>(
               builder: (BuildContext context, AppTheme appTheme, child) {
                 return CustomPaint(
@@ -81,6 +77,7 @@ class LoginPageState extends State<LoginPage> {
               left: 20,
               right: 20,
             ),
+//            child: Text("ccc"),
             child: XTextField(
               usernameController,
               "用户名",
@@ -88,7 +85,7 @@ class LoginPageState extends State<LoginPage> {
               obscureText: false,
               suffixIcon: Icon(
                 Icons.close,
-                color: Theme.of(context).textTheme.button.color,
+//                color: Theme.of(context).textTheme.button.color,
               ),
               onChanged: (text) {},
             ),
@@ -183,10 +180,6 @@ class LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-
-//      SingleChildScrollView(
-//        child:
-//      ),
     );
   }
 
