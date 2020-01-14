@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanandroid_flutter/pages/login_page.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/pages/main_page.dart';
-import 'provider/app_theme.dart';
-import 'provider/login_state.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
+import 'package:wanandroid_flutter/provider/login_state.dart';
 
 void main() {
   final appTheme = AppTheme();

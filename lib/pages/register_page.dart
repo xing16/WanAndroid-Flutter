@@ -29,95 +29,102 @@ class RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
-      appBar: GradientAppBar(
-        title: Text("注册"),
-      ),
-      body: Container(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
+    return WillPopScope(
+      onWillPop: () async {
+        // 拦截返回键,避免页面先关闭，再关闭软键盘
+        FocusScope.of(context).unfocus();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).accentColor,
+        appBar: GradientAppBar(
+          title: Text("注册"),
         ),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: 20,
-              ),
-              child: XTextField(
-                usernameController,
-                "用户名",
-                prefixIcon: Icons.person,
-                obscureText: false,
-                suffixIcon: Icon(
-                  Icons.close,
-                  color: Theme.of(context).textTheme.button.color,
+        body: Container(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+          ),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                  top: 20,
                 ),
-                onChanged: (text) {},
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 16,
-              ),
-              child: XTextField(
-                pwdController,
-                "密码",
-                prefixIcon: Icons.lock,
-                suffixIcon: Icon(
-                  Icons.close,
-                  color: Theme.of(context).textTheme.button.color,
+                child: XTextField(
+                  usernameController,
+                  "用户名",
+                  prefixIcon: Icons.person,
+                  obscureText: false,
+                  suffixIcon: Icon(
+                    Icons.close,
+                    color: Theme.of(context).textTheme.button.color,
+                  ),
+                  onChanged: (text) {},
                 ),
-                onChanged: (text) {},
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 16,
-              ),
-              child: XTextField(
-                repwdController,
-                "确认密码",
-                prefixIcon: Icons.lock,
-                suffixIcon: Icon(
-                  Icons.close,
-                  color: Theme.of(context).textTheme.button.color,
+              Container(
+                margin: EdgeInsets.only(
+                  top: 16,
                 ),
-                onChanged: (text) {},
+                child: XTextField(
+                  pwdController,
+                  "密码",
+                  prefixIcon: Icons.lock,
+                  suffixIcon: Icon(
+                    Icons.close,
+                    color: Theme.of(context).textTheme.button.color,
+                  ),
+                  onChanged: (text) {},
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 30,
+              Container(
+                margin: EdgeInsets.only(
+                  top: 16,
+                ),
+                child: XTextField(
+                  repwdController,
+                  "确认密码",
+                  prefixIcon: Icons.lock,
+                  suffixIcon: Icon(
+                    Icons.close,
+                    color: Theme.of(context).textTheme.button.color,
+                  ),
+                  onChanged: (text) {},
+                ),
               ),
-              child: Consumer<AppTheme>(
-                builder: (context, provider, child) {
-                  return MaterialButton(
-                    elevation: 0,
-                    onPressed: () {
-                      register();
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
+              Container(
+                margin: EdgeInsets.only(
+                  top: 30,
+                ),
+                child: Consumer<AppTheme>(
+                  builder: (context, provider, child) {
+                    return MaterialButton(
+                      elevation: 0,
+                      onPressed: () {
+                        register();
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
                       ),
-                    ),
-                    height: 46,
-                    minWidth: screenWidth,
-                    color: provider.themeColor,
-                    child: Text(
-                      "注册",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
+                      height: 46,
+                      minWidth: screenWidth,
+                      color: provider.themeColor,
+                      child: Text(
+                        "注册",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

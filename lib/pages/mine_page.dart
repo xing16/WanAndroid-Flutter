@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/pages/favorite_page.dart';
 import 'package:wanandroid_flutter/pages/meizi_page.dart';
 import 'package:wanandroid_flutter/pages/my_points_page.dart';
 import 'package:wanandroid_flutter/pages/settings_page.dart';
+import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/res/theme_colors.dart';
 import 'package:wanandroid_flutter/widgets/bezier_clipper.dart';
@@ -23,8 +23,9 @@ class MinePage extends StatefulWidget {
 class MinePageState extends State<MinePage> {
   double screenWidth = 0;
   List<Color> themeColors = new List();
-  int clickedIndex = 0;
+
   int curSelectedIndex = 0;
+  int clickedIndex = 0;
   Color resultColor = Colours.appThemeColor;
 
   @override
@@ -37,6 +38,10 @@ class MinePageState extends State<MinePage> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     var appTheme = Provider.of<AppTheme>(context);
+    getSelectedColorIndex().then((index) {
+      curSelectedIndex = index ?? 0;
+      appTheme.updateThemeColor(themeColors[curSelectedIndex]);
+    });
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("我的"),
@@ -169,7 +174,8 @@ class MinePageState extends State<MinePage> {
                                 Icons.color_lens,
                                 "主题颜色",
                                 callback: () {
-                                  showThemeChooserDialog(context, appTheme);
+                                  showThemeChooserDialog(
+                                      context, curSelectedIndex, appTheme);
                                 },
                                 margin: EdgeInsets.only(top: 20),
                                 hasDivider: true,
@@ -180,7 +186,7 @@ class MinePageState extends State<MinePage> {
                                   margin: EdgeInsets.only(
                                     right: 10,
                                   ),
-                                  color: themeColors[curSelectedIndex],
+                                  color: appTheme.themeColor,
                                 ),
                               ),
                               SectionItem(
@@ -240,7 +246,8 @@ class MinePageState extends State<MinePage> {
     );
   }
 
-  void showThemeChooserDialog(BuildContext context, AppTheme appTheme) {
+  void showThemeChooserDialog(
+      BuildContext context, int selectIndex, AppTheme appTheme) {
     var result = showDialog(
       context: context,
       barrierDismissible: false,
@@ -297,7 +304,7 @@ class MinePageState extends State<MinePage> {
                 margin: EdgeInsets.only(top: 0),
                 child: FlatButton(
                   onPressed: () {
-                    Navigator.of(context).pop(curSelectedIndex);
+                    Navigator.of(context).pop(selectIndex);
                   },
                   child: Text(
                     "取消",
@@ -331,13 +338,12 @@ class MinePageState extends State<MinePage> {
         );
       },
     );
+    // 选择的结果回调
     result.then((colorSelectedIndex) {
       print("colorSelectedIndex = $colorSelectedIndex");
-      saveThemeColor(themeColors[colorSelectedIndex]);
-      appTheme.updateThemeColor(themeColors[colorSelectedIndex]);
-      setState(() {
-        curSelectedIndex = colorSelectedIndex;
-      });
+      curSelectedIndex = colorSelectedIndex;
+      saveThemeColor(curSelectedIndex);
+      appTheme.updateThemeColor(themeColors[curSelectedIndex]);
     });
   }
 
@@ -352,8 +358,13 @@ class MinePageState extends State<MinePage> {
     );
   }
 
-  void saveThemeColor(Color curColor) async {
+  void saveThemeColor(int curIndex) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt("themeColor", curColor.value);
+    prefs.setInt("themeColorIndex", curIndex);
+  }
+
+  getSelectedColorIndex() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.get("themeColorIndex");
   }
 }
