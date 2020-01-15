@@ -4,25 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wanandroid_flutter/pages/login_page.dart';
-import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/pages/main_page.dart';
 import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/provider/login_state.dart';
+import 'package:wanandroid_flutter/res/colors.dart';
+
+import 'provider/dark_mode.dart';
+import 'res/theme_colors.dart';
 
 void main() {
-  final appTheme = AppTheme();
-  final loginState = LoginState();
+  final appTheme = new AppTheme();
+  final darkMode = new DarkMode();
+  final loginState = new LoginState();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: appTheme),
+        ChangeNotifierProvider.value(value: darkMode),
         ChangeNotifierProvider.value(value: loginState),
       ],
       child: MyApp(),
     ),
   );
+  queryThemeColor().then((index) {
+    appTheme.updateThemeColor(getThemeColors()[index]);
+  });
 
   // 设置状态栏和 appbar 颜色一致
   if (Platform.isAndroid) {
@@ -32,20 +39,28 @@ void main() {
   }
 }
 
+queryDark(DarkMode darkMode) async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  bool isDark = sp.getBool("dark") ?? false;
+  darkMode.setDark(isDark);
+}
+
+queryThemeColor() async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  int themeColorIndex = sp.getInt("themeColorIndex") ?? 0;
+  return themeColorIndex;
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appTheme = Provider.of<AppTheme>(context);
-    queryDark(appTheme);
+    var darkMode = Provider.of<DarkMode>(context);
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,
-      theme: getTheme(appTheme.themeColor, isDarkMode: appTheme.isDark),
+      theme: getTheme(appTheme.themeColor, isDarkMode: darkMode.isDark),
       home: MainPage(),
-      routes: {
-        "login": (BuildContext context) => LoginPage(),
-        "main": (BuildContext context) => MainPage(),
-      },
     );
   }
 
@@ -151,12 +166,5 @@ class MyApp extends StatelessWidget {
       ),
       toggleButtonsTheme: ToggleButtonsThemeData(color: Colors.yellow),
     );
-  }
-
-  queryDark(AppTheme appTheme) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    bool isDark = sp.getBool("dark") ?? false;
-    print("main isDark = $isDark");
-    appTheme.setDark(isDark);
   }
 }

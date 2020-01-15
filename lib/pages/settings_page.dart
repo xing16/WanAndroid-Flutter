@@ -9,6 +9,7 @@ import 'package:wanandroid_flutter/provider/login_state.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/section_item.dart';
+import 'package:wanandroid_flutter/provider/dark_mode.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -54,10 +55,10 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             right: Switch(
                 activeColor: Provider.of<AppTheme>(context).themeColor,
-                value: Provider.of<AppTheme>(context).isDark,
+                value: Provider.of<DarkMode>(context).isDark,
                 onChanged: (value) {
                   print("value = $value");
-                  Provider.of<AppTheme>(context).switchTheme();
+                  Provider.of<DarkMode>(context).setDark(value);
                   saveDarkMode(value);
                 }),
             hasDivider: false,

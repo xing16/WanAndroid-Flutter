@@ -83,9 +83,11 @@ class SearchPageState extends State<SearchPage> {
           Color(0xfffa5650),
         ],
       ),
-      body: (controller.text == null || controller.text.isEmpty)
-          ? SearchHistoryPage(SearchPage())
-          : SearchResultPage(controller.text),
+      body:
+//      (controller.text == null || controller.text.isEmpty)
+//          ? SearchHistoryPage(SearchPage())
+//          : SearchResultPage(controller.text),
+          SearchResultPage(controller.text),
     );
   }
 }
