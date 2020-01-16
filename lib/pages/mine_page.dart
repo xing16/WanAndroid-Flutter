@@ -32,16 +32,17 @@ class MinePageState extends State<MinePage> {
   void initState() {
     super.initState();
     themeColors = getThemeColors();
+    getSelectedColorIndex().then((index) {
+      curSelectedIndex = index ?? 0;
+      clickedIndex = curSelectedIndex;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     var appTheme = Provider.of<AppTheme>(context);
-    getSelectedColorIndex().then((index) {
-      curSelectedIndex = index ?? 0;
-      appTheme.updateThemeColor(themeColors[curSelectedIndex]);
-    });
+    print("me build");
     return Scaffold(
       appBar: GradientAppBar(
         title: Text("我的"),
@@ -276,6 +277,7 @@ class MinePageState extends State<MinePage> {
                         onTap: () {
                           setState(() {
                             clickedIndex = index;
+                            print("clickindex = $clickedIndex");
                           });
                         },
                         child: Container(

@@ -3,14 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanandroid_flutter/pages/main_page.dart';
 import 'package:wanandroid_flutter/provider/app_theme.dart';
+import 'package:wanandroid_flutter/provider/dark_mode.dart';
 import 'package:wanandroid_flutter/provider/login_state.dart';
 import 'package:wanandroid_flutter/res/colors.dart';
-
-import 'provider/dark_mode.dart';
-import 'res/theme_colors.dart';
 
 void main() {
   final appTheme = new AppTheme();
@@ -27,9 +24,6 @@ void main() {
       child: MyApp(),
     ),
   );
-  queryThemeColor().then((index) {
-    appTheme.updateThemeColor(getThemeColors()[index]);
-  });
 
   // 设置状态栏和 appbar 颜色一致
   if (Platform.isAndroid) {
@@ -39,23 +33,12 @@ void main() {
   }
 }
 
-queryDark(DarkMode darkMode) async {
-  SharedPreferences sp = await SharedPreferences.getInstance();
-  bool isDark = sp.getBool("dark") ?? false;
-  darkMode.setDark(isDark);
-}
-
-queryThemeColor() async {
-  SharedPreferences sp = await SharedPreferences.getInstance();
-  int themeColorIndex = sp.getInt("themeColorIndex") ?? 0;
-  return themeColorIndex;
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appTheme = Provider.of<AppTheme>(context);
     var darkMode = Provider.of<DarkMode>(context);
+    print("main --------- ${darkMode.isDark}");
     return MaterialApp(
       title: 'WanAndroid',
       debugShowCheckedModeBanner: false,

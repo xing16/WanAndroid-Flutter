@@ -154,12 +154,12 @@ class SettingsPageState extends State<SettingsPage> {
       );
     }
   }
-}
 
-void saveDarkMode(bool value) async {
-  print("dark  = $value");
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool("dark", value);
+  void saveDarkMode(bool value) async {
+    print("dark  = $value");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("dark", value);
+  }
 }
 
 /// 清除 cookie 缓存
