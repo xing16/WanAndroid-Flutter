@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/app_theme.dart';
 
 class XTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -32,9 +35,7 @@ class XTextFieldState extends State<XTextField> {
 
   @override
   Widget build(BuildContext context) {
-    print("build..........");
     focusNode.addListener(() {
-      print("hasFocus = ${focusNode.hasFocus}");
       setState(() {
         hasFocus = focusNode.hasFocus;
       });
@@ -59,9 +60,15 @@ class XTextFieldState extends State<XTextField> {
         hintStyle: TextStyle(
           color: Theme.of(context).textTheme.body1.color,
         ),
-        prefixIcon: Icon(
-          widget.prefixIcon,
-//          color: Theme.of(context).textTheme.body1.color,
+        prefixIcon: Consumer<AppTheme>(
+          builder: (context, appTheme, child) {
+            return Icon(
+              widget.prefixIcon,
+              color: hasFocus
+                  ? appTheme.themeColor
+                  : Theme.of(context).textTheme.body2.color,
+            );
+          },
         ),
         suffixIcon: GestureDetector(
           onTap: () {

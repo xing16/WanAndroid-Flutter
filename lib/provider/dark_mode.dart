@@ -6,6 +6,7 @@ class DarkMode with ChangeNotifier {
 
   void setDark(isDark) {
     _isDark = isDark;
+    notifyListeners();
   }
 
   get isDark => _isDark;

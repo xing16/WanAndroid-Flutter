@@ -25,6 +25,8 @@ class HttpClient {
     dio.options.sendTimeout = 10 * 1000;
     dio.options.receiveTimeout = 10 * 1000;
     dio.interceptors.add(new HeaderInterceptor());
+    dio.interceptors
+        .add(new LogInterceptor(requestBody: true, responseBody: true));
 
     /// cookie
     getCookiePath().then((path) {

@@ -7,6 +7,7 @@ import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/models/article_response.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class FavoritePageState extends State<FavoritePage> {
   List<Article> articleList = new List();
   List<String> list = new List();
   int currentPage = 0;
+  final SlidableController slidableController = SlidableController();
 
   @override
   void initState() {
@@ -83,33 +85,45 @@ class FavoritePageState extends State<FavoritePage> {
     } else {
       author = "";
     }
-    return ArticleItem(
-      article.title,
-      article.niceDate,
-      author,
-      () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => WebViewPage(
-              url: article.link,
+    return Slidable(
+      // slidableController 控制只有一个 slidable 处于打开状态
+      controller: slidableController,
+      actionPane: SlidableStrechActionPane(),
+      actionExtentRatio: 0.25,
+      child: ArticleItem(
+        article.title,
+        article.niceDate,
+        author,
+        () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => WebViewPage(
+                url: article.link,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
+      secondaryActions: <Widget>[
+        IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () => _cancelFavorite(index),
+        ),
+      ],
     );
   }
 
-  Widget item(BuildContext context, int itemIndex) {
-    return Container(
-      height: 50,
-      child: Text("casdcasc"),
-    );
-  }
-
-  Widget header(BuildContext context) {
-    return Image(
-      image: AssetImage("images/avatar.jpeg"),
-    );
+  /// 取消收藏
+  _cancelFavorite(int index) async {
+    Article article = articleList[index];
+    var result = await HttpClient.getInstance().post(
+        Api.UNCOLLECT_LIST + "${article.id}/json",
+        data: {"originId": "-1"});
+    setState(() {
+      articleList.removeAt(index);
+    });
   }
 }

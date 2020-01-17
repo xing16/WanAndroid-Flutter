@@ -15,6 +15,7 @@ class Api {
 
   // 收藏,取消收藏
   static const String FAVORITE = "lg/collect/";
+
   static const String UNCOLLECT_ORIGINID = "lg/uncollect_originId/";
 
   // 收藏列表中取消收藏
