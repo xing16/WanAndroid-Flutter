@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
@@ -21,61 +22,67 @@ class ProjectListPage extends StatefulWidget {
 class ProjectListPageState extends State<ProjectListPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   int curPage = 0;
+  int tabId = 0;
   List<Article> articleList = new List();
   double screenWidth = 0;
-  EasyRefreshController _controller = new EasyRefreshController();
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    loadProjectList(widget.tabId, 0);
+    tabId = widget.tabId;
+    _onRefresh();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     screenWidth = getScreenWidth(context);
-    return EasyRefresh(
-      controller: _controller,
-      header: ClassicalHeader(),
-      footer: ClassicalFooter(
-        noMoreText: "到底了",
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: WaterDropHeader(),
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus mode) {
+          Widget body;
+          if (mode == LoadStatus.idle) {
+            body = Text("上拉加载");
+          } else if (mode == LoadStatus.loading) {
+            body = CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = Text("加载失败！点击重试！");
+          } else if (mode == LoadStatus.canLoading) {
+            body = Text("上拉加载更多");
+          } else {
+            body = Text("没有更多数据了!");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body),
+          );
+        },
       ),
-      onRefresh: () async {
-        loadProjectList(widget.tabId, 0);
-      },
-      onLoad: () async {
-        loadProjectList(widget.tabId, curPage);
-      },
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoadMore,
       child: ListView.separated(
         itemBuilder: (context, index) {
           return createProjectListItem(index);
         },
         separatorBuilder: (context, index) {
-          return Divider(
-            indent: 12,
-            endIndent: 12,
+          return Container(
+            margin: EdgeInsets.only(
+              left: 12,
+              right: 12,
+            ),
+            color: Colors.black12,
             height: 0.5,
           );
         },
         itemCount: articleList.length,
       ),
     );
-  }
-
-  /// 请求 tab 下的列表
-  void loadProjectList(int tabId, int page) async {
-    var result = await HttpClient.getInstance()
-        .get(Api.PROJECT_LIST, data: {"page": page, "cid": tabId});
-    ProjectArticle projectArticle = ProjectArticle.fromJson(result);
-    curPage = page + 1;
-    print("data = ${projectArticle.datas}");
-    setState(() {
-      if (page == 0) {
-        articleList.clear();
-      }
-      articleList.addAll(projectArticle?.datas);
-    });
   }
 
   /// ListView item
@@ -170,4 +177,37 @@ class ProjectListPageState extends State<ProjectListPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  /// 请求 tab 下的列表
+  Future<ProjectArticle> _loadProjectList(int tabId, int page) async {
+    var result = await HttpClient.getInstance()
+        .get(Api.PROJECT_LIST, data: {"page": page, "cid": tabId});
+    curPage = page + 1;
+    ProjectArticle projectArticle = ProjectArticle.fromJson(result);
+    return projectArticle;
+  }
+
+  /// 下拉刷新
+  void _onRefresh() async {
+    ProjectArticle projectArticle = await _loadProjectList(tabId, 0);
+    setState(() {
+      articleList.clear();
+      articleList.addAll(projectArticle.datas);
+    });
+    _refreshController.refreshCompleted();
+  }
+
+  /// 上拉加载更多
+  void _onLoadMore() async {
+    ProjectArticle projectArticle = await _loadProjectList(tabId, curPage);
+    List<Article> articles = projectArticle.datas;
+    if (articles.length < projectArticle.size) {
+      _refreshController.loadNoData();
+    } else {
+      _refreshController.loadComplete();
+    }
+    setState(() {
+      articleList.addAll(articles);
+    });
+  }
 }

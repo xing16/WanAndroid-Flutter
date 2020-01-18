@@ -1,8 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter/pages/main_page.dart';
 import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/provider/dark_mode.dart';
@@ -24,7 +26,6 @@ void main() {
       child: MyApp(),
     ),
   );
-
   // 设置状态栏和 appbar 颜色一致
   if (Platform.isAndroid) {
     var systemUiOverlayStyle =
@@ -38,18 +39,58 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var appTheme = Provider.of<AppTheme>(context);
     var darkMode = Provider.of<DarkMode>(context);
-    print("main --------- ${darkMode.isDark}");
-    return MaterialApp(
-      title: 'WanAndroid',
-      debugShowCheckedModeBanner: false,
-      theme: getTheme(appTheme.themeColor, isDarkMode: darkMode.isDark),
-      home: MainPage(),
+    // 全局配置子树下的SmartRefresher,下面列举几个特别重要的属性
+    return RefreshConfiguration(
+      // 配置默认头部指示器,假如你每个页面的头部指示器都一样的话,你需要设置这个
+      headerBuilder: () => WaterDropHeader(),
+      // 配置默认底部指示器
+      footerBuilder: () => ClassicFooter(
+        loadingText: "上拉加载更多",
+      ),
+      // 头部触发刷新的越界距离
+      headerTriggerDistance: 60.0,
+      // 自定义回弹动画,三个属性值意义请查询flutter api
+      springDescription:
+          SpringDescription(stiffness: 120, damping: 16, mass: 1.9),
+      //头部最大可以拖动的范围,如果发生冲出视图范围区域,请设置这个属性
+      maxOverScrollExtent: 60,
+      // 底部最大可以拖动的范围
+      maxUnderScrollExtent: 0,
+      //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
+      enableScrollWhenRefreshCompleted: true,
+      //在加载失败的状态下,用户仍然可以通过手势上拉来触发加载更多
+      enableLoadingWhenFailed: true,
+      // Viewport不满一屏时,禁用上拉加载更多功能
+      hideFooterWhenNotFull: true,
+      // 可以通过惯性滑动触发加载更多
+      enableBallisticLoad: true,
+      child: MaterialApp(
+        localizationsDelegates: [
+          // 这行是关键
+          RefreshLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate
+        ],
+        supportedLocales: [
+          const Locale('en'),
+          const Locale('zh'),
+        ],
+        localeResolutionCallback:
+            (Locale locale, Iterable<Locale> supportedLocales) {
+          //print("change language");
+          return locale;
+        },
+        title: 'WanAndroid',
+        debugShowCheckedModeBanner: false,
+        theme: getTheme(appTheme.themeColor, isDarkMode: darkMode.isDark),
+        home: MainPage(),
+      ),
     );
   }
 
   getTheme(Color themeColor, {bool isDarkMode = false}) {
     return ThemeData(
-//      primarySwatch: MaterialColor()Colours.appThemeColor,
+      primarySwatch: Colors.lightBlue,
       // 页面背景颜色
       scaffoldBackgroundColor:
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,

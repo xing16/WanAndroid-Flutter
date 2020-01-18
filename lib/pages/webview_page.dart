@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wanandroid_flutter/provider/app_theme.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -173,11 +172,11 @@ class WebViewPageState extends State<WebViewPage> {
 
   /// 从浏览器打开
   void openByBrowser() async {
-    if (await canLaunch(loadUrl)) {
-      await launch(loadUrl);
-    } else {
-      throw 'Could not launch $loadUrl';
-    }
+//    if (await canLaunch(loadUrl)) {
+//      await launch(loadUrl);
+//    } else {
+//      throw 'Could not launch $loadUrl';
+//    }
   }
 
   /// 分享到微信
