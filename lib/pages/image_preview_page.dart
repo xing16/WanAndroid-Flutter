@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:wanandroid_flutter/utils/screen_utils.dart';
 
@@ -35,10 +36,19 @@ class ImagePreviewPageState extends State<ImagePreviewPage> {
             bottom: 0,
             right: 0,
             child: Container(
+              width: getScreenWidth(context),
+              height: getScreenHeight(context),
               child: PhotoViewGallery.builder(
                 scrollPhysics: const BouncingScrollPhysics(),
                 builder: (BuildContext context, int index) {
                   return PhotoViewGalleryPageOptions(
+                    onTapUp: (
+                      BuildContext context,
+                      TapUpDetails details,
+                      PhotoViewControllerValue controllerValue,
+                    ) {
+                      _closePreview();
+                    },
                     imageProvider: NetworkImage(widget.imageUrls[index]),
 //                    heroAttributes: widget.heroTag.isNotEmpty
 //                        ? PhotoViewHeroAttributes(tag: widget.heroTag)
@@ -76,5 +86,10 @@ class ImagePreviewPageState extends State<ImagePreviewPage> {
         ],
       ),
     );
+  }
+
+  /// 抬起关闭预览
+  void _closePreview() {
+    Navigator.pop(context);
   }
 }

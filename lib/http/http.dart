@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/http/api.dart';
+import 'package:wanandroid_flutter/http/interceptor.dart';
 import 'package:wanandroid_flutter/utils/file_utils.dart';
-import 'interceptor.dart';
 
 class HttpClient {
   static const int ERROR_DIO = 101;
@@ -66,16 +66,12 @@ class HttpClient {
           path = path.replaceAll(":$key", value.toString());
         }
       });
-      print("path = ------ $path");
     } else if (method == POST) {
       tempData = new FormData.fromMap(data);
     }
-    print("http: url = ${Api.BASE_URL + path}");
-    print("http: params = $data");
     try {
       Response response = await dio.request(path,
           data: tempData, options: Options(method: method));
-      print("http response = $response");
       if (response?.statusCode != 200) {
         _handleError(response?.statusCode, response?.statusMessage);
         return;
@@ -85,7 +81,6 @@ class HttpClient {
       Map<String, dynamic> dataMap = json.decode(jsonString);
       if (dataMap != null) {
         int errorCode = dataMap['errorCode'];
-        print("errorcode = $errorCode");
         String errorMsg = dataMap['errorMsg'];
         bool error = dataMap['error'] ?? true;
         var results = dataMap['results'];
@@ -105,9 +100,7 @@ class HttpClient {
       }
     } on DioError catch (e) {
       // 请求错误
-      var message = e.message;
-      print("message = $message");
-      _handleError(ERROR_DIO, message);
+      _handleError(ERROR_DIO, "网络连接异常");
     }
   }
 

@@ -67,6 +67,7 @@ class HomePageState extends State<HomePage> {
                   noMoreText: "到底了",
                 ),
                 onRefresh: () async {
+                  loadBanner();
                   loadHomeArticles(0);
                 },
                 onLoad: () async {
