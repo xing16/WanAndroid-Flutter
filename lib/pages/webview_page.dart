@@ -120,7 +120,7 @@ class WebViewPageState extends State<WebViewPage> {
           ),
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).backgroundColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Icon(

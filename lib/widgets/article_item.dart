@@ -21,7 +21,7 @@ class ArticleItemState extends State<ArticleItem> {
       behavior: HitTestBehavior.opaque,
       onTap: widget.callback,
       child: Container(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).backgroundColor,
         alignment: Alignment.centerLeft,
         padding: EdgeInsets.all(12),
         child: Column(

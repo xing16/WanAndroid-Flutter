@@ -42,7 +42,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
       headerList: [1],
       headerBuilder: (BuildContext context, int position) {
         return Container(
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).backgroundColor,
           padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +81,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
       },
       itemBuilder: (BuildContext context, int position) {
         return Container(
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).backgroundColor,
           height: 50,
           padding: EdgeInsets.only(
             left: 15,

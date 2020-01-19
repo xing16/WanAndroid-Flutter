@@ -124,7 +124,7 @@ class MyPointsPageState extends State<MyPointsPage>
   Widget getItem(BuildContext context, int index) {
     print("index = $index");
     return Container(
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).backgroundColor,
       margin: EdgeInsets.only(
         left: 15,
         right: 15,
@@ -205,7 +205,7 @@ class MyPointsPageState extends State<MyPointsPage>
           (index + 1).toString(),
           style: TextStyle(
             fontSize: 16,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).backgroundColor,
           ),
         ),
       );
@@ -227,7 +227,7 @@ class MyPointsPageState extends State<MyPointsPage>
       height: height,
       width: (MediaQuery.of(context).size.width - 30) / 3,
       decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).backgroundColor,
         borderRadius: BorderRadius.only(
           topLeft: index != 2 ? Radius.circular(6) : Radius.circular(0),
           topRight: index != 1 ? Radius.circular(6) : Radius.circular(0),
@@ -274,7 +274,7 @@ class MyPointsPageState extends State<MyPointsPage>
                 (index + 1).toString(),
                 style: TextStyle(
                   fontSize: 18,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).backgroundColor,
                 ),
               ),
             ),

@@ -38,7 +38,7 @@ class SectionItemState extends State<SectionItem> {
     return GestureDetector(
       onTap: widget.callback,
       child: Container(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).backgroundColor,
         alignment: Alignment.centerLeft,
         margin: widget.margin,
         padding: EdgeInsets.only(

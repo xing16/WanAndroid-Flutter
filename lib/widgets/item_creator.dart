@@ -16,7 +16,7 @@ class ItemCreator {
     return GestureDetector(
       onTap: callback,
       child: Container(
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).backgroundColor,
         alignment: Alignment.centerLeft,
         margin: margin,
         padding: EdgeInsets.only(

@@ -2,10 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/taurus_header.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
@@ -24,12 +23,13 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  List<Article> articles = new List();
+  List<Article> articleLIst = new List();
   List<HomeBanner> banners = new List();
   ScrollController mController = new ScrollController();
   double appBarOpacity = 0;
   int curPage = 0;
-  EasyRefreshController _refreshController = new EasyRefreshController();
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -45,8 +45,7 @@ class HomePageState extends State<HomePage> {
         appBarOpacity = opacity;
       });
     });
-    loadBanner();
-    loadHomeArticles(curPage);
+    _loadRefresh();
   }
 
   @override
@@ -60,19 +59,33 @@ class HomePageState extends State<HomePage> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: EasyRefresh(
-                controller: _refreshController,
-                header: TaurusHeader(),
-                footer: ClassicalFooter(
-                  noMoreText: "到底了",
+              child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                header: WaterDropHeader(),
+                footer: CustomFooter(
+                  builder: (BuildContext context, LoadStatus mode) {
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = Text("上拉加载");
+                    } else if (mode == LoadStatus.loading) {
+                      body = CupertinoActivityIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body = Text("加载失败！点击重试！");
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = Text("上拉加载更多");
+                    } else {
+                      body = Text("没有更多数据了!");
+                    }
+                    return Container(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
                 ),
-                onRefresh: () async {
-                  loadBanner();
-                  loadHomeArticles(0);
-                },
-                onLoad: () async {
-                  loadHomeArticles(curPage);
-                },
+                controller: _refreshController,
+                onRefresh: _loadRefresh,
+                onLoading: _loadMore,
                 child: ListView.separated(
                   itemBuilder: (context, index) {
                     if (index < 1) {
@@ -89,28 +102,8 @@ class HomePageState extends State<HomePage> {
                     );
                   },
                   controller: mController,
-                  itemCount: articles.length + 1,
+                  itemCount: articleLIst.length + 1,
                 ),
-//                child: Container(
-//                  child: HeaderListView(
-//                    articles,
-//                    headerList: [1],
-//                    headerBuilder: (BuildContext context, int position) {
-//                      return createHomeHeader(appTheme.themeColor);
-//                    },
-//                    itemBuilder: (BuildContext context, int position) {
-//                      return createHomePageItem(context, position);
-//                    },
-//                    separatorBuilder: (context, index) {
-//                      return Divider(
-//                        indent: 12,
-//                        endIndent: 12,
-//                        height: 0.5,
-//                      );
-//                    },
-//                    controller: mController,
-//                  ),
-//                ),
               ),
             ),
             Opacity(
@@ -179,13 +172,13 @@ class HomePageState extends State<HomePage> {
       },
       child: Container(
         padding: EdgeInsets.all(12),
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).backgroundColor,
         alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              articles[index].title,
+              articleLIst[index].title,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -197,7 +190,7 @@ class HomePageState extends State<HomePage> {
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: articles[index].fresh,
+                    visible: articleLIst[index].fresh,
                     child: Container(
                       child: Text(
                         "最新",
@@ -224,15 +217,15 @@ class HomePageState extends State<HomePage> {
                   ),
                   Container(
                     child: Text(
-                      articles[index].author.isNotEmpty
-                          ? articles[index].author
-                          : articles[index].shareUser,
+                      articleLIst[index].author.isNotEmpty
+                          ? articleLIst[index].author
+                          : articleLIst[index].shareUser,
                       style: Theme.of(context).textTheme.body2,
                     ),
                   ),
                   Container(
                     child: Text(
-                      articles[index].niceDate,
+                      articleLIst[index].niceDate,
                       style: Theme.of(context).textTheme.body2,
                     ),
                     margin: EdgeInsets.only(
@@ -277,27 +270,17 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  loadHomeArticles(int page) async {
+  /// 请求首页文章列表
+  Future<HomeArticle> loadHomeArticles(int page) async {
     var result = await HttpClient.getInstance()
         .get(Api.HOME_ARTICLE, data: {"page": page});
     curPage = page + 1;
-    HomeArticle homeArticle = HomeArticle.fromJson(result);
-    List<Article> articles = homeArticle.datas;
-    setState(() {
-      if (page == 0) {
-        this.articles.clear();
-      }
-      this.articles.addAll(articles);
-    });
+    return HomeArticle.fromJson(result);
   }
 
-  loadBanner() async {
-    var result = await HttpClient.getInstance().get(Api.BANNER);
-    if (result is List) {
-      setState(() {
-        banners = result.map((map) => HomeBanner.fromJson(map)).toList();
-      });
-    }
+  /// 请求首页 banner
+  Future<List<dynamic>> _loadBanner() async {
+    return await HttpClient.getInstance().get(Api.BANNER);
   }
 
   /// item 点击事件
@@ -306,7 +289,7 @@ class HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => WebViewPage(
-          url: articles[position].link,
+          url: articleLIst[position].link,
         ),
       ),
     );
@@ -327,5 +310,30 @@ class HomePageState extends State<HomePage> {
   void dispose() {
     super.dispose();
     mController.dispose();
+  }
+
+  /// 加载刷新
+  void _loadRefresh() async {
+    List<dynamic> homeBanners = await _loadBanner();
+    HomeArticle homeArticle = await loadHomeArticles(0);
+    setState(() {
+      banners = homeBanners.map((map) => HomeBanner.fromJson(map)).toList();
+      articleLIst.clear();
+      articleLIst.addAll(homeArticle.datas);
+    });
+    _refreshController.refreshCompleted(resetFooterState: true);
+  }
+
+  /// 加载更多
+  void _loadMore() async {
+    var homeArticle = await loadHomeArticles(curPage);
+    setState(() {
+      articleLIst.addAll(homeArticle.datas);
+    });
+    if (homeArticle.datas.length < homeArticle.size) {
+      _refreshController.loadNoData();
+    } else {
+      _refreshController.loadComplete();
+    }
   }
 }

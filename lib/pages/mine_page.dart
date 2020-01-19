@@ -63,7 +63,7 @@ class MinePageState extends State<MinePage> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).backgroundColor,
                             child: Stack(
                               children: <Widget>[
                                 // 贝塞尔背景

@@ -90,14 +90,13 @@ class MyApp extends StatelessWidget {
 
   getTheme(Color themeColor, {bool isDarkMode = false}) {
     return ThemeData(
-      primarySwatch: Colors.lightBlue,
       // 页面背景颜色
       scaffoldBackgroundColor:
           isDarkMode ? Colours.darkAppBackground : Colours.appBackground,
-      backgroundColor: isDarkMode ? Colours.darkAppBackground : Colors.white,
+      accentColor: isDarkMode ? Colours.darkAppSubText : Colours.appSubText,
       // tab 指示器颜色
       indicatorColor: Colors.white,
-      accentColor:
+      backgroundColor:
           isDarkMode ? Colours.darkAppForeground : Colours.appForeground,
       // 底部菜单背景颜色
       bottomAppBarColor:

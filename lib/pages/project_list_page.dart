@@ -94,7 +94,7 @@ class ProjectListPageState extends State<ProjectListPage>
       },
       child: Container(
         padding: EdgeInsets.all(12),
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).backgroundColor,
         child: Row(
           children: <Widget>[
             FadeInImage.assetNetwork(
@@ -194,7 +194,8 @@ class ProjectListPageState extends State<ProjectListPage>
       articleList.clear();
       articleList.addAll(projectArticle.datas);
     });
-    _refreshController.refreshCompleted();
+    // 下拉刷新完成重置footer状态，否则此后无法上拉加载更多
+    _refreshController.refreshCompleted(resetFooterState: true);
   }
 
   /// 上拉加载更多

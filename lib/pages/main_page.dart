@@ -94,7 +94,7 @@ class MainPageState extends State<MainPage> {
         style: TextStyle(fontSize: 12),
       ),
       icon: icon,
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 

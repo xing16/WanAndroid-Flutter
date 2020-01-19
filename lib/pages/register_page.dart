@@ -36,7 +36,7 @@ class RegisterPageState extends State<RegisterPage> {
         return Future.value(true);
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: GradientAppBar(
           title: Text("注册"),
         ),

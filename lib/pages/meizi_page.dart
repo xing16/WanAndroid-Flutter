@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/meizi.dart';
@@ -19,17 +20,17 @@ class MeiziPage extends StatefulWidget {
 class MeiziPageState extends State<MeiziPage> {
   double screenWidth = 0;
   ScrollController mScroller;
-  List<Meizi> meizis = new List();
+  List<Meizi> meiziList = new List();
   int pageSize = 20;
   int curPage = 1;
-  EasyRefreshController _refreshController = new EasyRefreshController();
+  RefreshController _refreshController = new RefreshController();
   List heights = [260, 310, 200, 250, 290];
 
   @override
   void initState() {
     super.initState();
     mScroller = new ScrollController();
-    loadMeizi(pageSize, curPage);
+    _loadRefresh();
     mScroller.addListener(() {});
   }
 
@@ -45,18 +46,33 @@ class MeiziPageState extends State<MeiziPage> {
         ],
       ),
       body: Container(
-        child: EasyRefresh(
-          controller: _refreshController,
-          header: ClassicalHeader(),
-          footer: ClassicalFooter(
-            noMoreText: "到底了",
+        child: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          header: WaterDropHeader(),
+          footer: CustomFooter(
+            builder: (BuildContext context, LoadStatus mode) {
+              Widget body;
+              if (mode == LoadStatus.idle) {
+                body = Text("上拉加载");
+              } else if (mode == LoadStatus.loading) {
+                body = CupertinoActivityIndicator();
+              } else if (mode == LoadStatus.failed) {
+                body = Text("加载失败！点击重试！");
+              } else if (mode == LoadStatus.canLoading) {
+                body = Text("上拉加载更多");
+              } else {
+                body = Text("没有更多数据了!");
+              }
+              return Container(
+                height: 55.0,
+                child: Center(child: body),
+              );
+            },
           ),
-          onRefresh: () async {
-            loadMeizi(pageSize, 0);
-          },
-          onLoad: () async {
-            loadMeizi(pageSize, curPage);
-          },
+          controller: _refreshController,
+          onRefresh: _loadRefresh,
+          onLoading: _loadMore,
           child: StaggeredGridView.countBuilder(
             // 滑动控制器
             controller: mScroller,
@@ -64,7 +80,7 @@ class MeiziPageState extends State<MeiziPage> {
             scrollDirection: Axis.vertical,
             // 纵轴方向被划分的个数
             crossAxisCount: 2,
-            itemCount: meizis.length,
+            itemCount: meiziList.length,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             staggeredTileBuilder: (index) {
@@ -73,7 +89,7 @@ class MeiziPageState extends State<MeiziPage> {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
-                  _onItemClick(meizis, index);
+                  _onItemClick(meiziList, index);
                 },
                 child: Container(
                   //随机生成高度
@@ -82,7 +98,7 @@ class MeiziPageState extends State<MeiziPage> {
                   child: FadeInImage(
                     fit: BoxFit.cover,
                     placeholder: AssetImage("images/placeholder.png"),
-                    image: NetworkImage(meizis[index].url),
+                    image: NetworkImage(meiziList[index].url),
                   ),
                 ),
               );
@@ -93,18 +109,11 @@ class MeiziPageState extends State<MeiziPage> {
     );
   }
 
-  void loadMeizi(int pageSize, int page) async {
+  _loadMeizi(int pageSize, int page) async {
     var result = await HttpClient.getInstance()
         .get(Api.GANK_MEIZI, data: {"pageSize": pageSize, "page": page});
     curPage = page + 1;
-    if (result is List) {
-      setState(() {
-        if (page == 0) {
-          meizis.clear();
-        }
-        meizis.addAll(result.map((map) => Meizi.fromJson(map)).toList());
-      });
-    }
+    return result;
   }
 
   @override
@@ -125,5 +134,22 @@ class MeiziPageState extends State<MeiziPage> {
         builder: (BuildContext context) => ImagePreviewPage(urls, index),
       ),
     );
+  }
+
+  void _loadRefresh() async {
+    var result = await _loadMeizi(pageSize, 0);
+    setState(() {
+      meiziList.clear();
+      meiziList.addAll(result.map((map) => Meizi.fromJson(map)).toList());
+    });
+    _refreshController.refreshCompleted(resetFooterState: true);
+  }
+
+  void _loadMore() async {
+    var result = await _loadMeizi(pageSize, curPage);
+    setState(() {
+      meiziList.addAll(result.map((map) => Meizi.fromJson(map)).toList());
+    });
+    _refreshController.loadComplete();
   }
 }

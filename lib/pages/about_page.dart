@@ -23,7 +23,7 @@ class AboutPageState extends State<AboutPage> {
           decoration: TextDecoration.underline,
         );
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: GradientAppBar(
         title: Text("关于"),
       ),

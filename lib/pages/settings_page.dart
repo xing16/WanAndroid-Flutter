@@ -122,7 +122,7 @@ class SettingsPageState extends State<SettingsPage> {
                   ),
                   minWidth: screenWidth,
                   height: 52,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).backgroundColor,
                 );
               },
             ),
