@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widgets/gradient_appbar.dart';
 import 'package:wanandroid_flutter/widgets/link_text.dart';
 
-import '../utils/screen_utils.dart';
-
 class AboutPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {

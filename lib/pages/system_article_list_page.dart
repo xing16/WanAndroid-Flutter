@@ -144,7 +144,7 @@ class SystemArticleListPageState extends State<SystemArticleListPage> {
   }
 
   /// 上拉加载更多
-  Future<SystemArticle> _onLoadMore() async {
+  _onLoadMore() async {
     SystemArticle systemArticle = await _loadArticleList(curPage, cid);
     List<Article> articles = systemArticle.datas;
     if (articles.length < systemArticle.size) {

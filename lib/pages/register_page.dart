@@ -146,7 +146,7 @@ class RegisterPageState extends State<RegisterPage> {
       Fluttertoast.showToast(msg: "两次密码不一致");
       return;
     }
-    var result = await HttpClient.getInstance().post(Api.USER_REGISTER, data: {
+    await HttpClient.getInstance().post(Api.USER_REGISTER, data: {
       "username": username,
       "password": password,
       "repassword": repassword

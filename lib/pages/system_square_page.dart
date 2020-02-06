@@ -111,15 +111,16 @@ class SystemSquarePageState extends State<SystemSquarePage>
   /// 下拉刷新
   void _onRefresh() async {
     SystemArticle systemArticle = await _loadSystemSquare(0);
+    curPage = 0;
     setState(() {
       articleList.clear();
       articleList.addAll(systemArticle.datas);
     });
-//    _refreshController.refreshCompleted();
+    _refreshController.refreshCompleted();
   }
 
   /// 上拉加载更多
-  Future<SystemArticle> _onLoadMore() async {
+  _onLoadMore() async {
     SystemArticle systemArticle = await _loadSystemSquare(curPage);
     List<Article> articles = systemArticle.datas;
     setState(() {

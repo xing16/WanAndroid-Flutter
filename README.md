@@ -1,16 +1,27 @@
 # wanandroid_flutter
 
-A new Flutter project.
+玩 Android 是基于 Flutter 开发的跨平台的客户端应用，包括首页，项目，体系，搜索，妹子浏览，积分，主题切换，暗黑模式等功能。
 
-## Getting Started
+项目地址： [https://github.com/xing16/WanAndroid-Flutter](https://github.com/xing16/WanAndroid-Flutter)
 
-This project is a starting point for a Flutter application.
+### 部分效果图
 
-A few resources to get you started if this is your first Flutter project:
+| ![首页](https://user-gold-cdn.xitu.io/2020/2/6/170193113623bc19?w=1080&h=1920&f=png&s=827052) | ![项目](https://user-gold-cdn.xitu.io/2020/2/6/1701931501d12c29?w=1080&h=1920&f=png&s=556203) | ![体系](https://user-gold-cdn.xitu.io/2020/2/6/17019319fbda90a5?w=1080&h=1920&f=png&s=110945) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![我的](https://user-gold-cdn.xitu.io/2020/2/6/1701931d53221928?w=1080&h=1920&f=png&s=133422) | ![主题](https://user-gold-cdn.xitu.io/2020/2/6/17019322279af48e?w=1080&h=1920&f=png&s=145150) | ![主题切换](https://user-gold-cdn.xitu.io/2020/2/6/17019325f0bdea10?w=1080&h=1920&f=png&s=133326) |
+| ![详情](https://user-gold-cdn.xitu.io/2020/2/6/1701932a5d3e0d76?w=1080&h=1920&f=png&s=124802) | ![设置](https://user-gold-cdn.xitu.io/2020/2/6/170193370931dc61?w=1080&h=1920&f=png&s=63072) | ![暗黑模式](https://user-gold-cdn.xitu.io/2020/2/6/1701933a64fb52f9?w=1080&h=1920&f=png&s=62779) |
+| ![登录](https://user-gold-cdn.xitu.io/2020/2/6/170193409eb3e610?w=1080&h=1920&f=png&s=54714) | ![注册](https://user-gold-cdn.xitu.io/2020/2/6/17019345eb295d98?w=1080&h=1920&f=png&s=46190) | ![关于](https://user-gold-cdn.xitu.io/2020/2/6/1701930904e5ab95?w=1080&h=1920&f=png&s=134333) |
+|                                                              |                                                              |                                                              |
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### 依赖库
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Dio
+- flutter_swiper
+- webview_flutter
+- flutter_staggered_grid_view
+- json_annotation
+- fluttertoast
+- provider
+- shared_preferences
+- flutter_easyrefresh
+- photo_view
