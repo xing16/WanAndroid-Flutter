@@ -11,7 +11,7 @@ class Api {
   static const String FAVORITE_LIST = "lg/collect/list/:page/json";
 
   // 搜索
-  static const String ARTICLE_SEARCH = "article/query/:page/json";
+  static const String ARTICLE_SEARCH = "article/query/";
 
   // 收藏,取消收藏
   static const String FAVORITE = "lg/collect/";

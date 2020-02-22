@@ -6,7 +6,7 @@ import 'package:wanandroid_flutter/pages/search_page.dart';
 import 'package:wanandroid_flutter/widgets/header_list_view.dart';
 
 class SearchHistoryPage extends StatefulWidget {
-  final SearchPage searchPage;
+  SearchPage searchPage;
 
   SearchHistoryPage(this.searchPage);
 
@@ -145,6 +145,8 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
         );
       });
 
-// 热门搜索项点击
-  void onSearchHotClick(String name) {}
+  /// 热门搜索项点击
+  void onSearchHotClick(String name) {
+    widget.searchPage.keyword = name;
+  }
 }

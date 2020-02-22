@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/http/api.dart';
 import 'package:wanandroid_flutter/http/http.dart';
 import 'package:wanandroid_flutter/models/article.dart';
+import 'package:wanandroid_flutter/models/article_response.dart';
 import 'package:wanandroid_flutter/pages/webview_page.dart';
 import 'package:wanandroid_flutter/widgets/article_item.dart';
 
@@ -55,13 +56,16 @@ class SearchResultPageState extends State<SearchResultPage> {
     );
   }
 
-  void loadSearchResult(keyword, int page) {
-    var result = HttpClient.getInstance().post(Api.ARTICLE_SEARCH,
-        data: {"page": page.toString(), "k": keyword});
-    print("data ===== bnner === $result");
-    if (result is List) {
+  void loadSearchResult(keyword, int page) async {
+    var result = await HttpClient.getInstance().post(
+        Api.ARTICLE_SEARCH + page.toString() + "/json",
+        data: {"k": keyword});
+    print("res = $result");
+    if (result != null) {
+      ArticleResponse articleResponse = ArticleResponse.fromJson(result);
+      List<Article> articles = articleResponse.datas;
       setState(() {
-        articleList = result.map((map) => Article.fromJson(map)).toList();
+        articleList.addAll(articles);
       });
     }
   }

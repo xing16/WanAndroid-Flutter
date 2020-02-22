@@ -40,9 +40,7 @@ class MyPointsPageState extends State<MyPointsPage>
     loadOwnPoint();
   }
 
-  startAnimation() {
-    animationController?.forward();
-  }
+  startAnimation() {}
 
   @override
   Widget build(BuildContext context) {
@@ -303,8 +301,10 @@ class MyPointsPageState extends State<MyPointsPage>
       if (ownPoints != null) {
         setState(() {
           ownPointsCount = ownPoints.coinCount;
+          animation = new IntTween(begin: 0, end: ownPointsCount)
+              .animate(animationController);
+          animationController?.forward();
         });
-        startAnimation();
       }
     }
   }

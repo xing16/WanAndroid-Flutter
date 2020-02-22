@@ -133,7 +133,7 @@ class HomePageState extends State<HomePage> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) {
-                              return SearchPage();
+                              return SearchPage("");
                             }),
                           );
                         },

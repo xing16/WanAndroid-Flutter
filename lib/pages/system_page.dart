@@ -46,7 +46,7 @@ class SystemPageState extends State<SystemPage>
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return SearchPage();
+                        return SearchPage("");
                       },
                     ),
                   );
